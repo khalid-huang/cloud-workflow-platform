@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="leave-process" name="leave process" isExecutable="true">
+    <startEvent id="startevent1"></startEvent>
+    <userTask id="usertask1" name="fill in application"></userTask>
+    <parallelGateway id="parallelgateway-in-1"></parallelGateway>
+    <userTask id="usertask2" name="personnel approval "></userTask>
+    <userTask id="usertask3" name="director approval "></userTask>
+    <parallelGateway id="parallelgateway-out-1"></parallelGateway>
+    <userTask id="usertask4" name="general manager approval"></userTask>
+    <endEvent id="endevent1"></endEvent>
+    <sequenceFlow id="sequenceflow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
+    <sequenceFlow id="sequenceflow2" sourceRef="usertask1" targetRef="parallelgateway-in-1"></sequenceFlow>
+    <sequenceFlow id="sequenceflow3" sourceRef="parallelgateway-in-1" targetRef="usertask2"></sequenceFlow>
+    <sequenceFlow id="sequenceflow4" sourceRef="parallelgateway-in-1" targetRef="usertask3"></sequenceFlow>
+    <sequenceFlow id="sequenceflow5" sourceRef="usertask2" targetRef="parallelgateway-out-1"></sequenceFlow>
+    <sequenceFlow id="sequenceflow6" sourceRef="usertask3" targetRef="parallelgateway-out-1"></sequenceFlow>
+    <sequenceFlow id="sequenceflow7" sourceRef="parallelgateway-out-1" targetRef="usertask4"></sequenceFlow>
+    <sequenceFlow id="sequenceflow8" sourceRef="usertask4" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_leave-process">
+    <bpmndi:BPMNPlane bpmnElement="leave-process" id="BPMNPlane_leave-process">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="30.0" width="30.0" x="90.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="80.0" width="100.0" x="180.0" y="135.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway-in-1" id="BPMNShape_parallelgateway-in-1">
+        <omgdc:Bounds height="40.0" width="40.0" x="345.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="80.0" width="100.0" x="480.0" y="45.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
+        <omgdc:Bounds height="80.0" width="100.0" x="480.0" y="195.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway-out-1" id="BPMNShape_parallelgateway-out-1">
+        <omgdc:Bounds height="40.0" width="40.0" x="660.0" y="135.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
+        <omgdc:Bounds height="80.0" width="100.0" x="780.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="28.0" width="28.0" x="990.0" y="135.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow8" id="BPMNEdge_sequenceflow8">
+        <omgdi:waypoint x="880.0" y="156.83908045977012"></omgdi:waypoint>
+        <omgdi:waypoint x="990.0278923770683" y="149.8832941600704"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow7" id="BPMNEdge_sequenceflow7">
+        <omgdi:waypoint x="699.5" y="155.5"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="155.5"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="160.0"></omgdi:waypoint>
+        <omgdi:waypoint x="780.0" y="160.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow2" id="BPMNEdge_sequenceflow2">
+        <omgdi:waypoint x="280.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="312.5" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="312.5" y="170.0"></omgdi:waypoint>
+        <omgdi:waypoint x="345.0" y="170.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow1" id="BPMNEdge_sequenceflow1">
+        <omgdi:waypoint x="120.0" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.25" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="150.25" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="180.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow4" id="BPMNEdge_sequenceflow4">
+        <omgdi:waypoint x="379.1484716157205" y="175.85152838427948"></omgdi:waypoint>
+        <omgdi:waypoint x="480.0" y="215.3951367781155"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow3" id="BPMNEdge_sequenceflow3">
+        <omgdi:waypoint x="378.66" y="163.66"></omgdi:waypoint>
+        <omgdi:waypoint x="480.0" y="110.98784194528875"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow6" id="BPMNEdge_sequenceflow6">
+        <omgdi:waypoint x="580.0" y="208.33333333333334"></omgdi:waypoint>
+        <omgdi:waypoint x="666.9565217391304" y="161.95652173913044"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sequenceflow5" id="BPMNEdge_sequenceflow5">
+        <omgdi:waypoint x="580.0" y="108.33333333333333"></omgdi:waypoint>
+        <omgdi:waypoint x="666.3636363636364" y="148.63636363636363"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
