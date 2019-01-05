@@ -3,7 +3,7 @@ SET FOREIGN_KEY_CHECKS=0;
 CREATE TABLE `tenant` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '租户名，也是域名',
-  `status` int(11) DEFAULT 1 COMMENT '租户状态',
+  `status` int(11) DEFAULT 0 COMMENT '租户状态',
   `password` varchar(255) NOT NULL COMMENT '密码',
   `dburl` varchar(255) DEFAULT NULL COMMENT '租户对应的数据库地址,不对租户公示的',
   `dbschema` varchar(255) DEFAULT NULL COMMENT '租户对应的数据库schema名称,不对租户公示的',

@@ -17,7 +17,7 @@ public class ProcessEngineEntity {
     private Long responseTimeLevel;
 
     @Column(name = "request_throughout_level")
-    private long requestThroughoutLevel;
+    private Long requestThroughoutLevel;
 
     public Long getId() {
         return id;
@@ -47,7 +47,7 @@ public class ProcessEngineEntity {
         return requestThroughoutLevel;
     }
 
-    public void setRequestThroughoutLevel(long requestThroughoutLevel) {
+    public void setRequestThroughoutLevel(Long requestThroughoutLevel) {
         this.requestThroughoutLevel = requestThroughoutLevel;
     }
 }

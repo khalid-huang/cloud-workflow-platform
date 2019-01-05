@@ -13,8 +13,8 @@ public class TenantEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "stats")
-    private String stats;
+    @Column(name = "status")
+    private Integer status;
 
     @Column(name = "password")
     private String password;
@@ -47,12 +47,12 @@ public class TenantEntity {
         this.name = name;
     }
 
-    public String getStats() {
-        return stats;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setStats(String stats) {
-        this.stats = stats;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getPassword() {
