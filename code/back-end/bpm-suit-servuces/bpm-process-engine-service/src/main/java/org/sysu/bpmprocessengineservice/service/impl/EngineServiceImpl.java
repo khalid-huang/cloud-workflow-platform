@@ -34,7 +34,7 @@ public class EngineServiceImpl implements EngineService {
 
 
     @Override
-    public Map<String, String> startProcessInstanceByKey(String processModelKey, Map<String, Object> variables) {
+    public HashMap<String, String> startProcessInstanceByKey(String processModelKey, Map<String, Object> variables) {
         HashMap<String, String> response = new HashMap<>();
         ProcessInstance pi =  runtimeService.startProcessInstanceByKey(processModelKey, variables);
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -44,7 +44,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public Map<String, String> startProcessInstanceById(String processDefinitionId, Map<String, Object> variables) {
+    public HashMap<String, String> startProcessInstanceById(String processDefinitionId, Map<String, Object> variables) {
         HashMap<String, String> response = new HashMap<>();
         ProcessInstance pi =  runtimeService.startProcessInstanceById(processDefinitionId, variables);
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -54,7 +54,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public Map<String, String> getCurrentTasksForAssign(String processInstanceId, String assignee) {
+    public HashMap<String, String> getCurrentTasksForAssign(String processInstanceId, String assignee) {
         HashMap<String, String> response = new HashMap<>();
         List<Task> tasks=  taskService.createTaskQuery().processInstanceId(processInstanceId).taskAssignee(assignee).list();
         List<String> taskIds = new ArrayList<>();
@@ -67,7 +67,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public Map<String, String> getCurrentTasks(String processInstanceId) {
+    public HashMap<String, String> getCurrentTasks(String processInstanceId) {
         HashMap<String, String> response = new HashMap<>();
         List<Task> tasks =taskService.createTaskQuery().processInstanceId(processInstanceId).list();
         List<String> taskIds = new ArrayList<>();
@@ -80,7 +80,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public Map<String, String> getCurrentSingleTask(String processInstanceId) {
+    public HashMap<String, String> getCurrentSingleTask(String processInstanceId) {
         HashMap<String, String> response = new HashMap<>();
         Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -89,7 +89,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public Map<String, String> claimTask(String taskId, String assignee) {
+    public HashMap<String, String> claimTask(String taskId, String assignee) {
         HashMap<String, String> response = new HashMap<>();
         taskService.claim(taskId, assignee);
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -97,7 +97,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public Map<String, String> completeTask(String taskId, Map<String, Object> variables) {
+    public HashMap<String, String> completeTask(String taskId, Map<String, Object> variables) {
         HashMap<String, String> response = new HashMap<>();
         taskService.complete(taskId, variables);
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -105,7 +105,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public Map<String, String> isEnded(String processInstanceId) {
+    public HashMap<String, String> isEnded(String processInstanceId) {
         HashMap<String, String> response = new HashMap<>();
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
         int flag = 0; //0表示未结束，1表示已经结束
@@ -121,5 +121,4 @@ public class EngineServiceImpl implements EngineService {
         return response;
     }
 
-    private
 }
