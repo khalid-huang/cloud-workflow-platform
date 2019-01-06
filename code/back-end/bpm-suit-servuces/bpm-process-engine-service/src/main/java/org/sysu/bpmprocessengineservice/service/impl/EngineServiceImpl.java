@@ -54,7 +54,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public HashMap<String, String> getCurrentTasksForAssign(String processInstanceId, String assignee) {
+    public HashMap<String, String> getWorkList(String processInstanceId, String assignee) {
         HashMap<String, String> response = new HashMap<>();
         List<Task> tasks=  taskService.createTaskQuery().processInstanceId(processInstanceId).taskAssignee(assignee).list();
         List<String> taskIds = new ArrayList<>();
@@ -67,7 +67,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public HashMap<String, String> getCurrentTasks(String processInstanceId) {
+    public HashMap<String, String> getWorkItems(String processInstanceId) {
         HashMap<String, String> response = new HashMap<>();
         List<Task> tasks =taskService.createTaskQuery().processInstanceId(processInstanceId).list();
         List<String> taskIds = new ArrayList<>();
@@ -80,7 +80,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public HashMap<String, String> getCurrentSingleTask(String processInstanceId) {
+    public HashMap<String, String> getWorkItem(String processInstanceId) {
         HashMap<String, String> response = new HashMap<>();
         Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -89,7 +89,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public HashMap<String, String> claimTask(String taskId, String assignee) {
+    public HashMap<String, String> acceptWorkItem(String taskId, String assignee) {
         HashMap<String, String> response = new HashMap<>();
         taskService.claim(taskId, assignee);
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -97,7 +97,7 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public HashMap<String, String> completeTask(String taskId, Map<String, Object> variables) {
+    public HashMap<String, String> completeWorkItem(String taskId, Map<String, Object> variables) {
         HashMap<String, String> response = new HashMap<>();
         taskService.complete(taskId, variables);
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
