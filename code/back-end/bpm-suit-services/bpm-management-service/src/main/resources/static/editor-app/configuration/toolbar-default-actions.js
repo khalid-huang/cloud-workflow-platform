@@ -261,8 +261,7 @@ KISBPM.TOOLBAR = {
         },
         
         closeEditor: function(services) {
-          var index = parent.layer.getFrameIndex(window.name);
-          parent.layer.close(index);
+        	window.location.href = "/model-list.html";
         },
         
         /**
@@ -327,8 +326,7 @@ var SaveModelCtrl = [ '$rootScope', '$scope', '$http', '$route', '$location',
 
     $scope.saveAndClose = function () {
     	$scope.save(function() {
-        var index = parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
+    		window.location.href = "/model-list.html";
     	});
     };
     $scope.save = function (successCallback) {
@@ -376,21 +374,21 @@ var SaveModelCtrl = [ '$rootScope', '$scope', '$http', '$route', '$location',
             name: $scope.saveDialog.name,
             description: $scope.saveDialog.description
         };
-        console.info('json_xml:'+json);
+
         // Update
-        $http({    method: 'POST',
-            data:params,
+        $http({    method: 'PUT',
+            data: params,
             ignoreErrors: true,
             headers: {'Accept': 'application/json',
-                      'Content-Type': 'application/x-www-form-urlencoded'},
-        ransformRequest: function (obj) {
+                      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+            transformRequest: function (obj) {
                 var str = [];
                 for (var p in obj) {
                     str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 }
                 return str.join("&");
             },
-          url: KISBPM.URL.putModel(modelMetaData.modelId)})
+            url: KISBPM.URL.putModel(modelMetaData.modelId)})
 
             .success(function (data, status, headers, config) {
                 $scope.editor.handleEvents({

@@ -34,7 +34,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--activiti-->
+        <!--activitimodel-->
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
