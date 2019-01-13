@@ -1,5 +1,7 @@
 package org.sysu.bpmmanagementservice.activitimodel.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.sysu.bpmmanagementservice.activitimodel.vo.DeploymentResponse;
 import org.sysu.bpmmanagementservice.activitimodel.common.RestServiceController;
 import org.sysu.bpmmanagementservice.activitimodel.util.ToWeb;
@@ -14,18 +16,21 @@ import java.util.List;
 /**
  * Created by liuruijie on 2017/4/20.
  */
+@Api(tags = "DeploymentController", description = "部署服务")
 @RestController
 @RequestMapping("deployments")
 public class DeploymentController implements RestServiceController<Deployment, String>{
     @Autowired
     RepositoryService repositoryService;
 
+    @ApiOperation(value = "根据部署id获取")
     @Override
     public Object getOne(@PathVariable("id") String id) {
         Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(id).singleResult();
         return ToWeb.buildResult().setObjData(new DeploymentResponse(deployment));
     }
 
+    @ApiOperation(value = "获取部署列表")
     @Override
     public Object getList(@RequestParam(value = "rowSize", defaultValue = "1000", required = false) Integer rowSize, @RequestParam(value = "page", defaultValue = "1", required = false) Integer page) {
         List<Deployment> deployments = repositoryService.createDeploymentQuery()
@@ -46,6 +51,7 @@ public class DeploymentController implements RestServiceController<Deployment, S
         );
     }
 
+    @ApiOperation(value = "根据部署id删除指定部署")
     @Override
     public Object deleteOne(@PathVariable("id") String id) {
         repositoryService.deleteDeployment(id);

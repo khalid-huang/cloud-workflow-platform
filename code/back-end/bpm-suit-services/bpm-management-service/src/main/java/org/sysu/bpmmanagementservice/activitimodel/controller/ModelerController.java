@@ -3,6 +3,8 @@ package org.sysu.bpmmanagementservice.activitimodel.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.sysu.bpmmanagementservice.activitimodel.common.RestServiceController;
 import org.sysu.bpmmanagementservice.activitimodel.util.Status;
 import org.sysu.bpmmanagementservice.activitimodel.util.ToWeb;
@@ -23,6 +25,7 @@ import java.util.List;
  * Created by liuruijie on 2017/4/20.
  * 模型管理
  */
+@Api(tags = "ModelerController", value = "模型管理")
 @RestController
 @RequestMapping("models")
 public class ModelerController implements RestServiceController<Model, String>{
@@ -37,6 +40,7 @@ public class ModelerController implements RestServiceController<Model, String>{
      * @return
      * @throws UnsupportedEncodingException
      */
+    @ApiOperation(value = "新建一个空白模型")
     @PostMapping("newModel")
     public Object newModel() throws UnsupportedEncodingException {
         //初始化一个空模型
@@ -79,6 +83,7 @@ public class ModelerController implements RestServiceController<Model, String>{
      * @return
      * @throws Exception
      */
+    @ApiOperation("发布模型")
     @PostMapping("{id}/deployment")
     public Object deploy(@PathVariable("id")String id) throws Exception {
 
@@ -112,12 +117,14 @@ public class ModelerController implements RestServiceController<Model, String>{
         return ToWeb.buildResult().refresh();
     }
 
+//    @ApiOperation(value = "根据模型id获取模型")
     @Override
     public Object getOne(@PathVariable("id") String id) {
         Model model = repositoryService.createModelQuery().modelId(id).singleResult();
         return ToWeb.buildResult().setObjData(model);
     }
 
+    @ApiOperation(value = "获取模型列表")
     @Override
     public Object getList(@RequestParam(value = "rowSize", defaultValue = "1000", required = false) Integer rowSize, @RequestParam(value = "page", defaultValue = "1", required = false) Integer page) {
         List<Model> list = repositoryService.createModelQuery().listPage(rowSize * (page - 1)
@@ -132,6 +139,7 @@ public class ModelerController implements RestServiceController<Model, String>{
                         .setRowSize(rowSize)
         );
     }
+
 
     public Object deleteOne(@PathVariable("id")String id){
         repositoryService.deleteModel(id);
