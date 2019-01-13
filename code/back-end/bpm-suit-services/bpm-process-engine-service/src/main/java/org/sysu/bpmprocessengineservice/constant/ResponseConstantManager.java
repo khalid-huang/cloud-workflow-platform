@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.bpmprocessengineservice.constant;
+package org.sysu.bpmprocessengineservice.constant;
 
 /**
  * 用于维护响应需要的常量信息

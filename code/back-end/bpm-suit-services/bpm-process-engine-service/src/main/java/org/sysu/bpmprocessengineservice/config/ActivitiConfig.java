@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.bpmprocessengineservice.config;
+package org.sysu.bpmprocessengineservice.config;
 
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;

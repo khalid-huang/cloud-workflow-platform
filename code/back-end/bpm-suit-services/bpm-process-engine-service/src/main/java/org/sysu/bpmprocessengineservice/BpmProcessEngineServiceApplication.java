@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.bpmprocessengineservice;
+package org.sysu.bpmprocessengineservice;
 
 import org.activiti.spring.boot.SecurityAutoConfiguration;
 import org.springframework.boot.SpringApplication;

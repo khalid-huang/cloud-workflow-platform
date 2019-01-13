@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.bpmprocessengineservice.controller;
+package org.sysu.bpmprocessengineservice.controller;
 
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;

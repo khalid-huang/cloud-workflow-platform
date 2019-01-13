@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.bpmprocessengineservice;
+package org.sysu.bpmprocessengineservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.bpmprocessengineservice.service;
+package org.sysu.bpmprocessengineservice.service;
 
 import java.util.HashMap;
 import java.util.Map;
