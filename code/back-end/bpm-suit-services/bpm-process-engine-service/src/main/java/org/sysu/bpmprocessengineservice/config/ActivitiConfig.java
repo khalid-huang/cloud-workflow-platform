@@ -39,13 +39,15 @@ public class ActivitiConfig {
     }
 
     @Bean
-    public RuntimeService runtimeService(ProcessEngine processEngine) {
-                                                                    return processEngine.getRuntimeService();
-                                                                                                             }
+    public RuntimeService runtimeService(ProcessEngine processEngine)
+    {
+        return processEngine.getRuntimeService();
+
+    }
     @Bean
     public TaskService taskService(ProcessEngine processEngine) {
-                                                              return processEngine.getTaskService();
-                                                                                                    }
+        return processEngine.getTaskService();
+    }
 
     @Bean
     public HistoryService historyService(ProcessEngine processEngine) {

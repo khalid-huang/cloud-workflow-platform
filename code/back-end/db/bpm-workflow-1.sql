@@ -59,6 +59,7 @@ CREATE TABLE `act_evt_log` (
 
 -- ----------------------------
 -- Table structure for act_ge_bytearray
+-- 用来保存部署文件的大文本数据。
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ge_bytearray`;
 CREATE TABLE `act_ge_bytearray` (
@@ -104,6 +105,7 @@ INSERT INTO `act_ge_bytearray` VALUES ('277540', '1', 'hist.detail.var-baseTask'
 
 -- ----------------------------
 -- Table structure for act_ge_property
+-- 属性数据表。存储这个流程引擎级别的数据。
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ge_property`;
 CREATE TABLE `act_ge_property` (
@@ -122,6 +124,7 @@ INSERT INTO `act_ge_property` VALUES ('schema.version', '5.22.0.0', '1');
 
 -- ----------------------------
 -- Table structure for act_hi_actinst
+-- 历史活动信息。这里记录流程流转过的所有节点，与HI_TASKINST不同的是，taskinst只记录usertask内容。
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_actinst`;
 CREATE TABLE `act_hi_actinst` (
@@ -162,6 +165,7 @@ INSERT INTO `act_hi_actinst` VALUES ('277542', 'process_leave:2:277534', '277535
 
 -- ----------------------------
 -- Table structure for act_hi_attachment
+-- 附件信息
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_attachment`;
 CREATE TABLE `act_hi_attachment` (
@@ -185,6 +189,7 @@ CREATE TABLE `act_hi_attachment` (
 
 -- ----------------------------
 -- Table structure for act_hi_comment
+-- 历史审批意见表
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_comment`;
 CREATE TABLE `act_hi_comment` (
@@ -206,6 +211,8 @@ CREATE TABLE `act_hi_comment` (
 
 -- ----------------------------
 -- Table structure for act_hi_detail
+-- 历史详细信息
+-- 流程中产生的变量详细，包括控制流程流转的变量，业务表单中填写的流程需要用到的变量等。
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_detail`;
 CREATE TABLE `act_hi_detail` (
@@ -244,6 +251,7 @@ INSERT INTO `act_hi_detail` VALUES ('277541', 'VariableUpdate', '277535', '27753
 
 -- ----------------------------
 -- Table structure for act_hi_identitylink
+-- 任务参与者数据表。主要存储历史节点参与者的信息。
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_identitylink`;
 CREATE TABLE `act_hi_identitylink` (
@@ -269,6 +277,7 @@ INSERT INTO `act_hi_identitylink` VALUES ('277545', 'e346e96368484c8fa7f217ce550
 
 -- ----------------------------
 -- Table structure for act_hi_procinst
+-- 历史流程实例信息
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_procinst`;
 CREATE TABLE `act_hi_procinst` (
@@ -301,6 +310,7 @@ INSERT INTO `act_hi_procinst` VALUES ('277535', '277535', null, 'process_leave:2
 
 -- ----------------------------
 -- Table structure for act_hi_taskinst
+-- 历史任务流程实例信息
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_taskinst`;
 CREATE TABLE `act_hi_taskinst` (
@@ -338,6 +348,7 @@ INSERT INTO `act_hi_taskinst` VALUES ('277543', 'process_leave:2:277534', 'user1
 
 -- ----------------------------
 -- Table structure for act_hi_varinst
+-- 历史变量信息
 -- ----------------------------
 DROP TABLE IF EXISTS `act_hi_varinst`;
 CREATE TABLE `act_hi_varinst` (
@@ -373,6 +384,7 @@ INSERT INTO `act_hi_varinst` VALUES ('277538', '277535', '277535', null, 'baseTa
 
 -- ----------------------------
 -- Table structure for act_id_group
+-- 用户组表
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_group`;
 CREATE TABLE `act_id_group` (
@@ -395,6 +407,7 @@ INSERT INTO `act_id_group` VALUES ('e346e96368484c8fa7f217ce550a0186', '1', 'Dep
 
 -- ----------------------------
 -- Table structure for act_id_info
+-- 用户扩展信息表; 目前该表未用到。
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_info`;
 CREATE TABLE `act_id_info` (
@@ -415,6 +428,7 @@ CREATE TABLE `act_id_info` (
 
 -- ----------------------------
 -- Table structure for act_id_membership
+-- 用户用户组关联表
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_membership`;
 CREATE TABLE `act_id_membership` (
@@ -436,6 +450,7 @@ INSERT INTO `act_id_membership` VALUES ('a4a743bffe9711e7b472201a068c6482', 'dcb
 
 -- ----------------------------
 -- Table structure for act_id_user
+-- 用户信息表
 -- ----------------------------
 DROP TABLE IF EXISTS `act_id_user`;
 CREATE TABLE `act_id_user` (
@@ -483,6 +498,7 @@ CREATE TABLE `act_procdef_info` (
 
 -- ----------------------------
 -- Table structure for act_re_deployment
+-- 部署信息表
 -- ----------------------------
 DROP TABLE IF EXISTS `act_re_deployment`;
 CREATE TABLE `act_re_deployment` (
@@ -503,6 +519,7 @@ INSERT INTO `act_re_deployment` VALUES ('277531', '请假流程', null, '', '201
 
 -- ----------------------------
 -- Table structure for act_re_model
+-- 流程设计模型表
 -- ----------------------------
 DROP TABLE IF EXISTS `act_re_model`;
 CREATE TABLE `act_re_model` (
@@ -536,6 +553,8 @@ INSERT INTO `act_re_model` VALUES ('212510', '11', '测试流程', 'processKey',
 
 -- ----------------------------
 -- Table structure for act_re_procdef
+-- （流程定义：解析表）
+-- 流程解析表，解析成功了，在该表保存一条记录。业务流程定义数据表
 -- ----------------------------
 DROP TABLE IF EXISTS `act_re_procdef`;
 CREATE TABLE `act_re_procdef` (
@@ -565,6 +584,7 @@ INSERT INTO `act_re_procdef` VALUES ('process_leave:2:277534', '1', 'http://www.
 
 -- ----------------------------
 -- Table structure for act_ru_event_subscr
+-- (运行时事件)
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_event_subscr`;
 CREATE TABLE `act_ru_event_subscr` (
@@ -591,6 +611,7 @@ CREATE TABLE `act_ru_event_subscr` (
 
 -- ----------------------------
 -- Table structure for act_ru_execution
+-- （运行时流程执行实例）
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_execution`;
 CREATE TABLE `act_ru_execution` (
@@ -632,6 +653,7 @@ INSERT INTO `act_ru_execution` VALUES ('277535', '1', '277535', null, null, 'pro
 
 -- ----------------------------
 -- Table structure for act_ru_identitylink
+-- 主要存储当前节点参与者的信息,任务参与者数据表。
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_identitylink`;
 CREATE TABLE `act_ru_identitylink` (
@@ -664,6 +686,7 @@ INSERT INTO `act_ru_identitylink` VALUES ('277545', '1', 'e346e96368484c8fa7f217
 
 -- ----------------------------
 -- Table structure for act_ru_job
+-- （运行中的任务）
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_job`;
 CREATE TABLE `act_ru_job` (
@@ -695,6 +718,8 @@ CREATE TABLE `act_ru_job` (
 
 -- ----------------------------
 -- Table structure for act_ru_task
+-- (运行时任务数据表)
+-- （执行中实时任务）代办任务查询表
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_task`;
 CREATE TABLE `act_ru_task` (
@@ -735,6 +760,7 @@ INSERT INTO `act_ru_task` VALUES ('277543', '1', '277535', '277535', 'process_le
 
 -- ----------------------------
 -- Table structure for act_ru_variable
+-- (运行时流程变量数据表)
 -- ----------------------------
 DROP TABLE IF EXISTS `act_ru_variable`;
 CREATE TABLE `act_ru_variable` (
