@@ -1,21 +1,20 @@
-package org.sysu.bpmprocessengineservice.service.impl;
+package org.sysu.bpmprocessengineservice.service.workflowinterface.impl;
 
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.apache.tomcat.jni.Proc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sysu.bpmprocessengineservice.constant.ResponseConstantManager;
-import org.sysu.bpmprocessengineservice.service.ProcessInstanceService;
+import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface5;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class ProcessInstanceServiceImpl implements ProcessInstanceService {
-    private final static Logger logger = LoggerFactory.getLogger(ProcessInstanceServiceImpl.class);
+public class Interface5Impl implements Interface5 {
+    private final static Logger logger = LoggerFactory.getLogger(Interface5Impl.class);
 
     @Autowired
     RuntimeService runtimeService;

@@ -1,4 +1,4 @@
-package org.sysu.bpmprocessengineservice.service.impl;
+package org.sysu.bpmprocessengineservice.service.workflowinterface.impl;
 
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.sysu.bpmprocessengineservice.constant.ActivitiSQLConstantManager;
 import org.sysu.bpmprocessengineservice.constant.ResponseConstantManager;
-import org.sysu.bpmprocessengineservice.service.WorkQueueService;
+import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface2;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * 基于Activiti实现的工作列表服务; Activiti中的Task就是workitem
  */
-public class WorkQueueServiceImpl implements WorkQueueService {
-    private final static Logger logger = LoggerFactory.getLogger(WorkQueueServiceImpl.class);
+public class Interface2Impl implements Interface2 {
+    private final static Logger logger = LoggerFactory.getLogger(Interface2Impl.class);
 
     @Autowired
     TaskService taskService;
