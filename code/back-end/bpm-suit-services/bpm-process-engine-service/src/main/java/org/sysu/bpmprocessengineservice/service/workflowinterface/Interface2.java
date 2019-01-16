@@ -1,6 +1,7 @@
 package org.sysu.bpmprocessengineservice.service.workflowinterface;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 实现与客户端应用的交互接口，主要是提供了工作列表和处理工作项的服务
@@ -21,5 +22,41 @@ public interface Interface2 {
     HashMap<String, Object> getWorkQueueForUser(String username);
 
     /** 工作项相关 */
+    /** 将工作项提供给某个用户，是管理员的操作*/
+    HashMap<String, Object> offerWorkitem(String processInstanceId, String workitemId, String username);
 
+    /** 将工作项指派给某个用户，是管理员的操作*/
+    HashMap<String, Object> allocateWorkitem(String processInstanceId, String workitemId, String username);
+
+    /** 撤销指派，将工作项从allocated/offered状态转化为offered状态*/
+    HashMap<String, Object> reofferWorkitem(String processInstanceId, String workitemId, String username);
+
+    /** 启动,将工作项从Allocated状态转化为Started状态 */
+    /** 也就是标志用户开始处理工作项 */
+    HashMap<String, Object> startWorkitem(String processInstanceId, String workitemId);
+
+    /** 拉取，将工作项从Offered状态转化为Allocated状态 */
+    /** 标志用户接受工作项，从候选人变成处理人 */
+    HashMap<String, Object> acceptWorkitem(String processInstanceId, String workitemId, String username);
+
+    /** 拉取并启动, 将工作项从Offered状态变成started*/
+    HashMap<String, Object> acceptAndStartWorkitem(String processInstanceId, String workitemId, String username);
+
+    /**  完成,将工作项从Started转化为completed*/
+    HashMap<String, Object> completeWorkitem(String processInstanceId,String workitemId, Map<String, Object> data);
+
+    /** 挂起，将工作项从Started 转化为suspended*/
+    HashMap<String, Object> suspendWorkitem(String processInstanceId, String workitemId);
+
+    /** 重启，将工作项从Suspended 转化为 unsuspended*/
+    HashMap<String, Object> unsuspendWorkitem(String processInstanceId, String workitemId);
+
+    /** 跳过， u将工作项从allocated转化为complete*/
+    HashMap<String, Object> skipWorkitem(String processInstanceId, String workitemId);
+
+    /** 撤销拉取，将工作项从Allocated状态转化为Offered状态*/
+    HashMap<String, Object> deallocateWorkitem(String processInstanceId, String workitemId);
+
+    /**  撤销启动，将工作项从Started/allocated状态转化为Allocated状态*/
+    HashMap<String, Object> reallocateWorkitem(String processInstanceId, String workitemId);
 }

@@ -11,6 +11,7 @@ import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface2;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基于Activiti实现的工作列表服务; Activiti中的Task就是workitem
@@ -63,5 +64,87 @@ public class Interface2Impl implements Interface2 {
         response.put("started", started);
         response.put("suspended", suspended);
         return response;
+    }
+
+    /** 提供 */
+    /** 为工作项指定候选人 */
+    @Override
+    public HashMap<String, Object> offerWorkitem(String processInstanceId, String workitemId, String username) {
+        HashMap<String, Object> response = new HashMap<>();
+        taskService.addCandidateUser(workitemId, username);
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        response.put("task", taskService.createTaskQuery().taskId(workitemId));
+        return response;
+    }
+
+    /** 指派 */
+    /** 为工作项提供处理人 */
+    @Override
+    public HashMap<String, Object> allocateWorkitem(String processInstanceId, String workitemId, String username) {
+        HashMap<String, Object> response = new HashMap<>();
+        taskService.setAssignee(workitemId, username);
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        return response;
+    }
+
+    /** 撤销指派*/
+    /** 重新设置候选人*/
+    @Override
+    public HashMap<String, Object> reofferWorkitem(String processInstanceId, String workitemId, String username) {
+        //暂时不支持
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        response.put("message", "暂时不支持");
+        return response;
+    }
+
+    /** 启动工作项 */
+    /** 基于Activti的实现，并没有启动的概念，在claim就可以了*/
+    @Override
+    public HashMap<String, Object> startWorkitem(String processInstanceId, String workitemId) {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Object> acceptWorkitem(String processInstanceId, String workitemId, String username) {
+        HashMap<String, Object> response = new HashMap<>();
+        taskService.claim(workitemId, username);
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        return response;
+    }
+
+    @Override
+    public HashMap<String, Object> acceptAndStartWorkitem(String processInstanceId, String workitemId, String username) {
+        return acceptWorkitem(processInstanceId, workitemId, username);
+    }
+
+    @Override
+    public HashMap<String, Object> completeWorkitem(String processInstanceId, String workitemId, Map<String, Object> data) {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Object> suspendWorkitem(String processInstanceId, String workitemId) {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Object> unsuspendWorkitem(String processInstanceId, String workitemId) {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Object> skipWorkitem(String processInstanceId, String workitemId) {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Object> deallocateWorkitem(String processInstanceId, String workitemId) {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Object> reallocateWorkitem(String processInstanceId, String workitemId) {
+        return null;
     }
 }
