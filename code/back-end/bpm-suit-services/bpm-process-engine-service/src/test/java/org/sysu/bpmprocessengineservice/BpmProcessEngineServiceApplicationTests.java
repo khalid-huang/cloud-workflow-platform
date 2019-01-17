@@ -41,19 +41,24 @@ public class BpmProcessEngineServiceApplicationTests {
 //        String r1 = "processes/1_model.bpmn20.xml";
 //        String r2 = "processes/2_model.bpmn20.xml";
 //        String r3 = "processes/3_model.bpmn20.xml";
-        String r4 = "processes/5_model.bpmn20.xml";
+        String r4 = "processes/4_model.bpmn20.xml";
 //        repositoryService.createDeployment().addClasspathResource(r1).deploy();
 //        repositoryService.createDeployment().addClasspathResource(r2).deploy();
 //        repositoryService.createDeployment().addClasspathResource(r3).deploy();
         repositoryService.createDeployment().addClasspathResource(r4).deploy();
+
+//        ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
+//        ProcessInstance processInstance2 = runtimeService.startProcessInstanceByKey("load-application");
+//        ProcessInstance processInstance3 = runtimeService.startProcessInstanceByKey("leave-process");
+        ProcessInstance processInstance4 = runtimeService.startProcessInstanceByKey("a4-model");
     }
 
     @Test
     public void contextLoads() {
-//        ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
-//        ProcessInstance processInstance2 = runtimeService.startProcessInstanceByKey("load-application");
-//        ProcessInstance processInstance3 = runtimeService.startProcessInstanceByKey("leave-process");
-//       ProcessInstance processInstance4 = runtimeService.startProcessInstanceByKey("a4-model");
+        ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
+        ProcessInstance processInstance2 = runtimeService.startProcessInstanceByKey("load-application");
+        ProcessInstance processInstance3 = runtimeService.startProcessInstanceByKey("leave-process");
+       ProcessInstance processInstance4 = runtimeService.startProcessInstanceByKey("a4-model");
 
 //        有代理人/委托人或是没有代理但是有候选组/角色/人
         String worklistedSQL = "SELECT task.* FROM " + managementService.getTableName(TaskEntity.class)

@@ -95,10 +95,9 @@ public class Interface5Impl implements Interface5 {
             instanceMonitorVo.setProcessInstanceId(ins.getProcessInstanceId());
 
             BpmnModel model = repositoryService.getBpmnModel(processDefinitionId);
-            //这一步有bug
-//            FlowElement element =  model.getMainProcess().getFlowElement(activityId);
-//            instanceMonitorVo.setCurrentNode(element.getName());
-//            instanceMonitorVo.setCurrentNodeId(element.getId());
+            FlowElement element =  model.getMainProcess().getFlowElement(activityId);
+            instanceMonitorVo.setCurrentNode(element.getName());
+            instanceMonitorVo.setCurrentNodeId(element.getId());
 
             Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
             if(task != null){
