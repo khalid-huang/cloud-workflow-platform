@@ -7,7 +7,7 @@ import java.util.Map;
  * 根据工作流参考模型实现
  * 接口5是管理监控接口，这里只实现管理接口部分，主要是实现流程实例的监控管理
  */
-public interface Interface5 {
+public interface Interface5Service {
     /** 根据流程模型名称 启动流程实例 */
     HashMap<String, Object> startProcessInstanceByKey(String processModelKey, Map<String, Object> variables);
 

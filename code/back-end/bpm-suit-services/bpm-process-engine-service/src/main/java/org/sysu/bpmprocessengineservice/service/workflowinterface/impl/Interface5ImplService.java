@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.sysu.bpmprocessengineservice.constant.Pagination;
 import org.sysu.bpmprocessengineservice.constant.ResponseConstantManager;
-import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface5;
+import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface5Service;
 import org.sysu.bpmprocessengineservice.vo.InstanceMonitorVo;
 
 import java.util.ArrayList;
@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class Interface5Impl implements Interface5 {
-    private final static Logger logger = LoggerFactory.getLogger(Interface5Impl.class);
+public class Interface5ImplService implements Interface5Service {
+    private final static Logger logger = LoggerFactory.getLogger(Interface5ImplService.class);
 
     @Autowired
     RuntimeService runtimeService;

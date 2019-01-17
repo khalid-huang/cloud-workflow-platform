@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 实现与客户端应用的交互接口，主要是提供了工作列表和处理工作项的服务
  */
-public interface Interface2 {
+public interface Interface2Service {
     /** 工作列表服务实现*/
 
     /** 根据用户名和角色信息，获取用户的工作列表*/

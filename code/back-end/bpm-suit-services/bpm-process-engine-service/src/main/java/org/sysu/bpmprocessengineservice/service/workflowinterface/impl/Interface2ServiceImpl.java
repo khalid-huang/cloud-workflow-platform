@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sysu.bpmprocessengineservice.constant.ActivitiSQLConstantManager;
 import org.sysu.bpmprocessengineservice.constant.ResponseConstantManager;
-import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface2;
+import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface2Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +19,8 @@ import java.util.Map;
  * 基于Activiti实现的工作列表服务; Activiti中的Task就是workitem
  */
 @Service
-public class Interface2Impl implements Interface2 {
-    private final static Logger logger = LoggerFactory.getLogger(Interface2Impl.class);
+public class Interface2ServiceImpl implements Interface2Service {
+    private final static Logger logger = LoggerFactory.getLogger(Interface2ServiceImpl.class);
 
     @Autowired
     TaskService taskService;
