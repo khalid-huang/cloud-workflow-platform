@@ -1,10 +1,12 @@
 package org.sysu.bpmprocessengineservice.service.workflowinterface.impl;
 
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.sysu.bpmprocessengineservice.constant.ActivitiSQLConstantManager;
 import org.sysu.bpmprocessengineservice.constant.ResponseConstantManager;
 import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface2;
@@ -16,11 +18,15 @@ import java.util.Map;
 /**
  * 基于Activiti实现的工作列表服务; Activiti中的Task就是workitem
  */
+@Service
 public class Interface2Impl implements Interface2 {
     private final static Logger logger = LoggerFactory.getLogger(Interface2Impl.class);
 
     @Autowired
     TaskService taskService;
+
+    @Autowired
+    RuntimeService runtimeService;
 
     @Override
     public HashMap<String, Object> getWorkQueue(String username, String role) {
@@ -120,31 +126,55 @@ public class Interface2Impl implements Interface2 {
 
     @Override
     public HashMap<String, Object> completeWorkitem(String processInstanceId, String workitemId, Map<String, Object> data) {
-        return null;
+        HashMap<String, Object> response = new HashMap<>();
+        taskService.complete(workitemId, data);
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        return response;
     }
 
+
+    /** Activiti中是通过挂起整个流程实例来挂起任务项的，如果流程实例被挂起，就表示任务被挂起; 无法通过后续节点处理下一步任务*/
     @Override
     public HashMap<String, Object> suspendWorkitem(String processInstanceId, String workitemId) {
+        HashMap<String, Object> response = new HashMap<>();
+        runtimeService.suspendProcessInstanceById(processInstanceId);
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return null;
     }
 
     @Override
     public HashMap<String, Object> unsuspendWorkitem(String processInstanceId, String workitemId) {
-        return null;
+        HashMap<String, Object> response = new HashMap<>();
+        runtimeService.activateProcessInstanceById(processInstanceId);
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        return response;
     }
 
+    /** skip这个操作有点奇怪的就是，如果是在分支判断的时候，直接skip会选择哪个*/
     @Override
     public HashMap<String, Object> skipWorkitem(String processInstanceId, String workitemId) {
-        return null;
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        response.put("message", "unsupported operation");
+        return response;
     }
 
+
+    /** 从allocate回复到offer */
     @Override
     public HashMap<String, Object> deallocateWorkitem(String processInstanceId, String workitemId) {
-        return null;
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        taskService.unclaim(workitemId);
+        return response;
     }
 
     @Override
-    public HashMap<String, Object> reallocateWorkitem(String processInstanceId, String workitemId) {
-        return null;
+    public HashMap<String, Object> reallocateWorkitem(String processInstanceId, String workitemId, String username) {
+        HashMap<String, Object> response = new HashMap<>();
+        taskService.unclaim(workitemId);
+        taskService.claim(workitemId, username);
+        response.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        return response;
     }
 }

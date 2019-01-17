@@ -58,5 +58,5 @@ public interface Interface2 {
     HashMap<String, Object> deallocateWorkitem(String processInstanceId, String workitemId);
 
     /**  撤销启动，将工作项从Started/allocated状态转化为Allocated状态*/
-    HashMap<String, Object> reallocateWorkitem(String processInstanceId, String workitemId);
+    HashMap<String, Object> reallocateWorkitem(String processInstanceId, String workitemId, String username);
 }

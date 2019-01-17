@@ -79,5 +79,9 @@ public class BpmProcessEngineServiceApplicationTests {
         }
     }
 
+    @Test
+    public void suspendContext() {
+    }
+
 }
 
