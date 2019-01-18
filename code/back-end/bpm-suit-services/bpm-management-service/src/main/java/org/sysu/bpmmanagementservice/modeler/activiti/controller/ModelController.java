@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.modeler.activiti.rest.editor.controller;
+package org.sysu.bpmmanagementservice.modeler.activiti.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +48,9 @@ public class ModelController {
     private ObjectMapper objectMapper;
     @Autowired
     private RepositoryService repositoryService;
+
+
+//    public
 
     /**
      * 新建一个空模型

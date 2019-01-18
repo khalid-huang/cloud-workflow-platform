@@ -79,6 +79,7 @@ public class Interface5ImplService implements Interface5Service {
 
         int totalCount = (int) runtimeService.createProcessInstanceQuery().count();
 
+
         List<ProcessInstance> processInstances =  runtimeService.createProcessInstanceQuery()
                 .orderByProcessDefinitionKey().asc().listPage(pagination.getStart(), pagination.getEnd());
         List<ProcessInstanceMonitorVo> processInstanceMonitorVos = new ArrayList<>();
@@ -113,7 +114,7 @@ public class Interface5ImplService implements Interface5Service {
         pagination.setRows(processInstanceMonitorVos);
         pagination.setRowTotal(totalCount);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("processInstanceMonitorVos", processInstanceMonitorVos);
+        result.put("processInstanceMonitorVos", pagination);
         return result;
     }
 }

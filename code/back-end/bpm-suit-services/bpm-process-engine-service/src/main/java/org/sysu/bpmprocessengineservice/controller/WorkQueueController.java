@@ -25,9 +25,7 @@ public class WorkQueueController {
     @ApiOperation(value = "通过用户名和角色获取相应的工作列表")
     @RequestMapping(value = "getWorkQueue", method = RequestMethod.GET)
     public ResponseEntity<?> getWorkQueue(@RequestParam(value = "username") String username,
-                                          @RequestParam(value = "role") String role,
-                                          @RequestParam(value = "pageSize") Integer pageSize,
-                                          @RequestParam(value = "pageNumber") Integer pageNumber) {
+                                          @RequestParam(value = "role") String role) {
         HashMap<String, Object> responseBody = interface2Service.getWorkQueue(username, role);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
