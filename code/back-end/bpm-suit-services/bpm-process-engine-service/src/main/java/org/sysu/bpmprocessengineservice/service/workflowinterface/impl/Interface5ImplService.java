@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 import org.sysu.bpmprocessengineservice.constant.Pagination;
 import org.sysu.bpmprocessengineservice.constant.ResponseConstantManager;
 import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface5Service;
-import org.sysu.bpmprocessengineservice.vo.InstanceMonitorVo;
+import org.sysu.bpmprocessengineservice.vo.ProcessInstanceMonitorVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,39 +81,39 @@ public class Interface5ImplService implements Interface5Service {
 
         List<ProcessInstance> processInstances =  runtimeService.createProcessInstanceQuery()
                 .orderByProcessDefinitionKey().asc().listPage(pagination.getStart(), pagination.getEnd());
-        List<InstanceMonitorVo> instanceMonitorVos = new ArrayList<>();
+        List<ProcessInstanceMonitorVo> processInstanceMonitorVos = new ArrayList<>();
         for (ProcessInstance ins : processInstances) {
-            InstanceMonitorVo instanceMonitorVo = new InstanceMonitorVo();
+            ProcessInstanceMonitorVo processInstanceMonitorVo = new ProcessInstanceMonitorVo();
             String processDefinitionId = ins.getProcessDefinitionId();
             String activityId = ins.getActivityId();
             String processInstanceId = ins.getProcessInstanceId();
 
-            instanceMonitorVo.setProcessDefinitionName(ins.getProcessDefinitionName());
-            instanceMonitorVo.setProcessDefinitionVersion(ins.getProcessDefinitionVersion());
-            instanceMonitorVo.setProcessDefinitionId(ins.getProcessDefinitionId());
-            instanceMonitorVo.setProcessDefinitionKey(ins.getProcessDefinitionKey());
-            instanceMonitorVo.setProcessInstanceId(ins.getProcessInstanceId());
+            processInstanceMonitorVo.setProcessDefinitionName(ins.getProcessDefinitionName());
+            processInstanceMonitorVo.setProcessDefinitionVersion(ins.getProcessDefinitionVersion());
+            processInstanceMonitorVo.setProcessDefinitionId(ins.getProcessDefinitionId());
+            processInstanceMonitorVo.setProcessDefinitionKey(ins.getProcessDefinitionKey());
+            processInstanceMonitorVo.setProcessInstanceId(ins.getProcessInstanceId());
 
             BpmnModel model = repositoryService.getBpmnModel(processDefinitionId);
             FlowElement element =  model.getMainProcess().getFlowElement(activityId);
-            instanceMonitorVo.setCurrentNode(element.getName());
-            instanceMonitorVo.setCurrentNodeId(element.getId());
+            processInstanceMonitorVo.setCurrentNode(element.getName());
+            processInstanceMonitorVo.setCurrentNodeId(element.getId());
 
             Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
             if(task != null){
-                instanceMonitorVo.setTaskId(task.getId());
-                instanceMonitorVo.setInstanceName(task.getName());
+                processInstanceMonitorVo.setTaskId(task.getId());
+                processInstanceMonitorVo.setInstanceName(task.getName());
                 String assignee = task.getAssignee();
                 if(!StringUtils.isEmpty(assignee)){
-                    instanceMonitorVo.setAssigneeName(assignee);
+                    processInstanceMonitorVo.setAssigneeName(assignee);
                 }
             }
-            instanceMonitorVos.add(instanceMonitorVo);
+            processInstanceMonitorVos.add(processInstanceMonitorVo);
         }
-        pagination.setRows(instanceMonitorVos);
+        pagination.setRows(processInstanceMonitorVos);
         pagination.setRowTotal(totalCount);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("instanceMonitorVos", instanceMonitorVos);
+        result.put("processInstanceMonitorVos", processInstanceMonitorVos);
         return result;
     }
 }

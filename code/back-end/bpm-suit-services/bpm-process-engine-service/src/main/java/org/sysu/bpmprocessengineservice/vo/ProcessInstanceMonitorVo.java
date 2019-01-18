@@ -1,6 +1,6 @@
 package org.sysu.bpmprocessengineservice.vo;
 
-public class InstanceMonitorVo {
+public class ProcessInstanceMonitorVo {
     private String taskId;
 
     private String currentNode;

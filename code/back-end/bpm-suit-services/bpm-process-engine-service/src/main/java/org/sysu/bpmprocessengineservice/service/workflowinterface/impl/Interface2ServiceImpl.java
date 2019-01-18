@@ -8,9 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sysu.bpmprocessengineservice.constant.ActivitiSQLConstantManager;
+import org.sysu.bpmprocessengineservice.constant.Pagination;
 import org.sysu.bpmprocessengineservice.constant.ResponseConstantManager;
 import org.sysu.bpmprocessengineservice.service.workflowinterface.Interface2Service;
+import org.sysu.bpmprocessengineservice.vo.WorkitemVo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,32 +46,42 @@ public class Interface2ServiceImpl implements Interface2Service {
     @Override
     public HashMap<String, Object> getWorkQueueForAdmin(String username) {
         HashMap<String, Object> response = new HashMap<>();
+
         //获取Unoffered列表;没有委托人或是签收人就表示是unoffered的
         List<Task> unoffered = taskService.createNativeTaskQuery().sql(ActivitiSQLConstantManager.TASKSERVICE_TASKNATIVETASKQUERY_UNOFFERED).list();
+        List<WorkitemVo> unofferedWorkitemVos = activitiTasks2WorkitemVos(unoffered);
+
         //获取已经worklisted列表,也就是已经被offer或是allocated的任务
         List<Task> worklisted = taskService.createNativeTaskQuery().sql(ActivitiSQLConstantManager.TASKSERVICE_TASKNATIVETASKQUERY_WORKLISTED).list();
-        worklisted.removeAll(unoffered);
+        List<WorkitemVo> workilistedWorkitemVos = activitiTasks2WorkitemVos(worklisted);
+
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        response.put("unoffered", unoffered);
-        response.put("worklisted", worklisted);
+        response.put("unoffered", unofferedWorkitemVos);
+        response.put("worklisted", workilistedWorkitemVos);
         return response;
     }
 
     //需要返回offered，allocated，started,suspended; (兼容Activiti，去掉allocated，所有的allocated都自动变成start)
+    //由于在acitivit里面没有start的概念，所以设定cliam之后就是start的状态
     @Override
     public HashMap<String, Object> getWorkQueueForUser(String username) {
         HashMap<String, Object> response = new HashMap<>();
         //offered（这里其实还应该加上那个角色的，username属于哪个组，但目前角色，人员还没有实现完全，所以先不做）
         List<Task> offered = taskService.createTaskQuery().taskCandidateUser(username).list();
+        List<WorkitemVo> offeredWorkitemVos = activitiTasks2WorkitemVos(offered);
+
         //started，而且是活动的
         List<Task> started = taskService.createTaskQuery().taskAssignee(username).active().list();
+        List<WorkitemVo> startedWorkitemVos = activitiTasks2WorkitemVos(started);
+
         //suspended
         List<Task> suspended = taskService.createTaskQuery().taskAssignee(username).suspended().list();
+        List<WorkitemVo> suspendedWorkitemVos = activitiTasks2WorkitemVos(suspended);
 
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        response.put("offered", offered);
-        response.put("started", started);
-        response.put("suspended", suspended);
+        response.put("offered", offeredWorkitemVos);
+        response.put("started", startedWorkitemVos);
+        response.put("suspended", suspendedWorkitemVos);
         return response;
     }
 
@@ -79,7 +92,7 @@ public class Interface2ServiceImpl implements Interface2Service {
         HashMap<String, Object> response = new HashMap<>();
         taskService.addCandidateUser(workitemId, username);
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        response.put("task", taskService.createTaskQuery().taskId(workitemId));
+//        response.put("workitem", taskService.createTaskQuery().taskId(workitemId));
         return response;
     }
 
@@ -169,6 +182,7 @@ public class Interface2ServiceImpl implements Interface2Service {
         return response;
     }
 
+    /** 换一个处理人，从started/allocated回复以started/allocated*/
     @Override
     public HashMap<String, Object> reallocateWorkitem(String processInstanceId, String workitemId, String username) {
         HashMap<String, Object> response = new HashMap<>();
@@ -177,4 +191,13 @@ public class Interface2ServiceImpl implements Interface2Service {
         response.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return response;
     }
+
+    private List<WorkitemVo> activitiTasks2WorkitemVos(List<Task> tasks) {
+        List<WorkitemVo> workitemVos = new ArrayList<>();
+        for(Task task : tasks) {
+            workitemVos.add(new WorkitemVo(task));
+        }
+        return workitemVos;
+    }
+
 }
