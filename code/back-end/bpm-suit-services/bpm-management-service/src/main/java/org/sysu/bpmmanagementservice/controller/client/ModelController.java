@@ -1,21 +1,10 @@
-package org.sysu.bpmmanagementservice.controller;
+package org.sysu.bpmmanagementservice.controller.client;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.activiti.bpmn.converter.BpmnXMLConverter;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.editor.constants.ModelDataJsonConstants;
-import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.DeploymentBuilder;
-import org.activiti.engine.repository.Model;
-import org.activiti.explorer.util.XmlUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.sysu.bpmmanagementservice.service.ModelService;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 流程模型Model操作相关
@@ -113,7 +95,7 @@ public class ModelController {
     }
 
     @ApiOperation(value = "上传一个已有模型")
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    @PostMapping(value = "/uploadFile")
     public ResponseEntity<?> deployUploadedFile(@RequestParam("modelFile") MultipartFile modelFile) {
         HashMap<String, Object> responseBody = modelService.uploadModel(modelFile);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);

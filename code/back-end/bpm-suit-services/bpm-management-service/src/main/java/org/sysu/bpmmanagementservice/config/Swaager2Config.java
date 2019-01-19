@@ -21,7 +21,7 @@ public class Swaager2Config {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("org.sysu.bpmmanagementservice"))
+                .apis(RequestHandlerSelectors.basePackage("org.sysu.bpmmanagementservice.controller.client"))
                 .paths(PathSelectors.any())
                 .build();
     }

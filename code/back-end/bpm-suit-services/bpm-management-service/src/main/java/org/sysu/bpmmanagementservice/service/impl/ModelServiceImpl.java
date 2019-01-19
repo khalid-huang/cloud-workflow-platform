@@ -86,7 +86,7 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public HashMap<String, Object> modelList() {
         HashMap<String, Object> result = new HashMap<>();
-        List<Model> models = repositoryService.createModelQuery().orderByCreateTime().list();
+        List<Model> models = repositoryService.createModelQuery().orderByCreateTime().asc().list();
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("models", models);
         return result;
@@ -103,7 +103,7 @@ public class ModelServiceImpl implements ModelService {
         pagination.setPageTotal(totalPages);
 
         List<Model> models = repositoryService.createModelQuery()
-                .orderByCreateTime().listPage(pagination.getStart(), pagination.getEnd());
+                .orderByCreateTime().asc().listPage(pagination.getStart(), pagination.getEnd());
         pagination.setRows(models);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("modelsPage", pagination);
