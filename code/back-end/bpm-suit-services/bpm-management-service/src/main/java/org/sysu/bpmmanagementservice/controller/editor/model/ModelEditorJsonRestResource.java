@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sysu.bpmmanagementservice.modeler.activiti.rest.editor.model;
+package org.sysu.bpmmanagementservice.controller.editor.model;
 
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.engine.ActivitiException;

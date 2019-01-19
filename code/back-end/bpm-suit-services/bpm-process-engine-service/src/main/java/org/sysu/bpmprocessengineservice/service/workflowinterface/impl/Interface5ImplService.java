@@ -73,12 +73,12 @@ public class Interface5ImplService implements Interface5Service {
     }
 
     @Override
-    public HashMap<String, Object> getProcessInstancesPage(int pageSize, int pageNumber) {
+    public HashMap<String, Object> getProcessInstancesPage(int pageNumber, int pageSize) {
         HashMap<String, Object> result = new HashMap<>();
         Pagination pagination = new Pagination(pageNumber, pageSize);
 
-        int totalCount = (int) runtimeService.createProcessInstanceQuery().count();
 
+        int totalCount = (int) runtimeService.createProcessInstanceQuery().count();
 
         List<ProcessInstance> processInstances =  runtimeService.createProcessInstanceQuery()
                 .orderByProcessDefinitionKey().asc().listPage(pagination.getStart(), pagination.getEnd());
@@ -113,6 +113,7 @@ public class Interface5ImplService implements Interface5Service {
         }
         pagination.setRows(processInstanceMonitorVos);
         pagination.setRowTotal(totalCount);
+        pagination.setPageTotal((int) Math.ceil(totalCount/pageNumber));
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("processInstanceMonitorVos", pagination);
         return result;

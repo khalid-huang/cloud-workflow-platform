@@ -1,6 +1,6 @@
 package org.sysu.bpmmanagementservice;
 
-import org.sysu.bpmmanagementservice.modeler.activiti.modeler.JsonpCallbackFilter;
+import org.sysu.bpmmanagementservice.config.activiti.modeler.explorer.JsonpCallbackFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

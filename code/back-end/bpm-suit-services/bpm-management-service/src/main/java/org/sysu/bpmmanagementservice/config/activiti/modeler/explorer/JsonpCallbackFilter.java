@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.modeler.activiti.modeler;
+package org.sysu.bpmmanagementservice.config.activiti.modeler.explorer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

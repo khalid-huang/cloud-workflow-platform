@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.sysu.bpmmanagementservice.modeler.activiti.rest.editor.main;
+package org.sysu.bpmmanagementservice.controller.editor.main;
 
 import java.io.InputStream;
 
