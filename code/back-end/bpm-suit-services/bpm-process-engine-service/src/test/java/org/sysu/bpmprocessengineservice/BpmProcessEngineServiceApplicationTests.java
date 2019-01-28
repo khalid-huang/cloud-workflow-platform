@@ -1,9 +1,6 @@
 package org.sysu.bpmprocessengineservice;
 
-import org.activiti.engine.ManagementService;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.engine.*;
 import org.activiti.engine.impl.persistence.entity.IdentityLinkEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -32,6 +29,10 @@ public class BpmProcessEngineServiceApplicationTests {
 
     @Autowired
     RuntimeService runtimeService;
+
+    @Autowired
+    IdentityService identityService;
+
 
     @Autowired
     ManagementService managementService;
