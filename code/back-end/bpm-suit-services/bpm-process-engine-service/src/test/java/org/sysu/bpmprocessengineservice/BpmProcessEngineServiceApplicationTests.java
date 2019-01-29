@@ -1,6 +1,8 @@
 package org.sysu.bpmprocessengineservice;
 
 import org.activiti.engine.*;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.IdentityLinkEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -47,7 +49,6 @@ public class BpmProcessEngineServiceApplicationTests {
         repositoryService.createDeployment().addClasspathResource(r2).deploy();
         repositoryService.createDeployment().addClasspathResource(r3).deploy();
         repositoryService.createDeployment().addClasspathResource(r4).deploy();
-
         ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
         ProcessInstance processInstance2 = runtimeService.startProcessInstanceByKey("load-application");
         ProcessInstance processInstance3 = runtimeService.startProcessInstanceByKey("leave-process");

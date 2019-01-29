@@ -434,6 +434,7 @@ DROP TABLE IF EXISTS `act_id_membership`;
 CREATE TABLE `act_id_membership` (
   `USER_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
   `GROUP_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `BIND_NUM_` int(11) COLLATE utf8_bin DEFAULT 0,
   PRIMARY KEY (`USER_ID_`,`GROUP_ID_`),
   KEY `ACT_FK_MEMB_GROUP` (`GROUP_ID_`),
   CONSTRAINT `ACT_FK_MEMB_GROUP` FOREIGN KEY (`GROUP_ID_`) REFERENCES `act_id_group` (`ID_`),
@@ -794,3 +795,91 @@ CREATE TABLE `act_ru_variable` (
 -- INSERT INTO `act_ru_variable` VALUES ('277517', '1', 'integer', 'needfinish', '277505', '277505', null, null, null, '1', '1', null);
 -- INSERT INTO `act_ru_variable` VALUES ('277520', '1', 'serializable', 'leaveOpinionList', '277505', '277505', null, '277519', null, null, null, null);
 -- INSERT INTO `act_ru_variable` VALUES ('277538', '1', 'serializable', 'baseTask', '277535', '277535', null, '277537', null, null, null, null);
+
+-- ----------------------------
+-- Table structure for `ren_capability`
+-- ----------------------------
+DROP TABLE IF EXISTS `ren_capability`;
+CREATE TABLE `ren_capability` (
+  `id` varchar(64) NOT NULL,
+  `name` text,
+  `description` text,
+  `note` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ren_capability
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `ren_cconfig`
+-- ----------------------------
+DROP TABLE IF EXISTS `ren_cconfig`;
+CREATE TABLE `ren_cconfig` (
+  `rkey` varchar(64) NOT NULL,
+  `rvalue` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`rkey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ren_cconfig
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `ren_group`
+-- ----------------------------
+DROP TABLE IF EXISTS `ren_group`;
+CREATE TABLE `ren_group` (
+  `id` varchar(64) NOT NULL,
+  `name` text,
+  `description` text,
+  `note` text,
+  `belongToId` varchar(64) DEFAULT NULL,
+  `groupType` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ren_group
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `ren_position`
+-- ----------------------------
+DROP TABLE IF EXISTS `ren_position`;
+CREATE TABLE `ren_position` (
+  `id` varchar(64) NOT NULL,
+  `name` text,
+  `description` text,
+  `note` text,
+  `belongToId` varchar(64) DEFAULT NULL,
+  `reportToId` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ren_position
+-- ----------------------------
+
+
+
+-- ----------------------------
+-- Table structure for `role_mapping`
+-- ----------------------------
+
+DROP TABLE IF EXISTS `role_mapping`;
+CREATE TABLE `role_mapping` (
+  `id` varchar(64) NOT NULL,
+  `mapped_gid` varchar(64) NOT NULL,
+  `mapped_type` int(11) NOT NULL,
+  `mapped_name` text NOT NULL,
+  `brole_id` varchar(64) NOT NULL,
+  `brole_name` text NOT NULL,
+  `data_version` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of role_mapping
+-- ----------------------------
