@@ -862,7 +862,21 @@ CREATE TABLE `ren_position` (
 -- Records of ren_position
 -- ----------------------------
 
+-- ----------------------------
+-- Table structure for `ren_connect`
+-- ----------------------------
+DROP TABLE IF EXISTS `ren_connect`;
+CREATE TABLE `ren_connect` (
+  `id` varchar(64) NOT NULL,
+  `user_id` varchar(64) DEFAULT NULL,
+  `belongToOrganizabledId` varchar(64) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Records of ren_position
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `role_mapping`

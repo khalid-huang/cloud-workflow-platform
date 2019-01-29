@@ -1,9 +1,9 @@
-package org.sysu.bpmmanagementservice.entity;
+package org.sysu.bpmmanagementservice.entity.multikeyclass;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class MembershipMultiKeysClass implements Serializable {
+public class ActIdMembershipMKC implements Serializable {
     private String userId;
     private String groupId;
 
@@ -27,7 +27,7 @@ public class MembershipMultiKeysClass implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MembershipMultiKeysClass that = (MembershipMultiKeysClass) o;
+        ActIdMembershipMKC that = (ActIdMembershipMKC) o;
         return Objects.equals(userId, that.userId) &&
                 Objects.equals(groupId, that.groupId);
     }

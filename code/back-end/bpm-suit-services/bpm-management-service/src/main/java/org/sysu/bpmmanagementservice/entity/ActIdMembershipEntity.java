@@ -1,11 +1,13 @@
 package org.sysu.bpmmanagementservice.entity;
 
+import org.sysu.bpmmanagementservice.entity.multikeyclass.ActIdMembershipMKC;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "act_id_membership")
-@IdClass(MembershipMultiKeysClass.class)
-public class MembershipEntity {
+@IdClass(ActIdMembershipMKC.class)
+public class ActIdMembershipEntity {
 
     @Id
     @Column(name = "USER_ID_")
