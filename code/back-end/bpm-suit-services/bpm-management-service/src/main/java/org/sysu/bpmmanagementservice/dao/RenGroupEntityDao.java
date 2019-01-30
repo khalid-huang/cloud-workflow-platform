@@ -9,5 +9,9 @@ public interface RenGroupEntityDao {
 
     RenGroupEntity deleteByName(String name);
 
+    RenGroupEntity findByName(String name);
+
     List<RenGroupEntity> findAll();
+
+    RenGroupEntity findById(String id);
 }

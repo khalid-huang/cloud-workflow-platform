@@ -25,6 +25,16 @@ public class RenCapabilityEntityDaoImpl implements RenCapabilityEntityDao {
     }
 
     @Override
+    public RenCapabilityEntity findByName(String name) {
+        return renCapabilityEntityRepository.findByName(name);
+    }
+
+    @Override
+    public RenCapabilityEntity findById(String id) {
+        return renCapabilityEntityRepository.findById(id);
+    }
+
+    @Override
     public List<RenCapabilityEntity> findAll() {
         return renCapabilityEntityRepository.findAll();
     }

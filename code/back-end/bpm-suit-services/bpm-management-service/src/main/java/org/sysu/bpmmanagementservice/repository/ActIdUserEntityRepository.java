@@ -6,5 +6,9 @@ import org.sysu.bpmmanagementservice.entity.ActIdUserEntity;
 public interface ActIdUserEntityRepository extends JpaRepository<ActIdUserEntity, String> {
     ActIdUserEntity deleteById(String id);
 
+    ActIdUserEntity findById(String id);
+
+    ActIdUserEntity findByUsername(String username);
+
     ActIdUserEntity deleteByFirstNameAndLastName(String firstName, String lastName);
 }

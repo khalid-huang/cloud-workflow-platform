@@ -9,5 +9,9 @@ public interface RenCapabilityEntityDao {
 
     RenCapabilityEntity deleteByName(String name);
 
+    RenCapabilityEntity findByName(String name);
+
+    RenCapabilityEntity findById(String id);
+
     List<RenCapabilityEntity> findAll();
 }

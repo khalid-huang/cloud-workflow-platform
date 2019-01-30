@@ -10,4 +10,8 @@ public interface RenPositionEntityDao {
     RenPositionEntity deleteByName(String name);
 
     List<RenPositionEntity> findAll();
+
+    RenPositionEntity findByName(String name);
+
+    RenPositionEntity findById(String id);
 }

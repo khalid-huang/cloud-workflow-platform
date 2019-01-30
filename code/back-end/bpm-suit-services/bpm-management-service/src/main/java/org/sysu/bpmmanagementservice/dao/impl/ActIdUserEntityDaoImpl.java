@@ -19,6 +19,11 @@ public class ActIdUserEntityDaoImpl implements ActIdUserEntityDao {
     }
 
     @Override
+    public ActIdUserEntity findById(String id) {
+        return actIdUserEntityRepository.findById(id);
+    }
+
+    @Override
     public ActIdUserEntity deleteById(String id) {
         return actIdUserEntityRepository.deleteById(id);
     }
@@ -31,5 +36,10 @@ public class ActIdUserEntityDaoImpl implements ActIdUserEntityDao {
     @Override
     public List<ActIdUserEntity> findAll() {
         return actIdUserEntityRepository.findAll();
+    }
+
+    @Override
+    public ActIdUserEntity findByUsername(String username) {
+        return actIdUserEntityRepository.findByUsername(username);
     }
 }

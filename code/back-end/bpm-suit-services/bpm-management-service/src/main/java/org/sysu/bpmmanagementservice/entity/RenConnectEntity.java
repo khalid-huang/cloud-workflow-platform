@@ -11,14 +11,14 @@ public class RenConnectEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    @Column(name = "user_id")
-    private String userId;
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "belongToOrganizableId")
     private String belongToOrganizabledId;
 
     @Column(name = "type")
-    private String type;
+    private int type;
 
     public String getId() {
         return id;
@@ -28,12 +28,12 @@ public class RenConnectEntity {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getBelongToOrganizabledId() {
@@ -44,11 +44,11 @@ public class RenConnectEntity {
         this.belongToOrganizabledId = belongToOrganizabledId;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 }

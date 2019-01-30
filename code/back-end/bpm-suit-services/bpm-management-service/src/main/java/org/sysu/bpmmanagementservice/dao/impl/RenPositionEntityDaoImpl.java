@@ -27,4 +27,14 @@ public class RenPositionEntityDaoImpl implements RenPositionEntityDao {
     public List<RenPositionEntity> findAll() {
         return renPositionEntityRepository.findAll();
     }
+
+    @Override
+    public RenPositionEntity findByName(String name) {
+        return renPositionEntityRepository.findByName(name);
+    }
+
+    @Override
+    public RenPositionEntity findById(String id) {
+        return renPositionEntityRepository.findById(id);
+    }
 }

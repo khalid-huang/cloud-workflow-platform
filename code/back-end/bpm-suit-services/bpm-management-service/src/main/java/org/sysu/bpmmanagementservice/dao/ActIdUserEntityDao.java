@@ -12,4 +12,8 @@ public interface ActIdUserEntityDao {
     ActIdUserEntity deleteByFirstNameAndLastName(String firstName, String lastName);
 
     List<ActIdUserEntity> findAll();
+
+    ActIdUserEntity findById(String id);
+
+    ActIdUserEntity findByUsername(String username);
 }
