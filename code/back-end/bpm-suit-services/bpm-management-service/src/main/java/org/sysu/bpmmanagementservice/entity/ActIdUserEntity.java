@@ -5,12 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "act_id_user")
 public class ActIdUserEntity {
+    /** 用户名 */
     @Id
     @Column(name = "ID_")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-
-    @Column(name = "USERNAME_")
     private String username;
 
     @Column(name = "REV_")
@@ -31,14 +28,6 @@ public class ActIdUserEntity {
     @Column(name = "PICTURE_ID_")
     private String pictureId;
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

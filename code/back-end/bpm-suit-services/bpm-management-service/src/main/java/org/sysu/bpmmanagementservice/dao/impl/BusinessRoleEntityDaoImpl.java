@@ -19,6 +19,11 @@ public class BusinessRoleEntityDaoImpl implements BusinessRoleEntityDao {
     }
 
     @Override
+    public BusinessRoleEntity findByName(String name) {
+        return businessRoleEntityRepository.findByName(name);
+    }
+
+    @Override
     public BusinessRoleEntity deleteByName(String name) {
         return businessRoleEntityRepository.deleteByName(name);
     }

@@ -38,7 +38,6 @@ public class OrgDataServiceImpl implements OrgDataService {
         actIdUserEntity.setFirstName(firstName);
         actIdUserEntity.setLastName(lastName);
         actIdUserEntity.setPassword(password);
-        actIdUserEntity.setId(null);
         actIdUserEntity =  actIdUserEntityDao.saveOrUpdate(actIdUserEntity);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", actIdUserEntity);
@@ -46,32 +45,23 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> removeHuman(String id) {
+    public HashMap<String, Object> removeHuman(String username) {
         HashMap<String, Object> result = new HashMap<>();
-        ActIdUserEntity actIdUserEntity =  actIdUserEntityDao.deleteById(id);
+        ActIdUserEntity actIdUserEntity =  actIdUserEntityDao.deleteByUsername(username);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return result;
     }
 
     /** 只有密码可以修改 */
     @Override
-    public HashMap<String, Object> updateHuman(String id, HashMap<String, String> pairs) {
+    public HashMap<String, Object> updateHuman(String username, HashMap<String, String> pairs) {
         HashMap<String, Object> result = new HashMap<>();
-        ActIdUserEntity actIdUserEntity = actIdUserEntityDao.findById(id);
+        ActIdUserEntity actIdUserEntity = actIdUserEntityDao.findByUsername(username);
         if(pairs.get("password") != null) {
             actIdUserEntity.setPassword(pairs.get("password"));
             actIdUserEntityDao.saveOrUpdate(actIdUserEntity);
         }
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        return result;
-    }
-
-    @Override
-    public HashMap<String, Object> retrieveHumanById(String id) {
-        HashMap<String, Object> result = new HashMap<>();
-        ActIdUserEntity  actIdUserEntity = actIdUserEntityDao.findById(id);
-        result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", actIdUserEntity);
         return result;
     }
 
@@ -371,7 +361,7 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> retriveAllConnection() {
+    public HashMap<String, Object> retrieveAllConnection() {
         HashMap<String, Object> result = new HashMap<>();
         List<RenConnectEntity> renConnectEntities = renConnectEntityDao.findAll();
         HashMap<String, RenConnectionVo> allConnectVo = new HashMap<>();
@@ -392,6 +382,33 @@ public class OrgDataServiceImpl implements OrgDataService {
         }
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", allConnectVo);
+        return result;
+    }
+
+    /** 只返回username就可以了*/
+    @Override
+    public HashMap<String, Object> retrieveAllHumanInPosition(String positionId) {
+        HashMap<String, Object> result = new HashMap<>();
+        List<RenConnectEntity> renConnectEntities = renConnectEntityDao.findAllByBelongToOrganizabledIdAndType(positionId, GlobalContext.RENCONNECT_TYPE_POSITION);
+        List<String> usernames = new ArrayList<>();
+        for(RenConnectEntity renConnectEntity : renConnectEntities) {
+            usernames.add(renConnectEntity.getUsername());
+        }
+        result.put("status", ResponseConstantManager.STATUS_SUCCESS);
+        result.put("data", usernames);
+        return result;
+    }
+
+    @Override
+    public HashMap<String, Object> retrieveAllHumanWithCapability(String capabilityId) {
+        HashMap<String, Object> result = new HashMap<>();
+        List<RenConnectEntity> renConnectEntities = renConnectEntityDao.findAllByBelongToOrganizabledIdAndType(capabilityId, GlobalContext.RENCONNECT_TYPE_POSITION);
+        List<String> usernames = new ArrayList<>();
+        for(RenConnectEntity renConnectEntity : renConnectEntities) {
+            usernames.add(renConnectEntity.getUsername());
+        }
+        result.put("data", usernames);
+        result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return result;
     }
 }

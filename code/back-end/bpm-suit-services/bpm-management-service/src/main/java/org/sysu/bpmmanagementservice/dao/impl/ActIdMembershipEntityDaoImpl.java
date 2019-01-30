@@ -18,6 +18,11 @@ public class ActIdMembershipEntityDaoImpl implements ActIdMembershipEntityDao {
 
     @Override
     public ActIdMembershipEntity deleteByGroupIdAndUserId(String groupId, String userId) {
-        return actIdMembershipEntityRepository.deleteActIdMembershipEntitiyByGroupIdAndUserId(groupId, userId);
+        return actIdMembershipEntityRepository.deleteByGroupIdAndUserId(groupId, userId);
+    }
+
+    @Override
+    public ActIdMembershipEntity findByGroupIdAndUserId(String groupId, String userId) {
+        return actIdMembershipEntityRepository.findByGroupIdAndUserId(groupId, userId);
     }
 }

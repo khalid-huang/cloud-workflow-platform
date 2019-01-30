@@ -37,4 +37,9 @@ public class RenConnectEntityDaoImpl implements RenConnectEntityDao {
     public List<RenConnectEntity> findAll() {
         return renConnectEntityRepository.findAll();
     }
+
+    @Override
+    public List<RenConnectEntity> findAllByBelongToOrganizabledIdAndType(String belongToOrganizabled, int type) {
+        return renConnectEntityRepository.findAllByBelongToOrganizabledIdAndType(belongToOrganizabled, type);
+    }
 }

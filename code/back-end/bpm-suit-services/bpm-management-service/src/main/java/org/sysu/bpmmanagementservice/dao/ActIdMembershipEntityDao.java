@@ -8,4 +8,5 @@ public interface ActIdMembershipEntityDao {
 
     ActIdMembershipEntity deleteByGroupIdAndUserId(String groupId, String userId);
 
+    ActIdMembershipEntity findByGroupIdAndUserId(String groupId, String userId);
 }

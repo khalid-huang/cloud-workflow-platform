@@ -12,5 +12,6 @@ public interface RenConnectEntityRepository extends JpaRepository<RenConnectEnti
 
     RenConnectEntity deleteByUsernameAndBelongToOrganizabledIdAAndType(String username, String belongToOrganizabledId, int type);
 
+    List<RenConnectEntity> findAllByBelongToOrganizabledIdAndType(String belongToOrganizabledId, int type);
 
 }

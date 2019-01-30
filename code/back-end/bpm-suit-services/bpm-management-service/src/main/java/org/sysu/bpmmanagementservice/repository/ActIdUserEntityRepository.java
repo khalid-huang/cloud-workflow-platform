@@ -4,9 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.sysu.bpmmanagementservice.entity.ActIdUserEntity;
 
 public interface ActIdUserEntityRepository extends JpaRepository<ActIdUserEntity, String> {
-    ActIdUserEntity deleteById(String id);
-
-    ActIdUserEntity findById(String id);
+    ActIdUserEntity deleteByUsername(String username);
 
     ActIdUserEntity findByUsername(String username);
 

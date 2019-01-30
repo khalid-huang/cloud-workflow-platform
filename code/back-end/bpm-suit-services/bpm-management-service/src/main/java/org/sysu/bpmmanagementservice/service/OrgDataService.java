@@ -9,11 +9,9 @@ public interface OrgDataService {
     /** 人类 */
     HashMap<String, Object> addHuman(String firstName, String lastName, String email, String password);
 
-    HashMap<String, Object> removeHuman(String id);
+    HashMap<String, Object> removeHuman(String username);
 
-    HashMap<String, Object> updateHuman(String id, HashMap<String, String> pairs);
-
-    HashMap<String, Object> retrieveHumanById(String id);
+    HashMap<String, Object> updateHuman(String username, HashMap<String, String> pairs);
 
     HashMap<String, Object> retrieveHumanByUsername(String username);
 
@@ -30,7 +28,7 @@ public interface OrgDataService {
 
     HashMap<String, Object> retrieveAllGroup();
 
-    /** 职位 */
+    /** position */
     HashMap<String, Object> addPosition(String name, String description, String note, String belongToId, String reportToId);
 
     HashMap<String, Object> removePositionByName(String name);
@@ -56,9 +54,17 @@ public interface OrgDataService {
     //移除用户所有的连接
     HashMap<String, Object> removeHumanConnection(String username);
 
+    /** 查找特定用户有哪些职位 */
     HashMap<String, Object> retrieveHumanInWhatPosition(String username);
 
+    /** 查找特定职位有哪些人员 */
+    HashMap<String, Object> retrieveAllHumanInPosition(String positionId);
+
+    /** 查询特定用户有哪些能力*/
     HashMap<String, Object> retrieveHumanWithWhatCapability(String username);
+
+    /** 查询特定能力有哪些人员 */
+    HashMap<String, Object> retrieveAllHumanWithCapability(String capabilityId);
 
     HashMap<String, Object> addHumanPosition(String username, String positionId);
 
@@ -68,5 +74,5 @@ public interface OrgDataService {
 
     HashMap<String, Object> removeHumanCapability(String username, String capabilityId);
 
-    HashMap<String, Object> retriveAllConnection();
+    HashMap<String, Object> retrieveAllConnection();
 }

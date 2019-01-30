@@ -456,7 +456,6 @@ CREATE TABLE `act_id_membership` (
 DROP TABLE IF EXISTS `act_id_user`;
 CREATE TABLE `act_id_user` (
   `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `USERNAME_` varchar(64) COLLATE utf8_bin NOT NULL,
   `REV_` int(11) DEFAULT NULL,
   `FIRST_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `LAST_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -886,10 +885,8 @@ CREATE TABLE `ren_connect` (
 DROP TABLE IF EXISTS `role_mapping`;
 CREATE TABLE `role_mapping` (
   `id` varchar(64) NOT NULL,
-  `mapped_gid` varchar(64) NOT NULL,
+  `mapped_id` varchar(64) NOT NULL,
   `mapped_type` int(11) NOT NULL,
-  `mapped_name` text NOT NULL,
-  `brole_id` varchar(64) NOT NULL,
   `brole_name` text NOT NULL,
   `data_version` text DEFAULT NULL,
   PRIMARY KEY (`id`)

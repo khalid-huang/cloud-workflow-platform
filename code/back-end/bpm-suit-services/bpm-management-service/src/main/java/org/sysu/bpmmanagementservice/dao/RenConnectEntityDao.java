@@ -13,5 +13,7 @@ public interface RenConnectEntityDao {
 
     RenConnectEntity deleteByUsernameAndBelongToOrganizabledIdAndType(String username, String belongToOrganizabledId, int type);
 
+    List<RenConnectEntity> findAllByBelongToOrganizabledIdAndType(String belongToOrganizabled, int type);
+
     List<RenConnectEntity> findAll();
 }

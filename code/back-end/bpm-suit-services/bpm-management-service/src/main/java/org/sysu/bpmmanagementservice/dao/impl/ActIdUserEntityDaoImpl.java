@@ -19,13 +19,8 @@ public class ActIdUserEntityDaoImpl implements ActIdUserEntityDao {
     }
 
     @Override
-    public ActIdUserEntity findById(String id) {
-        return actIdUserEntityRepository.findById(id);
-    }
-
-    @Override
-    public ActIdUserEntity deleteById(String id) {
-        return actIdUserEntityRepository.deleteById(id);
+    public ActIdUserEntity deleteByUsername(String username) {
+        return actIdUserEntityRepository.deleteByUsername(username);
     }
 
     @Override

@@ -88,6 +88,14 @@ public class BpmProcessEngineServiceApplicationTests {
 
     @Test
     public void suspendContext() {
+        Group group = identityService.newGroup("21");
+        group.setName("manager");
+        group.setType("manager");
+        identityService.saveGroup(group);
+        User user = identityService.newUser("mike1");
+        identityService.saveUser(user);
+        identityService.createMembership(user.getId(),group.getId());
+
     }
 
 }

@@ -6,9 +6,9 @@ import javax.persistence.*;
 @Table(name = "act_id_group")
 public class BusinessRoleEntity {
 
+    /** 设计上，让id == name，表示业务角色名称*/
     @Id
     @Column(name = "ID_")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "REV_")
