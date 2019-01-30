@@ -31,9 +31,10 @@ public class OrgDataServiceImpl implements OrgDataService {
     RenConnectEntityDao renConnectEntityDao;
 
     @Override
-    public HashMap<String, Object> addHuman(String firstName, String lastName, String email, String password) {
+    public HashMap<String, Object> addHuman(String username, String firstName, String lastName, String email, String password) {
         HashMap<String, Object> result = new HashMap<>();
         ActIdUserEntity actIdUserEntity = new ActIdUserEntity();
+        actIdUserEntity.setUsername(username);
         actIdUserEntity.setEmail(email);
         actIdUserEntity.setFirstName(firstName);
         actIdUserEntity.setLastName(lastName);
@@ -59,8 +60,11 @@ public class OrgDataServiceImpl implements OrgDataService {
         ActIdUserEntity actIdUserEntity = actIdUserEntityDao.findByUsername(username);
         if(pairs.get("password") != null) {
             actIdUserEntity.setPassword(pairs.get("password"));
-            actIdUserEntityDao.saveOrUpdate(actIdUserEntity);
         }
+        if(pairs.get("email") != null) {
+            actIdUserEntity.setEmail(pairs.get("email"));
+        }
+        actIdUserEntityDao.saveOrUpdate(actIdUserEntity);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return result;
     }
@@ -75,7 +79,7 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> findAllHuman() {
+    public HashMap<String, Object> retrieveAllHuman() {
         HashMap<String, Object> result = new HashMap<>();
         List<ActIdUserEntity> humans = actIdUserEntityDao.findAll();
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -131,9 +135,9 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> retrieveGroup(String id) {
+    public HashMap<String, Object> retrieveGroupByName(String name) {
         HashMap<String, Object> result = new HashMap<>();
-        RenGroupEntity renGroupEntity = renGroupEntityDao.findById(id);
+        RenGroupEntity renGroupEntity = renGroupEntityDao.findByName(name);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renGroupEntity);
         return result;

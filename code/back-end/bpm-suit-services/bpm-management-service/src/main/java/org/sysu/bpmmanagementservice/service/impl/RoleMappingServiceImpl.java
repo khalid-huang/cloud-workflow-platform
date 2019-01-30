@@ -41,6 +41,7 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     public HashMap<String, Object> addBusinessRole(String name) {
         HashMap<String, Object> result = new HashMap<>();
         BusinessRoleEntity businessRoleEntity = new BusinessRoleEntity();
+        businessRoleEntity.setId(name);
         businessRoleEntity.setName(name);
         businessRoleEntity =  businessRoleEntityDao.saveOrUpdate(businessRoleEntity);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);

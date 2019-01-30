@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public interface OrgDataService {
     /** 人类 */
-    HashMap<String, Object> addHuman(String firstName, String lastName, String email, String password);
+    HashMap<String, Object> addHuman(String username, String firstName, String lastName, String email, String password);
 
     HashMap<String, Object> removeHuman(String username);
 
@@ -15,7 +15,7 @@ public interface OrgDataService {
 
     HashMap<String, Object> retrieveHumanByUsername(String username);
 
-    HashMap<String, Object> findAllHuman();
+    HashMap<String, Object> retrieveAllHuman();
 
     /** group */
     HashMap<String, Object> addGroup(String name, String description, String note, String belongToId, int groupType);
@@ -24,7 +24,7 @@ public interface OrgDataService {
 
     HashMap<String, Object> updateGroup(String name, HashMap<String, String> pairs);
 
-    HashMap<String, Object> retrieveGroup(String id);
+    HashMap<String, Object> retrieveGroupByName(String name);
 
     HashMap<String, Object> retrieveAllGroup();
 
