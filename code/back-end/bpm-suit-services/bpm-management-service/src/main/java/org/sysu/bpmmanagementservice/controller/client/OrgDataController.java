@@ -157,7 +157,122 @@ public class OrgDataController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @ApiOperation(value = "根据id获取职位相关信息")
+    @GetMapping(value = "/positions/{id}")
+    public ResponseEntity<?> retrievePositionById(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = orgDataService.retrievePositionById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 
+    @ApiOperation(value = "获取全部职位信息")
+    @GetMapping(value = "/positions")
+    public ResponseEntity<?> retrieveAllPosition() {
+        HashMap<String, Object> result = orgDataService.retrieveAllPosition();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 
+    @ApiOperation(value = "添加能力")
+    @PostMapping(value = "/capabilities/")
+    public ResponseEntity<?> addCapability(@RequestParam(value = "name") String name,
+                                           @RequestParam(value = "description", required = false) String description,
+                                           @RequestParam(value = "note", required = false) String note) {
+        HashMap<String, Object> result = orgDataService.addCapability(name, description, note);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "根据Id删除能力")
+    @DeleteMapping(value = "/capabilities/{id}")
+    public ResponseEntity<?> removeCapabilityById(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = orgDataService.removeCapabilityById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "根据id更新能力")
+    @PostMapping(value = "/capabilities/{id}")
+    public ResponseEntity<?> updateCapability(@PathVariable(value = "id") String id,
+                                             @RequestParam(value = "name") String name,
+                                             @RequestParam(value = "description", required = false) String description,
+                                             @RequestParam(value = "note", required = false) String note) {
+        HashMap<String, String> pairs = new HashMap<>();
+        pairs.put("name", name);
+        if(description != null) pairs.put("description", description);
+        if(note != null) pairs.put("note", note);
+
+        HashMap<String, Object> result = orgDataService.updateCapability(id, pairs);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "根据id获取能力")
+    @GetMapping(value = "/capabilities/{}id")
+    public ResponseEntity<?> retrieveCapabilityById(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = orgDataService.retrieveCapabilityById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "获取全部能力")
+    @GetMapping(value = "/capabilities")
+    public ResponseEntity<?> retrieveAllCapability() {
+        HashMap<String, Object> result = orgDataService.retrieveAllCapability();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "删除指定用户与组织架构的所有连接")
+    @DeleteMapping(value = "/humans/{username}/connections")
+    public ResponseEntity<?> removeHumanConnection(@PathVariable(value = "username") String username) {
+        HashMap<String, Object> result = orgDataService.removeHumanConnection(username);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "查询用户拥有哪些职位")
+    @GetMapping(value = "/humans/{username}/positions/")
+    public ResponseEntity<?> retrieveHumanInWithPosition(@PathVariable(value = "username") String username) {
+        HashMap<String, Object> result = orgDataService.retrieveHumanInWhatPosition(username);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "查询指定职位有哪些员工")
+    @GetMapping(value = "/positions/{id}/humans")
+    public ResponseEntity<?> retrieveAllHumanInPosition(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = orgDataService.retrieveAllHumanInPosition(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "查询用户拥有哪些能力")
+    @GetMapping(value = "/humans/{username}/capabilities")
+    public ResponseEntity<?> retrieveHumanWithWhatCapability(@PathVariable(value = "username") String username) {
+        HashMap<String, Object> result = orgDataService.retrieveHumanWithWhatCapability(username);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "查询指定能力有哪些人")
+    @GetMapping(value = "/capabilities/{id}/humans")
+    public ResponseEntity<?> retrieveAllHumanWithCapability(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = orgDataService.retrieveAllHumanWithCapability(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "给指定用户添加到指定职位")
+    @PostMapping(value = "connections/humanposition")
+    public ResponseEntity<?> addHumanPosition(@RequestParam(value = "username") String username,
+                                              @RequestParam(value = "positionId") String positionId) {
+        HashMap<String, Object> result = orgDataService.addHumanPosition(username, positionId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "去除指定用户的指定职位")
+    @DeleteMapping(value = "/connections/humanposition")
+    public ResponseEntity<?> removeHumanPosition(@RequestParam(value = "username") String username,
+                                                 @RequestParam(value = "positionId") String positionId) {
+        HashMap<String, Object> result = orgDataService.removeHumanPosition(username, positionId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "添加用户指定能力")
+    @PostMapping(value = "/connections/humancapability")
+    public ResponseEntity<?> addHumanCapability(@RequestParam(value = "username") String username,
+                                                @RequestParam(value = "capabilityId") String capabilityId) {
+        HashMap<String, Object> result = orgDataService.addHumanCapability(username, capabilityId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 
 }
