@@ -2,11 +2,11 @@ package org.sysu.bpmmanagementservice.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.sysu.bpmmanagementservice.component.RoleMappingAndOrgDataHelper;
 import org.sysu.bpmmanagementservice.constant.GlobalContext;
 import org.sysu.bpmmanagementservice.constant.ResponseConstantManager;
 import org.sysu.bpmmanagementservice.dao.*;
 import org.sysu.bpmmanagementservice.entity.*;
-import org.sysu.bpmmanagementservice.service.OrgDataService;
 import org.sysu.bpmmanagementservice.service.RoleMappingService;
 
 import java.util.ArrayList;
@@ -32,10 +32,11 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     RenCapabilityEntityDao renCapabilityEntityDao;
 
     @Autowired
-    OrgDataService orgDataService;
+    RoleMappingAndOrgDataHelper roleMappingAndOrgDataHelper;
 
     @Autowired
     ActIdMembershipEntityDao actIdMembershipEntityDao;
+
 
     @Override
     public HashMap<String, Object> addBusinessRole(String name) {
@@ -81,31 +82,10 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     /** 虽然这个操作耗时，但是这个操作很少用到，因为组织关系很少变动 */
     @Override
     @SuppressWarnings("unchecked")
-    public HashMap<String, Object> addPositionRoleName(String positionId, String roleName) {
+    public HashMap<String, Object> addPositionBroleName(String positionId, String broleName) {
         HashMap<String, Object> result = new HashMap<>();
-        RoleMappingEntity roleMappingEntity = new RoleMappingEntity();
-        roleMappingEntity.setBroleName(roleName);
-        roleMappingEntity.setMappedId(positionId);
-        roleMappingEntity.setMappedType(GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
-        roleMappingEntity =  roleMappingEntityDao.saveOrUpdate(roleMappingEntity);
-        //更新activiti的用户与组表
-        //查找有这个职位的所有用户
-        ArrayList<String> usernames = (ArrayList<String>) orgDataService.retrieveAllHumanInPosition(positionId).get("data");
-        //添加查找到的用户与业务角色的联系
-        //添加的要注意bind_num，添加一次就加一
-        for(String username : usernames) {
-            ActIdMembershipEntity actIdMembershipEntity = actIdMembershipEntityDao.findByGroupIdAndUserId(roleName, username);
-            //新建或更新
-            if(actIdMembershipEntity == null) {
-                actIdMembershipEntity = new ActIdMembershipEntity();
-                actIdMembershipEntity.setBindNum(1);
-                actIdMembershipEntity.setGroupId(roleName);
-                actIdMembershipEntity.setUserId(username);
-            } else {
-                actIdMembershipEntity.setBindNum(actIdMembershipEntity.getBindNum() + 1);
-            }
-            actIdMembershipEntityDao.saveOrUpdate(actIdMembershipEntity);
-        }
+        RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.addRoleMappingBetweenPositionAndBroleName(positionId, broleName);
+
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", roleMappingEntity);
         return result;
@@ -113,32 +93,18 @@ public class RoleMappingServiceImpl implements RoleMappingService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public HashMap<String, Object> removePositionRoleName(String positionId, String roleName) {
+    public HashMap<String, Object> removePositionBroleName(String positionId, String broleName) {
         HashMap<String, Object> result = new HashMap<>();
-        //删除actiivti里面的membeship表
-        ArrayList<String> usernames = (ArrayList<String>) orgDataService.retrieveAllHumanInPosition(positionId).get("data");
-        for(String username : usernames) {
-            //删除或更新
-            ActIdMembershipEntity actIdMembershipEntity = actIdMembershipEntityDao.findByGroupIdAndUserId(roleName, username);
-            if(actIdMembershipEntity.getBindNum() == 1) {
-                actIdMembershipEntityDao.deleteByGroupIdAndUserId(roleName, username);
-            } else {
-                actIdMembershipEntity.setBindNum(actIdMembershipEntity.getBindNum() - 1);
-                actIdMembershipEntityDao.saveOrUpdate(actIdMembershipEntity);
-            }
-        }
-
-        //删除roleMapping表
-        RoleMappingEntity roleMappingEntity = roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleName(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION, roleName);
+        RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.removeRoleMappingBetweenPositionAndBroleName(positionId, broleName);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", roleMappingEntity);
         return result;
     }
 
     @Override
-    public HashMap<String, Object> retrieveAllPositionsWithRoleName(String roleName) {
+    public HashMap<String, Object> retrieveAllPositionsWithBroleName(String broleName) {
        HashMap<String, Object> result = new HashMap<>();
-       List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByBroleNameAndMappedType(roleName, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
+       List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByBroleNameAndMappedType(broleName, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
        List<RenPositionEntity> renPositionEntities = new ArrayList<>();
        for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
            renPositionEntities.add(renPositionEntityDao.findById(roleMappingEntity.getMappedId()));
@@ -150,31 +116,10 @@ public class RoleMappingServiceImpl implements RoleMappingService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public HashMap<String, Object> addCapabilityRoleName(String capabilityId, String roleName) {
+    public HashMap<String, Object> addCapabilityBroleName(String capabilityId, String broleName) {
         HashMap<String, Object> result = new HashMap<>();
-        RoleMappingEntity roleMappingEntity = new RoleMappingEntity();
-        roleMappingEntity.setBroleName(roleName);
-        roleMappingEntity.setMappedId(capabilityId);
-        roleMappingEntity.setMappedType(GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
-        roleMappingEntity =  roleMappingEntityDao.saveOrUpdate(roleMappingEntity);
-        //更新activiti的用户与组表
-        //查找有这个能力的所有用户
-        ArrayList<String> usernames = (ArrayList<String>) orgDataService.retrieveAllHumanWithCapability(capabilityId).get("data");
-        //添加查找到的用户与业务角色的联系
-        //添加的要注意bind_num，添加一次就加一
-        for(String username : usernames) {
-            ActIdMembershipEntity actIdMembershipEntity = actIdMembershipEntityDao.findByGroupIdAndUserId(roleName, username);
-            //新建或更新
-            if(actIdMembershipEntity == null) {
-                actIdMembershipEntity = new ActIdMembershipEntity();
-                actIdMembershipEntity.setBindNum(1);
-                actIdMembershipEntity.setGroupId(roleName);
-                actIdMembershipEntity.setUserId(username);
-            } else {
-                actIdMembershipEntity.setBindNum(actIdMembershipEntity.getBindNum() + 1);
-            }
-            actIdMembershipEntityDao.saveOrUpdate(actIdMembershipEntity);
-        }
+        RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.addRoleMappingBetweenCapabilityAndBroleName(capabilityId, broleName);
+
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", roleMappingEntity);
         return result;
@@ -182,30 +127,16 @@ public class RoleMappingServiceImpl implements RoleMappingService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public HashMap<String, Object> removeCapabilityRoleName(String capabilityId, String roleName) {
+    public HashMap<String, Object> removeCapabilityBroleName(String capabilityId, String broleName) {
         HashMap<String, Object> result = new HashMap<>();
-        //删除actiivti里面的membeship表
-        ArrayList<String> usernames = (ArrayList<String>) orgDataService.retrieveAllHumanWithCapability(capabilityId).get("data");
-        for(String username : usernames) {
-            //删除或更新
-            ActIdMembershipEntity actIdMembershipEntity = actIdMembershipEntityDao.findByGroupIdAndUserId(roleName, username);
-            if(actIdMembershipEntity.getBindNum() == 1) {
-                actIdMembershipEntityDao.deleteByGroupIdAndUserId(roleName, username);
-            } else {
-                actIdMembershipEntity.setBindNum(actIdMembershipEntity.getBindNum() - 1);
-                actIdMembershipEntityDao.saveOrUpdate(actIdMembershipEntity);
-            }
-        }
-
-        //删除roleMapping表
-        RoleMappingEntity roleMappingEntity = roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleName(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY, roleName);
+        RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, broleName);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", roleMappingEntity);
         return result;
     }
 
     @Override
-    public HashMap<String, Object> retrieveAllCapabilitiesWithRoleName(String roleName) {
+    public HashMap<String, Object> retrieveAllCapabilitiesWithBroleName(String roleName) {
         HashMap<String, Object> result = new HashMap<>();
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByBroleNameAndMappedType(roleName, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
         List<RenCapabilityEntity> renCapabilityEntities = new ArrayList<>();

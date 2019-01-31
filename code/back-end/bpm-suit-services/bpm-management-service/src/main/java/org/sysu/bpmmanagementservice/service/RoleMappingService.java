@@ -13,18 +13,18 @@ public interface RoleMappingService {
     HashMap<String, Object> retrieveAllBusinessRole();
 
     /** rolemapping */
-    HashMap<String, Object> addPositionRoleName(String positionId, String roleName);
+    HashMap<String, Object> addPositionBroleName(String positionId, String broleName);
 
-    HashMap<String, Object> removePositionRoleName(String positionId, String roleName);
+    HashMap<String, Object> removePositionBroleName(String positionId, String broleName);
 
     /** 获取所有有相关业务角色的职位*/
-    HashMap<String, Object> retrieveAllPositionsWithRoleName(String roleName);
+    HashMap<String, Object> retrieveAllPositionsWithBroleName(String broleName);
 
-    HashMap<String, Object> addCapabilityRoleName(String capabilityId, String roleName);
+    HashMap<String, Object> addCapabilityBroleName(String capabilityId, String broleName);
 
-    HashMap<String, Object> removeCapabilityRoleName(String capabilityId, String roleName);
+    HashMap<String, Object> removeCapabilityBroleName(String capabilityId, String broleName);
 
-    HashMap<String, Object> retrieveAllCapabilitiesWithRoleName(String roleName);
+    HashMap<String, Object> retrieveAllCapabilitiesWithBroleName(String broleName);
 
     HashMap<String, Object> retrievAllroleMapping();
 

@@ -6,6 +6,8 @@ import org.sysu.bpmmanagementservice.dao.ActIdMembershipEntityDao;
 import org.sysu.bpmmanagementservice.entity.ActIdMembershipEntity;
 import org.sysu.bpmmanagementservice.repository.ActIdMembershipEntityRepository;
 
+import java.util.List;
+
 @Repository
 public class ActIdMembershipEntityDaoImpl implements ActIdMembershipEntityDao {
     @Autowired
@@ -24,5 +26,10 @@ public class ActIdMembershipEntityDaoImpl implements ActIdMembershipEntityDao {
     @Override
     public ActIdMembershipEntity findByGroupIdAndUserId(String groupId, String userId) {
         return actIdMembershipEntityRepository.findByGroupIdAndUserId(groupId, userId);
+    }
+
+    @Override
+    public List<ActIdMembershipEntity> deleteAllByUserId(String userId) {
+        return actIdMembershipEntityRepository.deleteAllByUserId(userId);
     }
 }

@@ -106,7 +106,34 @@ public class OrgDataController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    public 
+    @ApiOperation(value = "根据子组名称获取组信息")
+    @GetMapping(value = "/groups/{name}")
+    public ResponseEntity<?> retrieveGroupByName(@PathVariable(value = "name") String name) {
+        HashMap<String, Object> result = orgDataService.retrieveGroupByName(name);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "获取全部子组信息")
+    @GetMapping(value = "/groups")
+    public ResponseEntity<?> retrieveAllGroup() {
+        HashMap<String, Object> result = orgDataService.retrieveAllGroup();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "增加职位")
+    @PostMapping(value = "/positions")
+    public ResponseEntity<?> addPosition(@RequestParam(value = "name") String name,
+                                         @RequestParam(value = "description", required = false) String description,
+                                         @RequestParam(value = "note", required = false) String note,
+                                         @RequestParam(value = "belongToId", required = false) String belongToId,
+                                         @RequestParam(value = "reportToId", required = false) String reportToId) {
+        HashMap<String, Object> result = orgDataService.addPosition(name, description, note, belongToId, reportToId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    public ResponseEntity<?> removePositionByName() {
+
+    }
 
 
 

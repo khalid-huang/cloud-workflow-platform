@@ -1,7 +1,9 @@
 package org.sysu.bpmmanagementservice.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
+import org.sysu.bpmmanagementservice.component.RoleMappingAndOrgDataHelper;
 import org.sysu.bpmmanagementservice.constant.GlobalContext;
 import org.sysu.bpmmanagementservice.constant.ResponseConstantManager;
 import org.sysu.bpmmanagementservice.dao.*;
@@ -18,6 +20,9 @@ public class OrgDataServiceImpl implements OrgDataService {
     @Autowired
     ActIdUserEntityDao actIdUserEntityDao;
 
+    @AutoConfigureOrder
+    ActIdMembershipEntityDao actIdMembershipEntityDao;
+
     @Autowired
     RenCapabilityEntityDao renCapabilityEntityDao;
 
@@ -29,6 +34,9 @@ public class OrgDataServiceImpl implements OrgDataService {
 
     @Autowired
     RenConnectEntityDao renConnectEntityDao;
+
+    @Autowired
+    RoleMappingAndOrgDataHelper roleMappingAndOrgDataHelper;
 
     @Override
     public HashMap<String, Object> addHuman(String username, String firstName, String lastName, String email, String password) {
@@ -107,6 +115,7 @@ public class OrgDataServiceImpl implements OrgDataService {
     public HashMap<String, Object> removeGroupByName(String name) {
         HashMap<String, Object> result = new HashMap<>();
         RenGroupEntity renGroupEntity = renGroupEntityDao.deleteByName(name);
+        //这里也要做移除业务关系的；也就是把所有属于这个Group的Position的都要移除掉
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renGroupEntity);
         return result;
@@ -277,7 +286,7 @@ public class OrgDataServiceImpl implements OrgDataService {
         HashMap<String, Object> result = new HashMap<>();
         List<RenConnectEntity> renConnectEntities = renConnectEntityDao.deleteAllByUsername(username);
         //删除所有的mapping里面的后续操作，也就是对应的actiivti的用户在group里面的状态
-
+        actIdMembershipEntityDao.deleteAllByUserId(username);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renConnectEntities);
         return result;
@@ -320,6 +329,7 @@ public class OrgDataServiceImpl implements OrgDataService {
         renConnectEntity.setUsername(username);
         renConnectEntity =  renConnectEntityDao.saveOrUpdate(renConnectEntity);
         //进行业务关系底层映射实现（绑定activiti用户与组）
+        roleMappingAndOrgDataHelper.dealAfterAddHumanPosition(username, positionId);
 
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renConnectEntity);
@@ -332,7 +342,7 @@ public class OrgDataServiceImpl implements OrgDataService {
         HashMap<String, Object> result = new HashMap<>();
         RenConnectEntity renConnectEntity = renConnectEntityDao.deleteByUsernameAndBelongToOrganizabledIdAndType(username, positionId, GlobalContext.RENCONNECT_TYPE_POSITION);
         //处理底层映射
-
+        roleMappingAndOrgDataHelper.dealAfterRemoveHumanPosition(username, positionId);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renConnectEntity);
         return result;
@@ -347,6 +357,7 @@ public class OrgDataServiceImpl implements OrgDataService {
         renConnectEntity.setUsername(username);
         renConnectEntity =  renConnectEntityDao.saveOrUpdate(renConnectEntity);
         //进行业务关系底层映射实现（绑定activiti用户与组）
+        roleMappingAndOrgDataHelper.dealAfterAddHumanCapability(username, capabilityId);
 
         result.put("data", renConnectEntity);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -358,6 +369,7 @@ public class OrgDataServiceImpl implements OrgDataService {
         HashMap<String, Object> result = new HashMap<>();
         RenConnectEntity renConnectEntity = renConnectEntityDao.deleteByUsernameAndBelongToOrganizabledIdAndType(username, capabilityId, GlobalContext.RENCONNECT_TYPE_CAPABILITY);
         //处理底层映射
+        roleMappingAndOrgDataHelper.dealAfterRemoveHumanCapability(username, capabilityId);
 
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renConnectEntity);
@@ -393,11 +405,7 @@ public class OrgDataServiceImpl implements OrgDataService {
     @Override
     public HashMap<String, Object> retrieveAllHumanInPosition(String positionId) {
         HashMap<String, Object> result = new HashMap<>();
-        List<RenConnectEntity> renConnectEntities = renConnectEntityDao.findAllByBelongToOrganizabledIdAndType(positionId, GlobalContext.RENCONNECT_TYPE_POSITION);
-        List<String> usernames = new ArrayList<>();
-        for(RenConnectEntity renConnectEntity : renConnectEntities) {
-            usernames.add(renConnectEntity.getUsername());
-        }
+        List<String> usernames = roleMappingAndOrgDataHelper.retrieveAllHumanInPosition(positionId);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", usernames);
         return result;
@@ -406,13 +414,11 @@ public class OrgDataServiceImpl implements OrgDataService {
     @Override
     public HashMap<String, Object> retrieveAllHumanWithCapability(String capabilityId) {
         HashMap<String, Object> result = new HashMap<>();
-        List<RenConnectEntity> renConnectEntities = renConnectEntityDao.findAllByBelongToOrganizabledIdAndType(capabilityId, GlobalContext.RENCONNECT_TYPE_POSITION);
-        List<String> usernames = new ArrayList<>();
-        for(RenConnectEntity renConnectEntity : renConnectEntities) {
-            usernames.add(renConnectEntity.getUsername());
-        }
+        List<String> usernames = roleMappingAndOrgDataHelper.retrieveAllHumanWithCapability(capabilityId);
         result.put("data", usernames);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return result;
     }
+
+
 }
