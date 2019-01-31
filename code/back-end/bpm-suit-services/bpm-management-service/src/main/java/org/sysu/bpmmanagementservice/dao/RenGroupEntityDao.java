@@ -7,9 +7,7 @@ import java.util.List;
 public interface RenGroupEntityDao {
     RenGroupEntity saveOrUpdate(RenGroupEntity renGroupEntity);
 
-    RenGroupEntity deleteByName(String name);
-
-    RenGroupEntity findByName(String name);
+    RenGroupEntity deleteById(String id);
 
     List<RenGroupEntity> findAll();
 

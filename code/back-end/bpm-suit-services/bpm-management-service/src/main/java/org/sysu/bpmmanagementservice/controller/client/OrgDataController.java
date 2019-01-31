@@ -83,15 +83,16 @@ public class OrgDataController {
     }
 
     @ApiOperation(value = "根据子组名称删除")
-    @DeleteMapping(value = "/groups/{name}")
-    public ResponseEntity<?> removeGroupByName(@PathVariable(value = "name") String name) {
-        HashMap<String, Object> result = orgDataService.removeGroupByName(name);
+    @DeleteMapping(value = "/groups/{id}")
+    public ResponseEntity<?> removeGroupByName(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = orgDataService.removeGroupById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "根据子组信息")
-    @PostMapping(value = "/groups/{name}")
-    public ResponseEntity<?> updateGroup(@PathVariable(value = "name") String name,
+    @PostMapping(value = "/groups/{id}")
+    public ResponseEntity<?> updateGroup(@PathVariable(value = "id") String id,
+                                         @RequestParam(value = "name", required = false) String name,
                                          @RequestParam(value = "description", required = false) String description,
                                          @RequestParam(value = "note", required = false) String note,
                                          @RequestParam(value = "belongToId", required = false) String belongToId,
@@ -102,14 +103,14 @@ public class OrgDataController {
         if(belongToId != null) pairs.put("belongToId", belongToId);
         if(groupType != null) pairs.put("groupType", groupType);
 
-        HashMap<String, Object> result = orgDataService.updateGroup(name, pairs);
+        HashMap<String, Object> result = orgDataService.updateGroup(id, pairs);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "根据子组名称获取组信息")
-    @GetMapping(value = "/groups/{name}")
-    public ResponseEntity<?> retrieveGroupByName(@PathVariable(value = "name") String name) {
-        HashMap<String, Object> result = orgDataService.retrieveGroupByName(name);
+    @GetMapping(value = "/groups/{id}")
+    public ResponseEntity<?> retrieveGroupById(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = orgDataService.retrieveGroupById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -131,9 +132,31 @@ public class OrgDataController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    public ResponseEntity<?> removePositionByName() {
-
+    @ApiOperation(value = "删除相关职位")
+    @DeleteMapping(value = "/positions/{id}")
+    public ResponseEntity<?> removePositionByName(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = orgDataService.removePositionById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @ApiOperation(value = "更新职位信息")
+    @PostMapping(value = "/positions/{id}")
+    public ResponseEntity<?> updatePositionById(@PathVariable(value = "id") String id,
+                                                @RequestParam(value = "name", required = false) String name,
+                                                @RequestParam(value = "description", required = false) String description,
+                                                @RequestParam(value = "note", required = false) String note,
+                                                @RequestParam(value = "belongToId", required = false) String belongToId,
+                                                @RequestParam(value = "reportToId", required = false) String reportToId) {
+        HashMap<String, String> pairs = new HashMap<>();
+        if(name != null) pairs.put("name", name);
+        if(description != null) pairs.put("description", description);
+        if(note != null) pairs.put("note", note);
+        if(belongToId != null) pairs.put("belongToId", belongToId);
+        if(reportToId != null) pairs.put("reportToId", reportToId);
+        HashMap<String, Object> result = orgDataService.updatePosition(id, pairs);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
 
 
 

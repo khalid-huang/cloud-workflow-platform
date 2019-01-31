@@ -19,18 +19,13 @@ public class RenPositionEntityDaoImpl implements RenPositionEntityDao {
     }
 
     @Override
-    public RenPositionEntity deleteByName(String name) {
-        return renPositionEntityRepository.deleteByName(name);
+    public RenPositionEntity deleteById(String id) {
+        return renPositionEntityRepository.deleteById(id);
     }
 
     @Override
     public List<RenPositionEntity> findAll() {
         return renPositionEntityRepository.findAll();
-    }
-
-    @Override
-    public RenPositionEntity findByName(String name) {
-        return renPositionEntityRepository.findByName(name);
     }
 
     @Override

@@ -20,20 +20,20 @@ public interface OrgDataService {
     /** group */
     HashMap<String, Object> addGroup(String name, String description, String note, String belongToId, int groupType);
 
-    HashMap<String, Object> removeGroupByName(String name);
+    HashMap<String, Object> removeGroupById(String id);
 
-    HashMap<String, Object> updateGroup(String name, HashMap<String, String> pairs);
+    HashMap<String, Object> updateGroup(String id, HashMap<String, String> pairs);
 
-    HashMap<String, Object> retrieveGroupByName(String name);
+    HashMap<String, Object> retrieveGroupById(String id);
 
     HashMap<String, Object> retrieveAllGroup();
 
     /** position */
     HashMap<String, Object> addPosition(String name, String description, String note, String belongToId, String reportToId);
 
-    HashMap<String, Object> removePositionByName(String name);
+    HashMap<String, Object> removePositionById(String id);
 
-    HashMap<String, Object> updatePosition(String name, HashMap<String, String> pairs);
+    HashMap<String, Object> updatePosition(String id, HashMap<String, String> pairs);
 
     HashMap<String, Object> retrievePositionById(String id);
 
@@ -42,9 +42,9 @@ public interface OrgDataService {
     /** capability */
     HashMap<String, Object> addCapability(String name, String description, String note);
 
-    HashMap<String, Object> removeCapabilityByName(String name);
+    HashMap<String, Object> removeCapabilityById(String id);
 
-    HashMap<String, Object> updateCapability(String name, HashMap<String, String> pairs);
+    HashMap<String, Object> updateCapability(String id, HashMap<String, String> pairs);
 
     HashMap<String, Object> retrieveCapabilityById(String id);
 

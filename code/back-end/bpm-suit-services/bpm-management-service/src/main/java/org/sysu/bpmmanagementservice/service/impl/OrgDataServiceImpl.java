@@ -112,9 +112,9 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> removeGroupByName(String name) {
+    public HashMap<String, Object> removeGroupById(String id) {
         HashMap<String, Object> result = new HashMap<>();
-        RenGroupEntity renGroupEntity = renGroupEntityDao.deleteByName(name);
+        RenGroupEntity renGroupEntity = renGroupEntityDao.deleteById(id);
         //这里也要做移除业务关系的；也就是把所有属于这个Group的Position的都要移除掉
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renGroupEntity);
@@ -122,9 +122,9 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> updateGroup(String name, HashMap<String, String> pairs) {
+    public HashMap<String, Object> updateGroup(String id, HashMap<String, String> pairs) {
         HashMap<String, Object> result = new HashMap<>();
-        RenGroupEntity renGroupEntity = renGroupEntityDao.findByName(name);
+        RenGroupEntity renGroupEntity = renGroupEntityDao.findById(id);
         if(pairs.get("description") != null) {
             renGroupEntity.setDescription(pairs.get("description"));
         }
@@ -144,9 +144,9 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> retrieveGroupByName(String name) {
+    public HashMap<String, Object> retrieveGroupById(String id) {
         HashMap<String, Object> result = new HashMap<>();
-        RenGroupEntity renGroupEntity = renGroupEntityDao.findByName(name);
+        RenGroupEntity renGroupEntity = renGroupEntityDao.findById(id);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renGroupEntity);
         return result;
@@ -177,18 +177,21 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> removePositionByName(String name) {
+    public HashMap<String, Object> removePositionById(String id) {
         HashMap<String, Object> result = new HashMap<>();
-        RenPositionEntity renPositionEntity = renPositionEntityDao.deleteByName(name);
+        RenPositionEntity renPositionEntity = renPositionEntityDao.deleteById(id);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renPositionEntity);
         return result;
     }
 
     @Override
-    public HashMap<String, Object> updatePosition(String name, HashMap<String, String> pairs) {
+    public HashMap<String, Object> updatePosition(String id, HashMap<String, String> pairs) {
         HashMap<String, Object> result = new HashMap<>();
-        RenPositionEntity renPositionEntity = renPositionEntityDao.findByName(name);
+        RenPositionEntity renPositionEntity = renPositionEntityDao.findById(id);
+        if(pairs.get("name") != null) {
+            renPositionEntity.setName(pairs.get("name"));
+        }
         if(pairs.get("description") != null) {
             renPositionEntity.setDescription(pairs.get("description"));
         }
@@ -239,18 +242,19 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
-    public HashMap<String, Object> removeCapabilityByName(String name) {
+    public HashMap<String, Object> removeCapabilityById(String id) {
         HashMap<String, Object> result = new HashMap<>();
-        RenCapabilityEntity renCapabilityEntity = renCapabilityEntityDao.deleteByName(name);
+        RenCapabilityEntity renCapabilityEntity = renCapabilityEntityDao.deleteById(id);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renCapabilityEntity);
         return result;
     }
 
+    /** name也是主键；与position不同*/
     @Override
-    public HashMap<String, Object> updateCapability(String name, HashMap<String, String> pairs) {
+    public HashMap<String, Object> updateCapability(String id, HashMap<String, String> pairs) {
         HashMap<String, Object> result = new HashMap<>();
-        RenCapabilityEntity renCapabilityEntity = renCapabilityEntityDao.findByName(name);
+        RenCapabilityEntity renCapabilityEntity = renCapabilityEntityDao.findById(id);
         if(pairs.get("note") != null) {
             renCapabilityEntity.setNote(pairs.get("note"));
         }

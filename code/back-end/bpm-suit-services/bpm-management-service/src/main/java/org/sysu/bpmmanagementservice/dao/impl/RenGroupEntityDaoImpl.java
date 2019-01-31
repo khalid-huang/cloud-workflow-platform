@@ -18,18 +18,14 @@ public class RenGroupEntityDaoImpl implements RenGroupEntityDao {
         return renGroupEntityRepository.save(renGroupEntity);
     }
 
-    @Override
-    public RenGroupEntity findByName(String name) {
-        return renGroupEntityRepository.findByName(name);
-    }
 
     public RenGroupEntity findById(String id) {
         return renGroupEntityRepository.findById(id);
     }
 
     @Override
-    public RenGroupEntity deleteByName(String name) {
-        return renGroupEntityRepository.deleteByName(name);
+    public RenGroupEntity deleteById(String id) {
+        return renGroupEntityRepository.deleteById(id);
     }
 
     @Override
