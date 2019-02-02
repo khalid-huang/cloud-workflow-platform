@@ -24,8 +24,8 @@ public class RenGroupEntityDaoImpl implements RenGroupEntityDao {
     }
 
     @Override
-    public RenGroupEntity deleteById(String id) {
-        return renGroupEntityRepository.deleteById(id);
+    public void deleteById(String id) {
+        renGroupEntityRepository.deleteById(id);
     }
 
     @Override

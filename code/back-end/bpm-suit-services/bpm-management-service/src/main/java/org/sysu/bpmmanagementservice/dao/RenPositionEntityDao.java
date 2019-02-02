@@ -7,7 +7,7 @@ import java.util.List;
 public interface RenPositionEntityDao {
     RenPositionEntity saveOrUpdate(RenPositionEntity renPositionEntity);
 
-    RenPositionEntity deleteById(String id);
+    void deleteById(String id);
 
     List<RenPositionEntity> findAll();
 

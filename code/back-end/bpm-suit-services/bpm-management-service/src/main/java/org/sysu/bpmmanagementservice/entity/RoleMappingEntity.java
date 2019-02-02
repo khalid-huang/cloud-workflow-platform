@@ -8,7 +8,6 @@ public class RoleMappingEntity {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "mapped_id")

@@ -8,13 +8,12 @@ public class RenConnectEntity {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "username")
     private String username;
 
-    @Column(name = "belongToOrganizableId")
+    @Column(name = "belongToOrganizabledId")
     private String belongToOrganizabledId;
 
     @Column(name = "type")

@@ -6,6 +6,7 @@ import org.sysu.bpmmanagementservice.dao.ActIdMembershipEntityDao;
 import org.sysu.bpmmanagementservice.entity.ActIdMembershipEntity;
 import org.sysu.bpmmanagementservice.repository.ActIdMembershipEntityRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -19,8 +20,8 @@ public class ActIdMembershipEntityDaoImpl implements ActIdMembershipEntityDao {
     }
 
     @Override
-    public ActIdMembershipEntity deleteByGroupIdAndUserId(String groupId, String userId) {
-        return actIdMembershipEntityRepository.deleteByGroupIdAndUserId(groupId, userId);
+    public void deleteByGroupIdAndUserId(String groupId, String userId) {
+        actIdMembershipEntityRepository.deleteByGroupIdAndUserId(groupId, userId);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class ActIdMembershipEntityDaoImpl implements ActIdMembershipEntityDao {
     }
 
     @Override
-    public List<ActIdMembershipEntity> deleteAllByUserId(String userId) {
-        return actIdMembershipEntityRepository.deleteAllByUserId(userId);
+    public void deleteAllByUserId(String userId) {
+         actIdMembershipEntityRepository.deleteAllByUserId(userId);
     }
 }

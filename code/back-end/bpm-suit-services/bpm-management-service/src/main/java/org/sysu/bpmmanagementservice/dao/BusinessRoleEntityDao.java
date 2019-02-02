@@ -8,7 +8,7 @@ import java.util.List;
 public interface BusinessRoleEntityDao {
     BusinessRoleEntity saveOrUpdate(BusinessRoleEntity businessRoleEntity);
 
-    BusinessRoleEntity deleteByName(String name);
+    void deleteByName(String name);
 
     BusinessRoleEntity findByName(String name);
 

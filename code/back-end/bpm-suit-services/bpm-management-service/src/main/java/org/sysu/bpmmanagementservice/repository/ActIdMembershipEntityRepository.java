@@ -7,9 +7,9 @@ import org.sysu.bpmmanagementservice.entity.multikeyclass.ActIdMembershipMKC;
 import java.util.List;
 
 public interface ActIdMembershipEntityRepository extends JpaRepository<ActIdMembershipEntity, ActIdMembershipMKC> {
-    ActIdMembershipEntity deleteByGroupIdAndUserId(String groupId, String userId);
+    void deleteByGroupIdAndUserId(String groupId, String userId);
 
     ActIdMembershipEntity findByGroupIdAndUserId(String groupId, String userId);
 
-    List<ActIdMembershipEntity> deleteAllByUserId(String userId);
+    void deleteAllByUserId(String userId);
 }

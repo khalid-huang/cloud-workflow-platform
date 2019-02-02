@@ -11,9 +11,11 @@ import org.sysu.bpmmanagementservice.entity.*;
 import org.sysu.bpmmanagementservice.service.OrgDataService;
 import org.sysu.bpmmanagementservice.vo.RenConnectionVo;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrgDataServiceImpl implements OrgDataService {
@@ -54,9 +56,10 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
+    @Transactional
     public HashMap<String, Object> removeHuman(String username) {
         HashMap<String, Object> result = new HashMap<>();
-        ActIdUserEntity actIdUserEntity =  actIdUserEntityDao.deleteByUsername(username);
+        actIdUserEntityDao.deleteByUsername(username);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return result;
     }
@@ -104,6 +107,7 @@ public class OrgDataServiceImpl implements OrgDataService {
         renGroupEntity.setDescription(description);
         renGroupEntity.setGroupType(groupType);
         renGroupEntity.setNote(note);
+        renGroupEntity.setId(UUID.randomUUID().toString());
         renGroupEntity =  renGroupEntityDao.saveOrUpdate(renGroupEntity);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renGroupEntity);
@@ -112,12 +116,13 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
+    @Transactional
     public HashMap<String, Object> removeGroupById(String id) {
         HashMap<String, Object> result = new HashMap<>();
-        RenGroupEntity renGroupEntity = renGroupEntityDao.deleteById(id);
+        renGroupEntityDao.deleteById(id);
         //这里也要做移除业务关系的；也就是把所有属于这个Group的Position的都要移除掉
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", renGroupEntity);
+        result.put("data", null);
         return result;
     }
 
@@ -170,6 +175,7 @@ public class OrgDataServiceImpl implements OrgDataService {
         renPositionEntity.setDescription(description);
         renPositionEntity.setNote(note);
         renPositionEntity.setReportedId(reportToId);
+        renPositionEntity.setId(UUID.randomUUID().toString());
         renPositionEntity = renPositionEntityDao.saveOrUpdate(renPositionEntity);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renPositionEntity);
@@ -177,11 +183,12 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
+    @Transactional
     public HashMap<String, Object> removePositionById(String id) {
         HashMap<String, Object> result = new HashMap<>();
-        RenPositionEntity renPositionEntity = renPositionEntityDao.deleteById(id);
+        renPositionEntityDao.deleteById(id);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", renPositionEntity);
+        result.put("data", null);
         return result;
     }
 
@@ -235,6 +242,7 @@ public class OrgDataServiceImpl implements OrgDataService {
         renCapabilityEntity.setDescription(description);
         renCapabilityEntity.setName(name);
         renCapabilityEntity.setNote(note);
+        renCapabilityEntity.setId(UUID.randomUUID().toString());
         renCapabilityEntity =  renCapabilityEntityDao.saveOrUpdate(renCapabilityEntity);
         result.put("data", renCapabilityEntity);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
@@ -242,11 +250,12 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
+    @Transactional
     public HashMap<String, Object> removeCapabilityById(String id) {
         HashMap<String, Object> result = new HashMap<>();
-        RenCapabilityEntity renCapabilityEntity = renCapabilityEntityDao.deleteById(id);
+        renCapabilityEntityDao.deleteById(id);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", renCapabilityEntity);
+        result.put("data", null);
         return result;
     }
 
@@ -286,13 +295,14 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
+    @Transactional
     public HashMap<String, Object> removeHumanConnection(String username) {
         HashMap<String, Object> result = new HashMap<>();
-        List<RenConnectEntity> renConnectEntities = renConnectEntityDao.deleteAllByUsername(username);
+        renConnectEntityDao.deleteAllByUsername(username);
         //删除所有的mapping里面的后续操作，也就是对应的actiivti的用户在group里面的状态
         actIdMembershipEntityDao.deleteAllByUserId(username);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", renConnectEntities);
+        result.put("data", null);
         return result;
 
     }
@@ -328,6 +338,7 @@ public class OrgDataServiceImpl implements OrgDataService {
     public HashMap<String, Object> addHumanPosition(String username, String positionId) {
         HashMap<String, Object> result = new HashMap<>();
         RenConnectEntity renConnectEntity = new RenConnectEntity();
+        renConnectEntity.setId(UUID.randomUUID().toString());
         renConnectEntity.setBelongToOrganizabledId(positionId);
         renConnectEntity.setType(GlobalContext.RENCONNECT_TYPE_POSITION);
         renConnectEntity.setUsername(username);
@@ -342,13 +353,14 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
+    @Transactional
     public HashMap<String, Object> removeHumanPosition(String username, String positionId) {
         HashMap<String, Object> result = new HashMap<>();
-        RenConnectEntity renConnectEntity = renConnectEntityDao.deleteByUsernameAndBelongToOrganizabledIdAndType(username, positionId, GlobalContext.RENCONNECT_TYPE_POSITION);
+        renConnectEntityDao.deleteByUsernameAndBelongToOrganizabledIdAndType(username, positionId, GlobalContext.RENCONNECT_TYPE_POSITION);
         //处理底层映射
         roleMappingAndOrgDataHelper.dealAfterRemoveHumanPosition(username, positionId);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", renConnectEntity);
+        result.put("data", null);
         return result;
     }
 
@@ -356,6 +368,7 @@ public class OrgDataServiceImpl implements OrgDataService {
     public HashMap<String, Object> addHumanCapability(String username, String capabilityId) {
         HashMap<String, Object> result = new HashMap<>();
         RenConnectEntity renConnectEntity = new RenConnectEntity();
+        renConnectEntity.setId(UUID.randomUUID().toString());
         renConnectEntity.setBelongToOrganizabledId(capabilityId);
         renConnectEntity.setType(GlobalContext.RENCONNECT_TYPE_CAPABILITY);
         renConnectEntity.setUsername(username);
@@ -369,14 +382,15 @@ public class OrgDataServiceImpl implements OrgDataService {
     }
 
     @Override
+    @Transactional
     public HashMap<String, Object> removeHumanCapability(String username, String capabilityId) {
         HashMap<String, Object> result = new HashMap<>();
-        RenConnectEntity renConnectEntity = renConnectEntityDao.deleteByUsernameAndBelongToOrganizabledIdAndType(username, capabilityId, GlobalContext.RENCONNECT_TYPE_CAPABILITY);
+        renConnectEntityDao.deleteByUsernameAndBelongToOrganizabledIdAndType(username, capabilityId, GlobalContext.RENCONNECT_TYPE_CAPABILITY);
         //处理底层映射
         roleMappingAndOrgDataHelper.dealAfterRemoveHumanCapability(username, capabilityId);
 
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", renConnectEntity);
+        result.put("data", null);
         return result;
     }
 

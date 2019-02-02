@@ -19,8 +19,8 @@ public class RenPositionEntityDaoImpl implements RenPositionEntityDao {
     }
 
     @Override
-    public RenPositionEntity deleteById(String id) {
-        return renPositionEntityRepository.deleteById(id);
+    public void deleteById(String id) {
+        renPositionEntityRepository.deleteById(id);
     }
 
     @Override

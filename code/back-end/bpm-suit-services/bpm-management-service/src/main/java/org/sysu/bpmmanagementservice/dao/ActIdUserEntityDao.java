@@ -7,9 +7,9 @@ import java.util.List;
 public interface ActIdUserEntityDao {
     ActIdUserEntity saveOrUpdate(ActIdUserEntity actIdUserEntity);
 
-    ActIdUserEntity deleteByUsername(String username);
+    void deleteByUsername(String username);
 
-    ActIdUserEntity deleteByFirstNameAndLastName(String firstName, String lastName);
+    void deleteByFirstNameAndLastName(String firstName, String lastName);
 
     List<ActIdUserEntity> findAll();
 

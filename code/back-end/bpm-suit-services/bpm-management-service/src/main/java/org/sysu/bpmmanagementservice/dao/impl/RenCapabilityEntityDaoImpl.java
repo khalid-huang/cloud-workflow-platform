@@ -20,8 +20,8 @@ public class RenCapabilityEntityDaoImpl implements RenCapabilityEntityDao {
     }
 
     @Override
-    public RenCapabilityEntity deleteById(String id) {
-        return renCapabilityEntityRepository.deleteById(id);
+    public void deleteById(String id) {
+        renCapabilityEntityRepository.deleteById(id);
     }
 
     @Override

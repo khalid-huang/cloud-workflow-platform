@@ -19,8 +19,8 @@ public class RenConnectEntityDaoImpl implements RenConnectEntityDao {
     }
 
     @Override
-    public List<RenConnectEntity> deleteAllByUsername(String username) {
-        return renConnectEntityRepository.deleteAllByUsername(username);
+    public void deleteAllByUsername(String username) {
+        renConnectEntityRepository.deleteAllByUsername(username);
     }
 
     @Override
@@ -29,8 +29,8 @@ public class RenConnectEntityDaoImpl implements RenConnectEntityDao {
     }
 
     @Override
-    public RenConnectEntity deleteByUsernameAndBelongToOrganizabledIdAndType(String username, String belongToOrganizabledId, int type) {
-        return renConnectEntityRepository.deleteByUsernameAndBelongToOrganizabledIdAAndType(username, belongToOrganizabledId, type);
+    public void deleteByUsernameAndBelongToOrganizabledIdAndType(String username, String belongToOrganizabledId, int type) {
+        renConnectEntityRepository.deleteByUsernameAndBelongToOrganizabledIdAndType(username, belongToOrganizabledId, type);
     }
 
     @Override

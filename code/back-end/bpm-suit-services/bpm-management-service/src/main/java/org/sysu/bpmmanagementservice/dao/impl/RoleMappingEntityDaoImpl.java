@@ -20,8 +20,8 @@ public class RoleMappingEntityDaoImpl implements RoleMappingEntityDao {
     }
 
     @Override
-    public RoleMappingEntity deleteById(String id) {
-        return roleMappingEntityRepository.deleteById(id);
+    public void deleteById(String id) {
+        roleMappingEntityRepository.deleteById(id);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class RoleMappingEntityDaoImpl implements RoleMappingEntityDao {
     }
 
     @Override
-    public RoleMappingEntity deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName) {
-        return roleMappingEntityRepository.deleteByMappedIdAndMappedTypeAndBroleName(mappedId, mappedType, broleName);
+    public void deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName) {
+        roleMappingEntityRepository.deleteByMappedIdAndMappedTypeAndBroleName(mappedId, mappedType, broleName);
     }
 }

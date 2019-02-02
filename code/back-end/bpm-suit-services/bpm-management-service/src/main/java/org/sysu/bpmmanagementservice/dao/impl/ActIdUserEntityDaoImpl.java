@@ -19,13 +19,13 @@ public class ActIdUserEntityDaoImpl implements ActIdUserEntityDao {
     }
 
     @Override
-    public ActIdUserEntity deleteByUsername(String username) {
-        return actIdUserEntityRepository.deleteByUsername(username);
+    public void deleteByUsername(String username) {
+         actIdUserEntityRepository.deleteByUsername(username);
     }
 
     @Override
-    public ActIdUserEntity deleteByFirstNameAndLastName(String firstName, String lastName) {
-        return actIdUserEntityRepository.deleteByFirstNameAndLastName(firstName, lastName);
+    public void deleteByFirstNameAndLastName(String firstName, String lastName) {
+        actIdUserEntityRepository.deleteByFirstNameAndLastName(firstName, lastName);
     }
 
     @Override

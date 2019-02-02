@@ -7,11 +7,11 @@ import java.util.List;
 public interface RenConnectEntityDao {
     RenConnectEntity saveOrUpdate(RenConnectEntity renConnectEntity);
 
-    List<RenConnectEntity> deleteAllByUsername(String username);
+    void deleteAllByUsername(String username);
 
     List<RenConnectEntity> findAllByUsernameAndType(String username, int type);
 
-    RenConnectEntity deleteByUsernameAndBelongToOrganizabledIdAndType(String username, String belongToOrganizabledId, int type);
+    void deleteByUsernameAndBelongToOrganizabledIdAndType(String username, String belongToOrganizabledId, int type);
 
     List<RenConnectEntity> findAllByBelongToOrganizabledIdAndType(String belongToOrganizabled, int type);
 

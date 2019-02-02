@@ -7,7 +7,6 @@ import javax.persistence.*;
 public class ActIdUserInfoEntity {
     @Id
     @Column(name = "ID_")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "REV_")

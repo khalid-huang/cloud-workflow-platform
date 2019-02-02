@@ -8,9 +8,9 @@ import java.util.List;
 public interface ActIdMembershipEntityDao {
     ActIdMembershipEntity saveOrUpdate(ActIdMembershipEntity actIdMembershipEntity);
 
-    ActIdMembershipEntity deleteByGroupIdAndUserId(String groupId, String userId);
+    void deleteByGroupIdAndUserId(String groupId, String userId);
 
     ActIdMembershipEntity findByGroupIdAndUserId(String groupId, String userId);
 
-    List<ActIdMembershipEntity> deleteAllByUserId(String userId);
+    void deleteAllByUserId(String userId);
 }

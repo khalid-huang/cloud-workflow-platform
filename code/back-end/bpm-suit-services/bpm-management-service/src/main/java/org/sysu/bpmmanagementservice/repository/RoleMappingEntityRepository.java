@@ -12,7 +12,7 @@ public interface RoleMappingEntityRepository extends JpaRepository<RoleMappingEn
 
     List<RoleMappingEntity> findByBroleNameAndMappedType(String broleName, int mappedType);
 
-    RoleMappingEntity deleteById(String id);
+    void deleteById(String id);
 
-    RoleMappingEntity deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName);
+    void deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName);
 }

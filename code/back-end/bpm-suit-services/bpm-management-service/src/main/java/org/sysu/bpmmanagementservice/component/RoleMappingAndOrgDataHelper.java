@@ -13,6 +13,7 @@ import org.sysu.bpmmanagementservice.entity.RoleMappingEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /** 基于Activiti的业务关系映射和组织架构的一些辅助函数 */
 @Component
@@ -47,7 +48,7 @@ public class RoleMappingAndOrgDataHelper {
     }
 
     /** 移除由职位和业务角色名称指定的一条业务关系映射 */
-    public RoleMappingEntity removeRoleMappingBetweenPositionAndBroleName(String positionId, String broleName) {
+    public void removeRoleMappingBetweenPositionAndBroleName(String positionId, String broleName) {
         //获取position里面相关的用户，删除其与broleName对应的group的membership（兼容activiti），再删除rolemapping
         List<String> usernames = retrieveAllHumanInPosition(positionId);
         for(String username : usernames) {
@@ -55,12 +56,12 @@ public class RoleMappingAndOrgDataHelper {
         }
 
         //删除roleMapping表
-        RoleMappingEntity roleMappingEntity = roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleName(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION, broleName);
-        return roleMappingEntity;
+        roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleName(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION, broleName);
     }
 
     public RoleMappingEntity addRoleMappingBetweenPositionAndBroleName(String positionId, String broleName) {
         RoleMappingEntity roleMappingEntity = new RoleMappingEntity();
+        roleMappingEntity.setId(UUID.randomUUID().toString());
         roleMappingEntity.setBroleName(broleName);
         roleMappingEntity.setMappedId(positionId);
         roleMappingEntity.setMappedType(GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
@@ -79,17 +80,16 @@ public class RoleMappingAndOrgDataHelper {
      * 移除这个Position所带来的所有的业务关系映射，包括activiti里面的membership
      * @param positionId
      */
-    public List<RoleMappingEntity> removeRoleMappingsOfPosition(String positionId) {
+    public void removeRoleMappingsOfPosition(String positionId) {
         //获取相关的rolemapping
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByMappedIdAndMappedType(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
         List<RoleMappingEntity> results = new ArrayList<>();
         for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            results.add(removeRoleMappingBetweenPositionAndBroleName(positionId, roleMappingEntity.getBroleName()));
+            removeRoleMappingBetweenPositionAndBroleName(positionId, roleMappingEntity.getBroleName());
         }
-        return results;
     }
 
-    public RoleMappingEntity removeRoleMappingBetweenCapabilityAndBroleName(String capabilityId, String broleName) {
+    public void removeRoleMappingBetweenCapabilityAndBroleName(String capabilityId, String broleName) {
         //获取position里面相关的用户，删除其与broleName对应的group的membership（兼容activiti），再删除rolemapping
         List<String> usernames = retrieveAllHumanWithCapability(capabilityId);
         for(String username : usernames) {
@@ -97,13 +97,13 @@ public class RoleMappingAndOrgDataHelper {
         }
 
         //删除roleMapping表
-        RoleMappingEntity roleMappingEntity = roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleName(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY, broleName);
-        return roleMappingEntity;
+        roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleName(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY, broleName);
     }
 
     public RoleMappingEntity addRoleMappingBetweenCapabilityAndBroleName(String capabilityId, String broleName) {
         HashMap<String, Object> result = new HashMap<>();
         RoleMappingEntity roleMappingEntity = new RoleMappingEntity();
+        roleMappingEntity.setId(UUID.randomUUID().toString());
         roleMappingEntity.setBroleName(broleName);
         roleMappingEntity.setMappedId(capabilityId);
         roleMappingEntity.setMappedType(GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
@@ -117,14 +117,12 @@ public class RoleMappingAndOrgDataHelper {
         return roleMappingEntity;
     }
 
-    public List<RoleMappingEntity> removeRoleMappingsOfCapability(String capabilityId) {
+    public void removeRoleMappingsOfCapability(String capabilityId) {
         //获取相关的rolemapping
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByMappedIdAndMappedType(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
-        List<RoleMappingEntity> results = new ArrayList<>();
         for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            results.add(removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, roleMappingEntity.getBroleName()));
+            removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, roleMappingEntity.getBroleName());
         }
-        return results;
     }
 
     /** 处理将新的人加入到Postition之后的操作，主要是将人添加 到membership里面*/

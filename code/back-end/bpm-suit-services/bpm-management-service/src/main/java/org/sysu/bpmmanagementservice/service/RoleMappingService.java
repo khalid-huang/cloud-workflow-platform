@@ -26,6 +26,6 @@ public interface RoleMappingService {
 
     HashMap<String, Object> retrieveAllCapabilitiesWithBroleName(String broleName);
 
-    HashMap<String, Object> retrievAllroleMapping();
+    HashMap<String, Object> retrievAllRoleMapping();
 
 }

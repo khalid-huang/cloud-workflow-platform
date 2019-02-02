@@ -7,7 +7,7 @@ import java.util.List;
 public interface RenCapabilityEntityDao {
     RenCapabilityEntity saveOrUpdate(RenCapabilityEntity renCapabilityEntity);
 
-    RenCapabilityEntity deleteById(String id);
+    void deleteById(String id);
 
     RenCapabilityEntity findById(String id);
 

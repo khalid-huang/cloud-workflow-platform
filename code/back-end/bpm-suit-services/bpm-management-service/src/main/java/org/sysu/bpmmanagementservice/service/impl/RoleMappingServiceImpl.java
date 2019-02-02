@@ -9,6 +9,7 @@ import org.sysu.bpmmanagementservice.dao.*;
 import org.sysu.bpmmanagementservice.entity.*;
 import org.sysu.bpmmanagementservice.service.RoleMappingService;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,11 +53,12 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     }
 
     @Override
+    @Transactional
     public HashMap<String, Object> removeBusinessRoleByName(String name) {
         HashMap<String, Object> result = new HashMap<>();
-        BusinessRoleEntity businessRoleEntity = businessRoleEntityDao.deleteByName(name);
+        businessRoleEntityDao.deleteByName(name);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", businessRoleEntity);
+        result.put("data", null);
         return result;
     }
 
@@ -81,7 +83,6 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     /** 添加一条组织关系为职业的到业务关系的映射 ；因为引擎是基于Activiti的，添加之后还需要去更新Activiti的act_id_memebership表，从而才可以使activiti在根据组（业务关系）选择用户时，相应的拥有这个组织关系的用户在候选列表中*/
     /** 虽然这个操作耗时，但是这个操作很少用到，因为组织关系很少变动 */
     @Override
-    @SuppressWarnings("unchecked")
     public HashMap<String, Object> addPositionBroleName(String positionId, String broleName) {
         HashMap<String, Object> result = new HashMap<>();
         RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.addRoleMappingBetweenPositionAndBroleName(positionId, broleName);
@@ -92,12 +93,12 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @Transactional
     public HashMap<String, Object> removePositionBroleName(String positionId, String broleName) {
         HashMap<String, Object> result = new HashMap<>();
-        RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.removeRoleMappingBetweenPositionAndBroleName(positionId, broleName);
+        roleMappingAndOrgDataHelper.removeRoleMappingBetweenPositionAndBroleName(positionId, broleName);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", roleMappingEntity);
+        result.put("data", null);
         return result;
     }
 
@@ -126,12 +127,12 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @Transactional
     public HashMap<String, Object> removeCapabilityBroleName(String capabilityId, String broleName) {
         HashMap<String, Object> result = new HashMap<>();
-        RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, broleName);
+        roleMappingAndOrgDataHelper.removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, broleName);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", roleMappingEntity);
+        result.put("data", null);
         return result;
     }
 
@@ -149,7 +150,7 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     }
 
     @Override
-    public HashMap<String, Object> retrievAllroleMapping() {
+    public HashMap<String, Object> retrievAllRoleMapping() {
         HashMap<String, Object> result = new HashMap<>();
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findAll();
         HashMap<String, List> total = new HashMap<>();

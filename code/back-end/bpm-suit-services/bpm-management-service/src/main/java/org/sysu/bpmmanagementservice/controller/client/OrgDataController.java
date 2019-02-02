@@ -275,4 +275,19 @@ public class OrgDataController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @ApiOperation(value = "删除用户指定能力")
+    @DeleteMapping(value = "/connections/humancapability")
+    public ResponseEntity<?> removeHumanCapability(@RequestParam(value = "username") String username,
+                                                   @RequestParam(value = "capabilityId") String capabilityId) {
+        HashMap<String, Object> result = orgDataService.removeHumanCapability(username, capabilityId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "获取全部的职位、能力关系")
+    @GetMapping(value = "/connections")
+    public ResponseEntity<?> retrieveAllConnection() {
+        HashMap<String, Object> result = orgDataService.retrieveAllConnection();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
 }

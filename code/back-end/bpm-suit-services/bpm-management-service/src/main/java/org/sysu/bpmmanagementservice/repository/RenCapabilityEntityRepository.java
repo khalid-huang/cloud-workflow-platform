@@ -6,7 +6,7 @@ import org.sysu.bpmmanagementservice.entity.RenCapabilityEntity;
 import java.util.List;
 
 public interface RenCapabilityEntityRepository extends JpaRepository<RenCapabilityEntity, String> {
-    RenCapabilityEntity deleteById(String id);
+    void deleteById(String id);
 
     RenCapabilityEntity findById(String id);
 

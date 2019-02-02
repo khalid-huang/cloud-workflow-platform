@@ -7,7 +7,7 @@ import java.util.List;
 public interface RoleMappingEntityDao {
     RoleMappingEntity saveOrUpdate(RoleMappingEntity roleMappingEntity);
 
-    RoleMappingEntity deleteById(String id);
+    void deleteById(String id);
 
     List<RoleMappingEntity> findAll();
 
@@ -17,6 +17,6 @@ public interface RoleMappingEntityDao {
 
     List<RoleMappingEntity> findByBroleNameAndMappedType(String broleName, int mappedType);
 
-    RoleMappingEntity deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName);
+    void deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName);
 
 }
