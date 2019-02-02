@@ -13,7 +13,7 @@ public class RenConnectEntity {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "belongToOrganizabledId")
+    @Column(name = "belong_to_organizabled_id")
     private String belongToOrganizabledId;
 
     @Column(name = "type")

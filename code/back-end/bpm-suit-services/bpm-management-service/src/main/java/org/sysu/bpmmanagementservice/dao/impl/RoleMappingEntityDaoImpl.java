@@ -35,17 +35,17 @@ public class RoleMappingEntityDaoImpl implements RoleMappingEntityDao {
     }
 
     @Override
-    public List<RoleMappingEntity> findByBroleName(String broleName) {
-        return roleMappingEntityRepository.findByBroleName(broleName);
+    public List<RoleMappingEntity> findByBroleNameId(String broleNameId) {
+        return roleMappingEntityRepository.findByBroleNameId(broleNameId);
     }
 
     @Override
-    public List<RoleMappingEntity> findByBroleNameAndMappedType(String broleName, int mappedType) {
-        return roleMappingEntityRepository.findByBroleNameAndMappedType(broleName, mappedType);
+    public List<RoleMappingEntity> findByBroleNameIdAndMappedType(String broleNameId, int mappedType) {
+        return roleMappingEntityRepository.findByBroleNameIdAndMappedType(broleNameId, mappedType);
     }
 
     @Override
-    public void deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName) {
-        roleMappingEntityRepository.deleteByMappedIdAndMappedTypeAndBroleName(mappedId, mappedType, broleName);
+    public void deleteByMappedIdAndMappedTypeAndBroleNameId(String mappedId, int mappedType, String broleNameId) {
+        roleMappingEntityRepository.deleteByMappedIdAndMappedTypeAndBroleNameId(mappedId, mappedType, broleNameId);
     }
 }

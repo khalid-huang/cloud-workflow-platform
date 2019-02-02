@@ -32,17 +32,17 @@ public class RoleMappingController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @ApiOperation(value = "根据业务角色名称删除业务角色")
-    @DeleteMapping(value = "/businessRoles/{name}")
-    public ResponseEntity<?> removeBusinessRoleByName(@PathVariable(value = "name") String name) {
-        HashMap<String, Object> result = roleMappingService.removeBusinessRoleByName(name);
+    @ApiOperation(value = "根据业务角色Id删除业务角色")
+    @DeleteMapping(value = "/businessRoles/{id}")
+    public ResponseEntity<?> removeBusinessRoleById(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = roleMappingService.removeBusinessRoleById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @ApiOperation(value = "根据业务角色名称获取业务角色相关信息")
-    @GetMapping(value = "/businessRoles/{name}")
-    public ResponseEntity<?> retrieveBusinessRoleByName(@PathVariable(value = "name") String name) {
-        HashMap<String, Object> result = roleMappingService.retrieveBusinessRoleByName(name);
+    @ApiOperation(value = "根据业务角色Id获取业务角色相关信息")
+    @GetMapping(value = "/businessRoles/{id}")
+    public ResponseEntity<?> retrieveBusinessRoleById(@PathVariable(value = "id") String id) {
+        HashMap<String, Object> result = roleMappingService.retrieveBusinessRoleById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -56,46 +56,46 @@ public class RoleMappingController {
     @ApiOperation(value = "为职位添加业务角色")
     @PostMapping(value = "roleMappings/", params = {"mappedType=position"})
     public ResponseEntity<?> addPositionBroleName(@RequestParam(value = "positionId") String positionId,
-                                                  @RequestParam(value = "broleName") String broleName) {
-        HashMap<String, Object> result = roleMappingService.addPositionBroleName(positionId, broleName);
+                                                  @RequestParam(value = "broleNameId") String broleNameId) {
+        HashMap<String, Object> result = roleMappingService.addPositionBroleName(positionId, broleNameId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "删除指定职位的业务角色")
     @DeleteMapping(value = "roleMappings", params = {"mappedType=position"})
     public ResponseEntity<?> removePositionBroleName(@RequestParam(value = "positionId") String positionId,
-                                                     @RequestParam(value = "broleName") String broleName) {
-        HashMap<String, Object> result = roleMappingService.removePositionBroleName(positionId, broleName);
+                                                     @RequestParam(value = "broleNameId") String broleNameId) {
+        HashMap<String, Object> result = roleMappingService.removePositionBroleName(positionId, broleNameId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "获取与业务角色建立映射的所有职位")
     @GetMapping(value = "roleMappings/positions")
-    public ResponseEntity<?> retrieveAllPositionsWithBroleName(@RequestParam(value = "broleName") String broleName) {
-        HashMap<String, Object> result = roleMappingService.retrieveAllPositionsWithBroleName(broleName);
+    public ResponseEntity<?> retrieveAllPositionsWithBroleName(@RequestParam(value = "broleNameId") String broleNameId) {
+        HashMap<String, Object> result = roleMappingService.retrieveAllPositionsWithBroleName(broleNameId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "给能力建立与业务角色的映射")
     @PostMapping(value = "roleMappings", params = {"mappedType=capability"})
     public ResponseEntity<?> addCapabilityBroleName(@RequestParam(value = "capabilityId") String capabilityId,
-                                                    @RequestParam(value = "broleName") String broleName) {
-        HashMap<String, Object> result = roleMappingService.addCapabilityBroleName(capabilityId, broleName);
+                                                    @RequestParam(value = "broleNameId") String broleNameId) {
+        HashMap<String, Object> result = roleMappingService.addCapabilityBroleName(capabilityId, broleNameId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "删除指定能力与指定业务角色之间的映射")
     @DeleteMapping(value = "roleMappings", params = {"mappedType=Capability"})
     public ResponseEntity<?> removeCapabilityBroleName(@RequestParam(value = "capabilityId") String capabilityId,
-                                                       @RequestParam(value = "broleName") String broleName) {
-        HashMap<String, Object> result = roleMappingService.removeCapabilityBroleName(capabilityId, broleName);
+                                                       @RequestParam(value = "broleNameId") String broleNameId) {
+        HashMap<String, Object> result = roleMappingService.removeCapabilityBroleName(capabilityId, broleNameId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "获取与指定业务角色建立映射的所有能力")
     @GetMapping(value = "roleMappings/capabilities")
-    public ResponseEntity<?> retrieveAllCapabilityiesWithBroleName(@RequestParam(value = "broleName") String broleName) {
-        HashMap<String, Object> result = roleMappingService.retrieveAllCapabilitiesWithBroleName(broleName);
+    public ResponseEntity<?> retrieveAllCapabilityiesWithBroleName(@RequestParam(value = "broleNameId") String broleNameId) {
+        HashMap<String, Object> result = roleMappingService.retrieveAllCapabilitiesWithBroleName(broleNameId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

@@ -835,8 +835,8 @@ CREATE TABLE `ren_group` (
   `name` text,
   `description` text,
   `note` text,
-  `belongToId` varchar(64) DEFAULT NULL,
-  `groupType` int(11) DEFAULT NULL,
+  `belong_to_id` varchar(64) DEFAULT NULL,
+  `group_type` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -853,8 +853,8 @@ CREATE TABLE `ren_position` (
   `name` text,
   `description` text,
   `note` text,
-  `belongToId` varchar(64) DEFAULT NULL,
-  `reportToId` varchar(64) DEFAULT NULL,
+  `belong_to_id` varchar(64) DEFAULT NULL,
+  `report_to_id` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -869,8 +869,8 @@ DROP TABLE IF EXISTS `ren_connect`;
 CREATE TABLE `ren_connect` (
   `id` varchar(64) NOT NULL,
   `username` varchar(64) DEFAULT NULL,
-  `belongToOrganizabledId` varchar(64) DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
+  `belong_to_organizabled_id` varchar(64) DEFAULT NULL,
+  `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -887,7 +887,7 @@ CREATE TABLE `role_mapping` (
   `id` varchar(64) NOT NULL,
   `mapped_id` varchar(64) NOT NULL,
   `mapped_type` int(11) NOT NULL,
-  `brole_name` text NOT NULL,
+  `brole_name_id` varchar(64) NOT NULL,
   `data_version` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

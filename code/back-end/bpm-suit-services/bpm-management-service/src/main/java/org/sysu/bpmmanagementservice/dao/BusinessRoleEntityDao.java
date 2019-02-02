@@ -8,9 +8,9 @@ import java.util.List;
 public interface BusinessRoleEntityDao {
     BusinessRoleEntity saveOrUpdate(BusinessRoleEntity businessRoleEntity);
 
-    void deleteByName(String name);
+    void deleteById(String id);
 
-    BusinessRoleEntity findByName(String name);
+    BusinessRoleEntity findById(String id);
 
     List<BusinessRoleEntity> findAll();
 }

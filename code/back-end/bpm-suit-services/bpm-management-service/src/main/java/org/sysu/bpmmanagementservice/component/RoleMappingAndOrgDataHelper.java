@@ -39,7 +39,7 @@ public class RoleMappingAndOrgDataHelper {
 
     /** 获取拥有相应能力的全部用户的用户名 */
     public List<String> retrieveAllHumanWithCapability(String capabilityId) {
-        List<RenConnectEntity> renConnectEntities = renConnectEntityDao.findAllByBelongToOrganizabledIdAndType(capabilityId, GlobalContext.RENCONNECT_TYPE_POSITION);
+        List<RenConnectEntity> renConnectEntities = renConnectEntityDao.findAllByBelongToOrganizabledIdAndType(capabilityId, GlobalContext.RENCONNECT_TYPE_CAPABILITY);
         List<String> usernames = new ArrayList<>();
         for(RenConnectEntity renConnectEntity : renConnectEntities) {
             usernames.add(renConnectEntity.getUsername());
@@ -48,21 +48,21 @@ public class RoleMappingAndOrgDataHelper {
     }
 
     /** 移除由职位和业务角色名称指定的一条业务关系映射 */
-    public void removeRoleMappingBetweenPositionAndBroleName(String positionId, String broleName) {
+    public void removeRoleMappingBetweenPositionAndBroleNameId(String positionId, String broleNameId) {
         //获取position里面相关的用户，删除其与broleName对应的group的membership（兼容activiti），再删除rolemapping
         List<String> usernames = retrieveAllHumanInPosition(positionId);
         for(String username : usernames) {
-            updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(broleName, username);
+            updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(broleNameId, username);
         }
 
         //删除roleMapping表
-        roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleName(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION, broleName);
+        roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleNameId(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION, broleNameId);
     }
 
-    public RoleMappingEntity addRoleMappingBetweenPositionAndBroleName(String positionId, String broleName) {
+    public RoleMappingEntity addRoleMappingBetweenPositionAndBroleName(String positionId, String broleNameId) {
         RoleMappingEntity roleMappingEntity = new RoleMappingEntity();
         roleMappingEntity.setId(UUID.randomUUID().toString());
-        roleMappingEntity.setBroleName(broleName);
+        roleMappingEntity.setBroleNameId(broleNameId);
         roleMappingEntity.setMappedId(positionId);
         roleMappingEntity.setMappedType(GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
         roleMappingEntity =  roleMappingEntityDao.saveOrUpdate(roleMappingEntity);
@@ -72,7 +72,7 @@ public class RoleMappingAndOrgDataHelper {
         //添加查找到的用户与业务角色的联系
         //添加的要注意bind_num，添加一次就加一
         for(String username : usernames) {
-            updateForIncreaseActIdMembershipEntityByGroupIdAndUserId(broleName, username);
+            updateForIncreaseActIdMembershipEntityByGroupIdAndUserId(broleNameId, username);
         }
         return roleMappingEntity;
     }
@@ -85,26 +85,26 @@ public class RoleMappingAndOrgDataHelper {
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByMappedIdAndMappedType(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
         List<RoleMappingEntity> results = new ArrayList<>();
         for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            removeRoleMappingBetweenPositionAndBroleName(positionId, roleMappingEntity.getBroleName());
+            removeRoleMappingBetweenPositionAndBroleNameId(positionId, roleMappingEntity.getBroleNameId());
         }
     }
 
-    public void removeRoleMappingBetweenCapabilityAndBroleName(String capabilityId, String broleName) {
+    public void removeRoleMappingBetweenCapabilityAndBroleName(String capabilityId, String broleNameId) {
         //获取position里面相关的用户，删除其与broleName对应的group的membership（兼容activiti），再删除rolemapping
         List<String> usernames = retrieveAllHumanWithCapability(capabilityId);
         for(String username : usernames) {
-            updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(broleName, username);
+            updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(broleNameId, username);
         }
 
         //删除roleMapping表
-        roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleName(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY, broleName);
+        roleMappingEntityDao.deleteByMappedIdAndMappedTypeAndBroleNameId(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY, broleNameId);
     }
 
-    public RoleMappingEntity addRoleMappingBetweenCapabilityAndBroleName(String capabilityId, String broleName) {
+    public RoleMappingEntity addRoleMappingBetweenCapabilityAndBroleName(String capabilityId, String broleNameId) {
         HashMap<String, Object> result = new HashMap<>();
         RoleMappingEntity roleMappingEntity = new RoleMappingEntity();
         roleMappingEntity.setId(UUID.randomUUID().toString());
-        roleMappingEntity.setBroleName(broleName);
+        roleMappingEntity.setBroleNameId(broleNameId);
         roleMappingEntity.setMappedId(capabilityId);
         roleMappingEntity.setMappedType(GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
         roleMappingEntity =  roleMappingEntityDao.saveOrUpdate(roleMappingEntity);
@@ -112,7 +112,7 @@ public class RoleMappingAndOrgDataHelper {
         //查找有这个能力的所有用户
         List<String> usernames = retrieveAllHumanWithCapability(capabilityId);
         for(String username : usernames) {
-            updateForIncreaseActIdMembershipEntityByGroupIdAndUserId(broleName, username);
+            updateForIncreaseActIdMembershipEntityByGroupIdAndUserId(broleNameId, username);
         }
         return roleMappingEntity;
     }
@@ -121,7 +121,7 @@ public class RoleMappingAndOrgDataHelper {
         //获取相关的rolemapping
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByMappedIdAndMappedType(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
         for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, roleMappingEntity.getBroleName());
+            removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, roleMappingEntity.getBroleNameId());
         }
     }
 
@@ -129,7 +129,7 @@ public class RoleMappingAndOrgDataHelper {
     public void dealAfterAddHumanPosition(String username, String positionId) {
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByMappedIdAndMappedType(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
         for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            updateForIncreaseActIdMembershipEntityByGroupIdAndUserId(roleMappingEntity.getBroleName(), username);
+            updateForIncreaseActIdMembershipEntityByGroupIdAndUserId(roleMappingEntity.getBroleNameId(), username);
         }
     }
 
@@ -137,7 +137,7 @@ public class RoleMappingAndOrgDataHelper {
     public void dealAfterRemoveHumanPosition(String username, String positionId) {
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByMappedIdAndMappedType(positionId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
         for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(roleMappingEntity.getBroleName(), username);
+            updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(roleMappingEntity.getBroleNameId(), username);
         }
     }
 
@@ -145,7 +145,7 @@ public class RoleMappingAndOrgDataHelper {
     public void dealAfterAddHumanCapability(String username, String capabilityId) {
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByMappedIdAndMappedType(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
         for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            updateForIncreaseActIdMembershipEntityByGroupIdAndUserId(roleMappingEntity.getBroleName(), username);
+            updateForIncreaseActIdMembershipEntityByGroupIdAndUserId(roleMappingEntity.getBroleNameId(), username);
         }
     }
 
@@ -153,12 +153,12 @@ public class RoleMappingAndOrgDataHelper {
     public void dealAfterRemoveHumanCapability(String username, String capabilityId) {
         List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByMappedIdAndMappedType(capabilityId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
         for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(roleMappingEntity.getBroleName(), username);
+            updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(roleMappingEntity.getBroleNameId(), username);
         }
     }
 
 
-    /** groupId就是brolename, userid就是username*/
+    /** groupId就是brolenameId userid就是username*/
     /** 主要是更新bind_num，如果为1就直接删除，否则减1*/
     private void updateForDecreaseActIdMembershipEntityByGroupIdAndUserId(String groupId, String userId) {
         ActIdMembershipEntity actIdMembershipEntity = actIdMembershipEntityDao.findByGroupIdAndUserId(groupId, userId);

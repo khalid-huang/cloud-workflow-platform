@@ -3,12 +3,13 @@ package org.sysu.bpmmanagementservice.vo;
 import org.sysu.bpmmanagementservice.entity.RenCapabilityEntity;
 import org.sysu.bpmmanagementservice.entity.RenPositionEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RenConnectionVo {
-    private List<RenCapabilityEntity> renCapabilityEntities;
+    private List<RenCapabilityEntity> renCapabilityEntities = new ArrayList<>();
 
-    private List<RenPositionEntity> renPositionEntities;
+    private List<RenPositionEntity> renPositionEntities = new ArrayList<>();
 
     public List<RenCapabilityEntity> getRenCapabilityEntities() {
         return renCapabilityEntities;

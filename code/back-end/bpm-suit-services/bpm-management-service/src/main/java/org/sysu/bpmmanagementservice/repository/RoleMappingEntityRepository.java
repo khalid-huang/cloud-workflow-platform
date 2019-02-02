@@ -8,11 +8,11 @@ import java.util.List;
 public interface RoleMappingEntityRepository extends JpaRepository<RoleMappingEntity, String> {
     List<RoleMappingEntity> findByMappedIdAndMappedType(String mappedId, int mappedType);
 
-    List<RoleMappingEntity> findByBroleName(String broleName);
+    List<RoleMappingEntity> findByBroleNameId(String broleNameId);
 
-    List<RoleMappingEntity> findByBroleNameAndMappedType(String broleName, int mappedType);
+    List<RoleMappingEntity> findByBroleNameIdAndMappedType(String broleNameId, int mappedType);
 
     void deleteById(String id);
 
-    void deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName);
+    void deleteByMappedIdAndMappedTypeAndBroleNameId(String mappedId, int mappedType, String broleNameId);
 }

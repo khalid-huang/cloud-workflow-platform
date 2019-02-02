@@ -77,8 +77,12 @@ public class OrgDataController {
                                       @RequestParam(value = "description", required = false) String description,
                                       @RequestParam(value = "note", required = false) String note,
                                       @RequestParam(value = "belongToId", required = false) String belongToId,
-                                      @RequestParam(value = "groupType", required = false) int groupType) {
-        HashMap<String, Object> result = orgDataService.addGroup(name, description, note, belongToId, groupType);
+                                      @RequestParam(value = "groupType", required = false) Integer groupType) {
+        int groupTypeIntValue = 0;
+        if(groupType != null) {
+            groupTypeIntValue = groupType.intValue();
+        }
+        HashMap<String, Object> result = orgDataService.addGroup(name, description, note, belongToId, groupTypeIntValue);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -190,11 +194,11 @@ public class OrgDataController {
     @ApiOperation(value = "根据id更新能力")
     @PostMapping(value = "/capabilities/{id}")
     public ResponseEntity<?> updateCapability(@PathVariable(value = "id") String id,
-                                             @RequestParam(value = "name") String name,
+                                             @RequestParam(value = "name", required = false) String name,
                                              @RequestParam(value = "description", required = false) String description,
                                              @RequestParam(value = "note", required = false) String note) {
         HashMap<String, String> pairs = new HashMap<>();
-        pairs.put("name", name);
+        if(name != null) pairs.put("name", name);
         if(description != null) pairs.put("description", description);
         if(note != null) pairs.put("note", note);
 
@@ -203,7 +207,7 @@ public class OrgDataController {
     }
 
     @ApiOperation(value = "根据id获取能力")
-    @GetMapping(value = "/capabilities/{}id")
+    @GetMapping(value = "/capabilities/{id}")
     public ResponseEntity<?> retrieveCapabilityById(@PathVariable(value = "id") String id) {
         HashMap<String, Object> result = orgDataService.retrieveCapabilityById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);

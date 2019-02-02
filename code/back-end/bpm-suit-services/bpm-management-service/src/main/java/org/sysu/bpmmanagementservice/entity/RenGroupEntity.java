@@ -19,10 +19,10 @@ public class RenGroupEntity {
     @Column(name = "note")
     private String note;
 
-    @Column(name = "belongToId")
+    @Column(name = "belong_to_id")
     private String belongToId;
 
-    @Column(name = "groupType")
+    @Column(name = "group_type")
     private int groupType;
 
     public String getId() {

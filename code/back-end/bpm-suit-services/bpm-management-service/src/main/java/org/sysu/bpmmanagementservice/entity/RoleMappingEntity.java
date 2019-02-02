@@ -16,8 +16,8 @@ public class RoleMappingEntity {
     @Column(name = "mapped_type")
     private int mappedType;
 
-    @Column(name = "brole_name")
-    private String broleName;
+    @Column(name = "brole_name_id")
+    private String broleNameId;
 
     @Column(name = "data_version")
     private String dataVersion;
@@ -46,12 +46,12 @@ public class RoleMappingEntity {
         this.mappedType = mappedType;
     }
 
-    public String getBroleName() {
-        return broleName;
+    public String getBroleNameId() {
+        return broleNameId;
     }
 
-    public void setBroleName(String broleName) {
-        this.broleName = broleName;
+    public void setBroleNameId(String broleNameId) {
+        this.broleNameId = broleNameId;
     }
 
     public String getDataVersion() {

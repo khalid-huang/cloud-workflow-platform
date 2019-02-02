@@ -10,6 +10,7 @@ import org.sysu.bpmmanagementservice.dao.*;
 import org.sysu.bpmmanagementservice.entity.*;
 import org.sysu.bpmmanagementservice.service.OrgDataService;
 import org.sysu.bpmmanagementservice.vo.RenConnectionVo;
+import sun.misc.Cache;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -259,11 +260,13 @@ public class OrgDataServiceImpl implements OrgDataService {
         return result;
     }
 
-    /** name也是主键；与position不同*/
     @Override
     public HashMap<String, Object> updateCapability(String id, HashMap<String, String> pairs) {
         HashMap<String, Object> result = new HashMap<>();
         RenCapabilityEntity renCapabilityEntity = renCapabilityEntityDao.findById(id);
+        if(pairs.get("name") != null) {
+            renCapabilityEntity.setName(pairs.get("name"));
+        }
         if(pairs.get("note") != null) {
             renCapabilityEntity.setNote(pairs.get("note"));
         }
@@ -288,8 +291,8 @@ public class OrgDataServiceImpl implements OrgDataService {
     @Override
     public HashMap<String, Object> retrieveAllCapability() {
         HashMap<String, Object> result = new HashMap<>();
-        List<RenPositionEntity> positionEntities = renPositionEntityDao.findAll();
-        result.put("data", positionEntities);
+        List<RenCapabilityEntity> renCapabilityEntities = renCapabilityEntityDao.findAll();
+        result.put("data", renCapabilityEntities);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return result;
     }

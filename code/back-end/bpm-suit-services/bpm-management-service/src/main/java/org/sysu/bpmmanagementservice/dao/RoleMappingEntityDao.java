@@ -13,10 +13,10 @@ public interface RoleMappingEntityDao {
 
     List<RoleMappingEntity> findByMappedIdAndMappedType(String mappedId, int mappedType);
 
-    List<RoleMappingEntity> findByBroleName(String broleName);
+    List<RoleMappingEntity> findByBroleNameId(String broleNameId);
 
-    List<RoleMappingEntity> findByBroleNameAndMappedType(String broleName, int mappedType);
+    List<RoleMappingEntity> findByBroleNameIdAndMappedType(String broleNamIde, int mappedType);
 
-    void deleteByMappedIdAndMappedTypeAndBroleName(String mappedId, int mappedType, String broleName);
+    void deleteByMappedIdAndMappedTypeAndBroleNameId(String mappedId, int mappedType, String broleNameId);
 
 }

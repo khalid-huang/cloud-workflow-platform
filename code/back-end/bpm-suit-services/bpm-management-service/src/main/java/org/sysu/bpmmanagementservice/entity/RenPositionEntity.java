@@ -10,7 +10,6 @@ public class RenPositionEntity {
     @Column(name = "id")
     private String id;
 
-    /** 这个name并不是主键，因为不同的部门可以有相同的职位的 */
     @Column(name = "name")
     private String name;
 

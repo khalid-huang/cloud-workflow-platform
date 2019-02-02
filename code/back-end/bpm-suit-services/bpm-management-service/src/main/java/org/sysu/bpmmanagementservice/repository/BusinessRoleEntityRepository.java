@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.sysu.bpmmanagementservice.entity.BusinessRoleEntity;
 
 public interface BusinessRoleEntityRepository extends JpaRepository<BusinessRoleEntity, String> {
-    void deleteByName(String name);
+    void deleteById(String id);
 
-    BusinessRoleEntity findByName(String name);
+    BusinessRoleEntity findById(String id);
 }
