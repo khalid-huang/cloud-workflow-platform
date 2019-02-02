@@ -30,16 +30,6 @@ public class ModelController {
     @Autowired
     private ModelService modelService;
 
-    @Autowired
-    private ProcessEngine processEngine;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private RepositoryService repositoryService;
-
-
     /**
      * 新建一个空模型
      *
