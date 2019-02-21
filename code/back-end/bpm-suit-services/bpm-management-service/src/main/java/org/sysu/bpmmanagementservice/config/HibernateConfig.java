@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Alon Segal on 23/03/2017.
  * 利用hibernate实现多租户数据库切换的主要原理
  */
 @Configuration
