@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.constant;
+package org.sysu.bpmprocessengineservice.constant;
 
 public class GlobalContext {
    /** connect里面的类型，0-position, 1-capability */
