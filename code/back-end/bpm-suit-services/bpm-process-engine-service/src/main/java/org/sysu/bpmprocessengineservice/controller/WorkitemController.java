@@ -98,7 +98,7 @@ public class WorkitemController {
 
     @ApiOperation(value = "撤销拉取，回复到offer状态")
     @RequestMapping(value = "workitem/deallocate/{processInstanceId}/{workitemId}", method = RequestMethod.POST)
-    public ResponseEntity<?> deallocateWorkitem(@PathVariable(value = "processInstnceId") String processInstanceId,
+    public ResponseEntity<?> deallocateWorkitem(@PathVariable(value = "processInstanceId") String processInstanceId,
                                                 @PathVariable(value = "workitemId") String workitemId) {
         HashMap<String, Object> responseBody = interface2Service.deallocateWorkitem(processInstanceId, workitemId);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
