@@ -73,7 +73,7 @@ public class Interface5ImplService implements Interface5Service {
     }
 
     @Override
-    public HashMap<String, Object> getProcessInstancesPage(int pageNumber, int pageSize) {
+    public HashMap<String, Object> getProcessInstancesPage(int pageSize, int pageNumber) {
         HashMap<String, Object> result = new HashMap<>();
         Pagination pagination = new Pagination(pageNumber, pageSize);
 
