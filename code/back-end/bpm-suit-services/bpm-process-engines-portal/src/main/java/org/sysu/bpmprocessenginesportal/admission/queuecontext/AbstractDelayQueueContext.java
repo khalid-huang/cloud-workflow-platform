@@ -1,7 +1,7 @@
 package org.sysu.bpmprocessenginesportal.admission.queuecontext;
 
 
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.IRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 import java.util.Queue;
 

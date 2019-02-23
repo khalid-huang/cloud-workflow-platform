@@ -1,17 +1,17 @@
 package org.sysu.bpmprocessenginesportal.admission.rule;
 
 
-import org.sysu.bpmprocessenginesportal.admission.ActivitiExecuteAdmissionor;
+import org.sysu.bpmprocessenginesportal.admission.ExecuteAdmissionor;
 import org.sysu.bpmprocessenginesportal.admission.IAdmissionor;
 import org.sysu.bpmprocessenginesportal.admission.queuecontext.LinkedBlockingDelayQueueContext;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.ActivitiExecuteRequestContext;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.IRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 //基于延迟队列评分的准入算法
 //
 public class BaseQueueScoreRule extends AbstractAdmissionRule {
 
-    private ActivitiExecuteAdmissionor activitiExecuteAdmissionor;
+    private ExecuteAdmissionor executeAdmissionor;
     private int rtl1 = 2; //表示rtl 1下最多延迟2t，也就是最多就放到第二个延迟队列上
     private int rtl2 = 4;
 
@@ -22,23 +22,23 @@ public class BaseQueueScoreRule extends AbstractAdmissionRule {
 
     public BaseQueueScoreRule(IAdmissionor admissionor) {
         this();
-        this.activitiExecuteAdmissionor = (ActivitiExecuteAdmissionor) admissionor;
+        this.executeAdmissionor = (ExecuteAdmissionor) admissionor;
         setAdmissionor(admissionor);
     }
 
     @Override
     public void admit(IRequestContext requestContext) {
-        ActivitiExecuteRequestContext activitiExecuteRequestContext = (ActivitiExecuteRequestContext) requestContext;
+        ExecuteRequestContext executeRequestContext = (ExecuteRequestContext) requestContext;
         //计算之后放入到相应的队列中;
         //因为目前是调度层的消费大于准入层的生产，所以不用考虑执行队列
 
-        if(activitiExecuteRequestContext.getRtl().equals("0")) {
-           this.activitiExecuteAdmissionor.getExecuteQueueContext().offer(requestContext);
+        if(executeRequestContext.getRtl().equals("0")) {
+           this.executeAdmissionor.getExecuteQueueContext().offer(requestContext);
         } else {
-            int index = calculateIndex(activitiExecuteRequestContext.getRtl());
-            long expectExecuteTime = activitiExecuteRequestContext.getStartTime() + (index + 1) * this.activitiExecuteAdmissionor.getTimeSlice();
-            activitiExecuteRequestContext.setExpectExecuteTime(expectExecuteTime);
-            this.activitiExecuteAdmissionor.getDelayQueueContexts()[index].offer(requestContext);
+            int index = calculateIndex(executeRequestContext.getRtl());
+            long expectExecuteTime = executeRequestContext.getStartTime() + (index + 1) * this.executeAdmissionor.getTimeSlice();
+            executeRequestContext.setExpectExecuteTime(expectExecuteTime);
+            this.executeAdmissionor.getDelayQueueContexts()[index].offer(requestContext);
         }
     }
 
@@ -54,7 +54,7 @@ public class BaseQueueScoreRule extends AbstractAdmissionRule {
         double score;
         for(int i = 0; i < index; i++) {
             //i+1是因为执行队列才是0，延迟队列是从1开始
-            score = calculateScore((LinkedBlockingDelayQueueContext) this.activitiExecuteAdmissionor.getDelayQueueContexts()[i], i + 1);
+            score = calculateScore((LinkedBlockingDelayQueueContext) this.executeAdmissionor.getDelayQueueContexts()[i], i + 1);
             if(maxScore < score) {
                 maxScore = score;
                 maxIndex = i;
@@ -67,7 +67,7 @@ public class BaseQueueScoreRule extends AbstractAdmissionRule {
 
     private double calculateScore(LinkedBlockingDelayQueueContext linkedBlockingDelayQueueContext, int index) {
         int size = linkedBlockingDelayQueueContext.getDelayQueue().size();
-        return (this.activitiExecuteAdmissionor.getAverageHistoryRequestNumber() - size) * (1.0 / (index + 1));
+        return (this.executeAdmissionor.getAverageHistoryRequestNumber() - size) * (1.0 / (index + 1));
     }
 
     public String getDelayQueueContextClassName() {

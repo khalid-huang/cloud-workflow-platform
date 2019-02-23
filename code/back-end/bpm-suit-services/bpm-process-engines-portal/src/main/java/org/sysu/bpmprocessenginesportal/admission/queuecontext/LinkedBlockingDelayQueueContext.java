@@ -1,8 +1,8 @@
 package org.sysu.bpmprocessenginesportal.admission.queuecontext;
 
 import org.sysu.bpmprocessenginesportal.admission.IAdmissionor;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.ActivitiExecuteRequestContext;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.IRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -57,14 +57,14 @@ public class LinkedBlockingDelayQueueContext extends AbstractDelayQueueContext {
                 long remain;
                 while(true) {
                     if(!delayQueue.isEmpty()) {
-                        ActivitiExecuteRequestContext activitiExecuteRequestContext = (ActivitiExecuteRequestContext) delayQueue.peek();
+                        ExecuteRequestContext executeRequestContext = (ExecuteRequestContext) delayQueue.peek();
                         // 表示队头请求已经不属于这个时间段了
                         //remain表示这个请求在这个队列还可以保留的时间
-                        remain = activitiExecuteRequestContext.getExpectExecuteTime() - System.currentTimeMillis() - minDelayTime;
+                        remain = executeRequestContext.getExpectExecuteTime() - System.currentTimeMillis() - minDelayTime;
                         System.out.println("remain: " + remain);
                         if(remain <= 0) {
                             delayQueue.poll();
-                            nextQueueContext.offer(activitiExecuteRequestContext);
+                            nextQueueContext.offer(executeRequestContext);
                         } else {
                             try {
                                 Thread.sleep(remain);//减少内存占用

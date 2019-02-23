@@ -5,8 +5,8 @@ import org.sysu.bpmprocessenginesportal.FileNameContext;
 import org.sysu.bpmprocessenginesportal.admission.queuecontext.IQueueContext;
 import org.sysu.bpmprocessenginesportal.admission.queuecontext.LinkedBlockingDelayQueueContext;
 import org.sysu.bpmprocessenginesportal.admission.queuecontext.LinkedBlockingExecuteQueueContext;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.ActivitiExecuteRequestContext;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.IRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 import org.sysu.bpmprocessenginesportal.admission.rule.BaseQueueScoreRule;
 import org.sysu.bpmprocessenginesportal.admission.rule.BaseRule;
 import org.sysu.bpmprocessenginesportal.admission.rule.IRule;
@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Component
-public class ActivitiExecuteAdmissionor implements IAdmissionor {
+public class ExecuteAdmissionor implements IAdmissionor {
 
 //    每个时间片的长度
     private int timeSlice = 1000; //单位毫秒
@@ -32,7 +32,7 @@ public class ActivitiExecuteAdmissionor implements IAdmissionor {
 
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
-    private ActivitiExecuteAdmissionorUpdater activitiExecuteAdmissionorUpdater; //用于做一些更新操作
+    private ExecuteAdmissionorUpdater executeAdmissionorUpdater; //用于做一些更新操作
 
     private String fileNameForOriginalWaveForm = FileNameContext.fileNameForOriginalWaveForm;
     private String fileNameForSmoothWaveForm = FileNameContext.fileNameForSmoothWaveForm;
@@ -95,7 +95,7 @@ public class ActivitiExecuteAdmissionor implements IAdmissionor {
         }
 
 //        生成更新器
-        activitiExecuteAdmissionorUpdater = new ActivitiExecuteAdmissionorUpdater(
+        executeAdmissionorUpdater = new ExecuteAdmissionorUpdater(
                 this.fileNameForOriginalWaveForm,
                 this.fileNameForSmoothWaveForm,
                 this.fileNameForDelayQueuesSize,
@@ -106,8 +106,8 @@ public class ActivitiExecuteAdmissionor implements IAdmissionor {
     @Override
     public void admit(IRequestContext requestContext) {
 //        在这里可以统计请求的原始波形
-        activitiExecuteAdmissionorUpdater.setFlag(true);
-        activitiExecuteAdmissionorUpdater.increaseOriginalWaveFormCounter();
+        executeAdmissionorUpdater.setFlag(true);
+        executeAdmissionorUpdater.increaseOriginalWaveFormCounter();
 
         this.admissionRule.admit(requestContext);
     }
@@ -117,9 +117,9 @@ public class ActivitiExecuteAdmissionor implements IAdmissionor {
     @Override
     public void dispatch(IRequestContext requestContext) {
 //        在这里可以统计平滑之后的波形
-        activitiExecuteAdmissionorUpdater.increaseSmoothWaveFormCounter();
-        ActivitiExecuteRequestContext activitiExecuteRequestContext = (ActivitiExecuteRequestContext) requestContext;
-        this.executorService.execute(activitiExecuteRequestContext.getFutureTask());
+        executeAdmissionorUpdater.increaseSmoothWaveFormCounter();
+        ExecuteRequestContext executeRequestContext = (ExecuteRequestContext) requestContext;
+        this.executorService.execute(executeRequestContext.getFutureTask());
     }
 
     public IQueueContext[] getDelayQueueContexts() {

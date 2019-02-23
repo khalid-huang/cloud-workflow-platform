@@ -1,14 +1,14 @@
 package org.sysu.bpmprocessenginesportal.admission.rule;
 
-import org.sysu.bpmprocessenginesportal.admission.ActivitiExecuteAdmissionor;
+import org.sysu.bpmprocessenginesportal.admission.ExecuteAdmissionor;
 import org.sysu.bpmprocessenginesportal.admission.IAdmissionor;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.ActivitiExecuteRequestContext;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.IRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 //最基本的，直接放到执行队列中进行执行
 public class BaseRule extends AbstractAdmissionRule {
 
-    private ActivitiExecuteAdmissionor activitiExecuteAdmissionor;
+    private ExecuteAdmissionor executeAdmissionor;
 
     public BaseRule() {
 
@@ -16,15 +16,15 @@ public class BaseRule extends AbstractAdmissionRule {
 
     public BaseRule(IAdmissionor admissionor) {
         this();
-        this.activitiExecuteAdmissionor = (ActivitiExecuteAdmissionor) admissionor;
+        this.executeAdmissionor = (ExecuteAdmissionor) admissionor;
         setAdmissionor(admissionor);
     }
 
     @Override
     public void admit(IRequestContext requestContext) {
-        ActivitiExecuteRequestContext activitiExecuteRequestContext = (ActivitiExecuteRequestContext) requestContext;
+        ExecuteRequestContext executeRequestContext = (ExecuteRequestContext) requestContext;
         //直接放到执行队列中执行
-        this.activitiExecuteAdmissionor.getExecuteQueueContext().offer(requestContext);
+        this.executeAdmissionor.getExecuteQueueContext().offer(requestContext);
     }
 
     public String getDelayQueueContextClassName() {

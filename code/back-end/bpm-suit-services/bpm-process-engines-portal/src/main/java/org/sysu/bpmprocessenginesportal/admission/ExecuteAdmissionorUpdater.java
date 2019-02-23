@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.LongAdder;
 
 //用于给ActivitiExecuteAdmissionor做一些更新工作，比如更新historySize，写入延迟队列的长度，记录波形
-public class ActivitiExecuteAdmissionorUpdater {
+public class ExecuteAdmissionorUpdater {
 //    用于记录波形的计数器
     LongAdder originalWaveFormCounter;
     LongAdder smoothWaveFormCounter;
@@ -23,18 +23,18 @@ public class ActivitiExecuteAdmissionorUpdater {
 
     Boolean flag =  false; //开始写的标志；当有加数之后地开始写;
 
-    private ActivitiExecuteAdmissionor activitiExecuteAdmissionor;
+    private ExecuteAdmissionor executeAdmissionor;
 
-    public ActivitiExecuteAdmissionorUpdater(String fileNameForOriginalWaveForm,
-            String fileNameForSmoothWaveForm, String fileNameForDelayQueuesSize, ActivitiExecuteAdmissionor activitiExecuteAdmissionor) {
-        this.activitiExecuteAdmissionor = activitiExecuteAdmissionor;
+    public ExecuteAdmissionorUpdater(String fileNameForOriginalWaveForm,
+                                     String fileNameForSmoothWaveForm, String fileNameForDelayQueuesSize, ExecuteAdmissionor executeAdmissionor) {
+        this.executeAdmissionor = executeAdmissionor;
         try {
             originalWaveFormCounter = new LongAdder();
             smoothWaveFormCounter = new LongAdder();
             writerForOriginalWaveForm = new FileWriter(fileNameForOriginalWaveForm);
             writerForSmoothWaveForm = new FileWriter(fileNameForSmoothWaveForm);
             writerForDelayQueuesSize = new FileWriter(fileNameForDelayQueuesSize);
-            ActivitiExecuteAdmissionorUpdater.Task task = new ActivitiExecuteAdmissionorUpdater.Task();
+            ExecuteAdmissionorUpdater.Task task = new ExecuteAdmissionorUpdater.Task();
             scheduledThreadPoolExecutor.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
         } catch (Exception e) {
         }
@@ -58,14 +58,14 @@ public class ActivitiExecuteAdmissionorUpdater {
     }
 
     private class Task implements Runnable {
-        ActivitiExecuteAdmissionor activitiExecuteAdmissionor = ActivitiExecuteAdmissionorUpdater.this.activitiExecuteAdmissionor;
+        ExecuteAdmissionor executeAdmissionor = ExecuteAdmissionorUpdater.this.executeAdmissionor;
 
-        FileWriter writerForOriginalWaveForm = ActivitiExecuteAdmissionorUpdater.this.writerForOriginalWaveForm;
-        FileWriter writerForSmoothWaveForm = ActivitiExecuteAdmissionorUpdater.this.writerForSmoothWaveForm;
-        FileWriter writerForDelayQueuesSize = ActivitiExecuteAdmissionorUpdater.this.writerForDelayQueuesSize;
+        FileWriter writerForOriginalWaveForm = ExecuteAdmissionorUpdater.this.writerForOriginalWaveForm;
+        FileWriter writerForSmoothWaveForm = ExecuteAdmissionorUpdater.this.writerForSmoothWaveForm;
+        FileWriter writerForDelayQueuesSize = ExecuteAdmissionorUpdater.this.writerForDelayQueuesSize;
 
-        LongAdder originalWaveFormCounter = ActivitiExecuteAdmissionorUpdater.this.originalWaveFormCounter;
-        LongAdder smoothWaveFormCounter = ActivitiExecuteAdmissionorUpdater.this.smoothWaveFormCounter;
+        LongAdder originalWaveFormCounter = ExecuteAdmissionorUpdater.this.originalWaveFormCounter;
+        LongAdder smoothWaveFormCounter = ExecuteAdmissionorUpdater.this.smoothWaveFormCounter;
 
         @Override
         public void run() {
@@ -75,7 +75,7 @@ public class ActivitiExecuteAdmissionorUpdater {
                 }
 
 //                更新ActivitiExecuteAdmissionor的averageHistoryRequestNumber
-                this.activitiExecuteAdmissionor.computerAverageHistoryRequestNumber(smoothWaveFormCounter.intValue());
+                this.executeAdmissionor.computerAverageHistoryRequestNumber(smoothWaveFormCounter.intValue());
 //                写入原始请求波形计数
                 writerForOriginalWaveForm.write(originalWaveFormCounter.toString() + "\r\n");
                 writerForOriginalWaveForm.flush();
@@ -87,9 +87,9 @@ public class ActivitiExecuteAdmissionorUpdater {
                 smoothWaveFormCounter.reset();
 
 //                记录当前四个延迟队列的大小
-                if(activitiExecuteAdmissionor.getUsingRule().equals("BaseQueueScoreRule")) {
+                if(executeAdmissionor.getUsingRule().equals("BaseQueueScoreRule")) {
                     String sizeStr = "";
-                    for (IQueueContext queueContext : activitiExecuteAdmissionor.getDelayQueueContexts()) {
+                    for (IQueueContext queueContext : executeAdmissionor.getDelayQueueContexts()) {
                         LinkedBlockingDelayQueueContext temp = (LinkedBlockingDelayQueueContext) queueContext;
                         sizeStr += temp.getDelayQueue().size() + " ";
                     }

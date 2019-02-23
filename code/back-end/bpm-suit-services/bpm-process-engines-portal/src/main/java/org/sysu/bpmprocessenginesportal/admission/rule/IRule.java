@@ -2,7 +2,7 @@ package org.sysu.bpmprocessenginesportal.admission.rule;
 
 
 import org.sysu.bpmprocessenginesportal.admission.IAdmissionor;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.IRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 //准入规则
 public interface IRule {

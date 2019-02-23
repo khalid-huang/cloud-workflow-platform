@@ -2,7 +2,7 @@ package org.sysu.bpmprocessenginesportal.admission.queuecontext;
 
 
 import org.sysu.bpmprocessenginesportal.admission.IAdmissionor;
-import org.sysu.bpmprocessenginesportal.admission.requestcontext.IRequestContext;
+import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 //一个队列的上下文，包括了时间，执行环境等
 public interface IQueueContext {
