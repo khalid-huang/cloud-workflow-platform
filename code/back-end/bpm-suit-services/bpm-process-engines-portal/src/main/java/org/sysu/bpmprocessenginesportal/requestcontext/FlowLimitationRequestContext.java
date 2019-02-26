@@ -12,16 +12,19 @@ import java.util.concurrent.FutureTask;
 public class FlowLimitationRequestContext extends  AbstractRequestContext {
 
 
-    public FlowLimitationRequestContext(RequestMethod method, String url, MultiValueMap<String, Object> variables, RestTemplate restTemplate) {
+    public FlowLimitationRequestContext(RequestMethod method, String tenantId, String url, MultiValueMap<String, Object> variables, RestTemplate restTemplate) {
         this.method = method;
+        this.tenantId = tenantId;
         this.url = url;
         this.variables = variables;
         this.restTemplate = restTemplate;
         this.futureTask = new FutureTask<>(new Task(method, url, variables, restTemplate));
     }
 
-    public FlowLimitationRequestContext(String url, MultiValueMap<String, Object> variables, RestTemplate restTemplate,
+    public FlowLimitationRequestContext(RequestMethod method, String tenantId,String url, MultiValueMap<String, Object> variables, RestTemplate restTemplate,
                                         FutureTask futureTask) {
+        this.method = method;
+        this.tenantId = tenantId;
         this.url = url;
         this.variables = variables;
         this.restTemplate = restTemplate;

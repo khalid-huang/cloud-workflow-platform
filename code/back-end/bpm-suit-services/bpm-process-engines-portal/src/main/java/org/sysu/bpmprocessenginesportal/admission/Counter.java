@@ -13,11 +13,11 @@ public class Counter {
 
     Boolean flag; //开始写的标志；当有加数之后地开始写;
 
-    private ExecuteAdmissionor executeAdmissionor;
+    private ExecuteAdmissionScheduler executeAdmissionScheduler;
 
-    public Counter(String fileName, ExecuteAdmissionor executeAdmissionor) {
+    public Counter(String fileName, ExecuteAdmissionScheduler executeAdmissionScheduler) {
         this.flag = false;
-        this.executeAdmissionor = executeAdmissionor;
+        this.executeAdmissionScheduler = executeAdmissionScheduler;
         longAdder = new LongAdder();
         try {
             writer = new FileWriter(fileName);
@@ -44,7 +44,7 @@ public class Counter {
             }
             try {
 //                更新ActivitiExecuteAdmissionor的averageHistoryRequestNumber
-                Counter.this.executeAdmissionor.computerAverageHistoryRequestNumber(Counter.this.longAdder.intValue());
+                Counter.this.executeAdmissionScheduler.computerAverageHistoryRequestNumber(Counter.this.longAdder.intValue());
                 Counter.this.writer.write(Counter.this.longAdder.toString() + "\r\n");
 //                每5秒写入硬盘,先不这样吧
                 Counter.this.writer.flush();

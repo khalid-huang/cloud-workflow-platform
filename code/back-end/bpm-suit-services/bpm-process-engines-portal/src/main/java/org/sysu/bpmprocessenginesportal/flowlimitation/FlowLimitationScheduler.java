@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.sysu.bpmprocessenginesportal.admission.ExecuteAdmissionScheduler;
 import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
 import org.sysu.bpmprocessenginesportal.requestcontext.FlowLimitationRequestContext;
 
@@ -25,6 +26,9 @@ import java.util.concurrent.atomic.LongAdder;
 public class FlowLimitationScheduler {
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    ExecuteAdmissionScheduler executeAdmissionScheduler;
 
     
 
@@ -45,12 +49,18 @@ public class FlowLimitationScheduler {
     /** 预设一些数据 */
     @PostConstruct
     void init() {
-        tenantMaxConcurrentNumber.put("1", 30L); //租户id为1的用户每秒最多可并发30个请求
-        tenantMaxConcurrentNumber.put("2", 40L); //租户id为2的用户每秒最多可并发40个请求
+        tenantMaxConcurrentNumber.put("1", 20L); //租户id为1的用户每秒最多可并发20个请求
+        tenantMaxConcurrentNumber.put("2", 30L); //租户id为2的用户每秒最多可并发30个请求
+        tenantMaxConcurrentNumber.put("3", 20L); //租户id为3的用户每秒最多可并发30个请求
+        tenantMaxConcurrentNumber.put("4", 20L); //租户id为3的用户每秒最多可并发30个请求
         tenantCurrentConcurrentNumber.put("1", new LongAdder());
         tenantCurrentConcurrentNumber.put("2", new LongAdder());
+        tenantCurrentConcurrentNumber.put("3", new LongAdder());
+        tenantCurrentConcurrentNumber.put("4", new LongAdder());
         requestPendingQueues.put("1", new ConcurrentLinkedQueue<>());
         requestPendingQueues.put("2", new ConcurrentLinkedQueue<>());
+        requestPendingQueues.put("3", new ConcurrentLinkedQueue<>());
+        requestPendingQueues.put("4", new ConcurrentLinkedQueue<>());
         //启动更新
         Task task = new Task();
         scheduledThreadPoolExecutor.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
@@ -59,7 +69,7 @@ public class FlowLimitationScheduler {
     /** 完成请求的调度，需要返回结果 */
     public ResponseEntity<?> schedulerSync(String tenantId, RequestMethod method, String url, MultiValueMap<String, Object> variables) {
         increase(tenantId);
-        FlowLimitationRequestContext flowLimitationRequestContext = new FlowLimitationRequestContext(method, url, variables, restTemplate);
+        FlowLimitationRequestContext flowLimitationRequestContext = new FlowLimitationRequestContext(method, tenantId ,url, variables, restTemplate);
         if(getCurrentConcurrentNumber(tenantId) < getMaxConcurrentNumber(tenantId)) {
             //直接进入准入调度
             transferToAdmissionor(flowLimitationRequestContext);
@@ -89,7 +99,7 @@ public class FlowLimitationScheduler {
     private void transferToAdmissionor(FlowLimitationRequestContext flowLimitationRequestContext) {
         //rtl由admmissor自己缓存获取；
         ExecuteRequestContext executeRequestContext = new ExecuteRequestContext(flowLimitationRequestContext);
-
+        executeAdmissionScheduler.admit(flowLimitationRequestContext);
     }
 
     public long getCurrentConcurrentNumber(String tenantId) {
