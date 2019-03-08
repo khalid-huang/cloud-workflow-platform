@@ -11,6 +11,8 @@ import java.util.concurrent.FutureTask;
 /** 请求上下文封装实体，基于FutrureTask实现阻塞 */
 public abstract class AbstractRequestContext implements IRequestContext {
 
+    //租户ID
+    protected String tenantId;
     //请求方法
     protected RequestMethod method;
     // 请求地址
@@ -21,6 +23,14 @@ public abstract class AbstractRequestContext implements IRequestContext {
     protected FutureTask<ResponseEntity<String>> futureTask;
     //请求对应的restTemplate，用于发送请求
     protected RestTemplate restTemplate;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
 
     public RequestMethod getMethod() {
         return method;

@@ -23,11 +23,11 @@ public class ExecuteAdmissionorUpdater {
 
     Boolean flag =  false; //开始写的标志；当有加数之后地开始写;
 
-    private ExecuteAdmissionor executeAdmissionor;
+    private ExecuteAdmissionScheduler executeAdmissionScheduler;
 
     public ExecuteAdmissionorUpdater(String fileNameForOriginalWaveForm,
-                                     String fileNameForSmoothWaveForm, String fileNameForDelayQueuesSize, ExecuteAdmissionor executeAdmissionor) {
-        this.executeAdmissionor = executeAdmissionor;
+                                     String fileNameForSmoothWaveForm, String fileNameForDelayQueuesSize, ExecuteAdmissionScheduler executeAdmissionScheduler) {
+        this.executeAdmissionScheduler = executeAdmissionScheduler;
         try {
             originalWaveFormCounter = new LongAdder();
             smoothWaveFormCounter = new LongAdder();
@@ -58,7 +58,7 @@ public class ExecuteAdmissionorUpdater {
     }
 
     private class Task implements Runnable {
-        ExecuteAdmissionor executeAdmissionor = ExecuteAdmissionorUpdater.this.executeAdmissionor;
+        ExecuteAdmissionScheduler executeAdmissionScheduler = ExecuteAdmissionorUpdater.this.executeAdmissionScheduler;
 
         FileWriter writerForOriginalWaveForm = ExecuteAdmissionorUpdater.this.writerForOriginalWaveForm;
         FileWriter writerForSmoothWaveForm = ExecuteAdmissionorUpdater.this.writerForSmoothWaveForm;
@@ -75,7 +75,7 @@ public class ExecuteAdmissionorUpdater {
                 }
 
 //                更新ActivitiExecuteAdmissionor的averageHistoryRequestNumber
-                this.executeAdmissionor.computerAverageHistoryRequestNumber(smoothWaveFormCounter.intValue());
+                this.executeAdmissionScheduler.computerAverageHistoryRequestNumber(smoothWaveFormCounter.intValue());
 //                写入原始请求波形计数
                 writerForOriginalWaveForm.write(originalWaveFormCounter.toString() + "\r\n");
                 writerForOriginalWaveForm.flush();
@@ -87,9 +87,9 @@ public class ExecuteAdmissionorUpdater {
                 smoothWaveFormCounter.reset();
 
 //                记录当前四个延迟队列的大小
-                if(executeAdmissionor.getUsingRule().equals("BaseQueueScoreRule")) {
+                if(executeAdmissionScheduler.getUsingRule().equals("BaseQueueScoreRule")) {
                     String sizeStr = "";
-                    for (IQueueContext queueContext : executeAdmissionor.getDelayQueueContexts()) {
+                    for (IQueueContext queueContext : executeAdmissionScheduler.getDelayQueueContexts()) {
                         LinkedBlockingDelayQueueContext temp = (LinkedBlockingDelayQueueContext) queueContext;
                         sizeStr += temp.getDelayQueue().size() + " ";
                     }

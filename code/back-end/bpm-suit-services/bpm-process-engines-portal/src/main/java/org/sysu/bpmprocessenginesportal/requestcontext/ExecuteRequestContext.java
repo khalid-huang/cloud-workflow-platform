@@ -17,8 +17,9 @@ public class ExecuteRequestContext extends AbstractRequestContext {
 //    期望的执行时间(由)IRule计算
     private long expectExecuteTime;
 
-    public ExecuteRequestContext(RequestMethod method, String rtl, String url, MultiValueMap<String, Object> variables, RestTemplate restTemplate) {
+    public ExecuteRequestContext(RequestMethod method, String tenantId, String rtl, String url, MultiValueMap<String, Object> variables, RestTemplate restTemplate) {
         this.method = method;
+        this.tenantId = tenantId;
         this.rtl = rtl;
         this.url = url;
         this.variables= variables;
@@ -27,8 +28,10 @@ public class ExecuteRequestContext extends AbstractRequestContext {
         this.startTime = System.currentTimeMillis();
     }
 
-    public ExecuteRequestContext(String rtl, String url, MultiValueMap<String, Object> variables, RestTemplate restTemplate,
+    public ExecuteRequestContext(RequestMethod method, String tenantId, String rtl, String url, MultiValueMap<String, Object> variables, RestTemplate restTemplate,
                                  FutureTask futureTask) {
+        this.method = method;
+        this.tenantId = tenantId;
         this.rtl = rtl;
         this.url = url;
         this.variables= variables;
@@ -39,6 +42,7 @@ public class ExecuteRequestContext extends AbstractRequestContext {
 
     public ExecuteRequestContext(FlowLimitationRequestContext flowLimitationRequestContext) {
         this.method = flowLimitationRequestContext.getMethod();
+        this.tenantId = flowLimitationRequestContext.getTenantId();
         this.url = flowLimitationRequestContext.getUrl();
         this.variables = flowLimitationRequestContext.getVariables();
         this.restTemplate = flowLimitationRequestContext.getRestTemplate();
