@@ -26,7 +26,7 @@ public class FlowLimitationScheduler {
     @Autowired
     RestTemplate restTemplate;
 
-    
+
 
     //如下的缓存都用HashMap实现，也可以基于redis :https://blog.csdn.net/xusheng__zhang/article/details/78856146
     //用于缓存所有租户的每秒最大并发数；
