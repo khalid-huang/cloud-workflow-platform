@@ -1,5 +1,0 @@
-FROM python:2
-WORKDIR /tmp
-ADD . /tmp/
-RUN pip install --no-cache-dir -r requirements.txt
-ENTRYPOINT [ "python", "COrganApp.py" ] 
