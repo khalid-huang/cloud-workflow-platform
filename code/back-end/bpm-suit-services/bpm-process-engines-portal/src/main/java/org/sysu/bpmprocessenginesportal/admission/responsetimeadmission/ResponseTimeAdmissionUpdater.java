@@ -1,8 +1,8 @@
-package org.sysu.bpmprocessenginesportal.admission;
+package org.sysu.bpmprocessenginesportal.admission.responsetimeadmission;
 
 
-import org.sysu.bpmprocessenginesportal.admission.queuecontext.IQueueContext;
-import org.sysu.bpmprocessenginesportal.admission.queuecontext.LinkedBlockingDelayQueueContext;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.queuecontext.IQueueContext;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.queuecontext.LinkedBlockingDelayQueueContext;
 
 import java.io.FileWriter;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.LongAdder;
 
 //用于给ActivitiExecuteAdmissionor做一些更新工作，比如更新historySize，写入延迟队列的长度，记录波形
-public class ExecuteAdmissionorUpdater {
+public class ResponseTimeAdmissionUpdater {
 //    用于记录波形的计数器
     LongAdder originalWaveFormCounter;
     LongAdder smoothWaveFormCounter;
@@ -23,18 +23,18 @@ public class ExecuteAdmissionorUpdater {
 
     Boolean flag =  false; //开始写的标志；当有加数之后地开始写;
 
-    private ExecuteAdmissionScheduler executeAdmissionScheduler;
+    private ResponseTimeAdmissionScheduler responseTimeAdmissionScheduler;
 
-    public ExecuteAdmissionorUpdater(String fileNameForOriginalWaveForm,
-                                     String fileNameForSmoothWaveForm, String fileNameForDelayQueuesSize, ExecuteAdmissionScheduler executeAdmissionScheduler) {
-        this.executeAdmissionScheduler = executeAdmissionScheduler;
+    public ResponseTimeAdmissionUpdater(String fileNameForOriginalWaveForm,
+                                        String fileNameForSmoothWaveForm, String fileNameForDelayQueuesSize, ResponseTimeAdmissionScheduler responseTimeAdmissionScheduler) {
+        this.responseTimeAdmissionScheduler = responseTimeAdmissionScheduler;
         try {
             originalWaveFormCounter = new LongAdder();
             smoothWaveFormCounter = new LongAdder();
             writerForOriginalWaveForm = new FileWriter(fileNameForOriginalWaveForm);
             writerForSmoothWaveForm = new FileWriter(fileNameForSmoothWaveForm);
             writerForDelayQueuesSize = new FileWriter(fileNameForDelayQueuesSize);
-            ExecuteAdmissionorUpdater.Task task = new ExecuteAdmissionorUpdater.Task();
+            ResponseTimeAdmissionUpdater.Task task = new ResponseTimeAdmissionUpdater.Task();
             scheduledThreadPoolExecutor.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
         } catch (Exception e) {
         }
@@ -58,14 +58,14 @@ public class ExecuteAdmissionorUpdater {
     }
 
     private class Task implements Runnable {
-        ExecuteAdmissionScheduler executeAdmissionScheduler = ExecuteAdmissionorUpdater.this.executeAdmissionScheduler;
+        ResponseTimeAdmissionScheduler responseTimeAdmissionScheduler = ResponseTimeAdmissionUpdater.this.responseTimeAdmissionScheduler;
 
-        FileWriter writerForOriginalWaveForm = ExecuteAdmissionorUpdater.this.writerForOriginalWaveForm;
-        FileWriter writerForSmoothWaveForm = ExecuteAdmissionorUpdater.this.writerForSmoothWaveForm;
-        FileWriter writerForDelayQueuesSize = ExecuteAdmissionorUpdater.this.writerForDelayQueuesSize;
+        FileWriter writerForOriginalWaveForm = ResponseTimeAdmissionUpdater.this.writerForOriginalWaveForm;
+        FileWriter writerForSmoothWaveForm = ResponseTimeAdmissionUpdater.this.writerForSmoothWaveForm;
+        FileWriter writerForDelayQueuesSize = ResponseTimeAdmissionUpdater.this.writerForDelayQueuesSize;
 
-        LongAdder originalWaveFormCounter = ExecuteAdmissionorUpdater.this.originalWaveFormCounter;
-        LongAdder smoothWaveFormCounter = ExecuteAdmissionorUpdater.this.smoothWaveFormCounter;
+        LongAdder originalWaveFormCounter = ResponseTimeAdmissionUpdater.this.originalWaveFormCounter;
+        LongAdder smoothWaveFormCounter = ResponseTimeAdmissionUpdater.this.smoothWaveFormCounter;
 
         @Override
         public void run() {
@@ -75,7 +75,7 @@ public class ExecuteAdmissionorUpdater {
                 }
 
 //                更新ActivitiExecuteAdmissionor的averageHistoryRequestNumber
-                this.executeAdmissionScheduler.computerAverageHistoryRequestNumber(smoothWaveFormCounter.intValue());
+                this.responseTimeAdmissionScheduler.computerAverageHistoryRequestNumber(smoothWaveFormCounter.intValue());
 //                写入原始请求波形计数
                 writerForOriginalWaveForm.write(originalWaveFormCounter.toString() + "\r\n");
                 writerForOriginalWaveForm.flush();
@@ -87,9 +87,9 @@ public class ExecuteAdmissionorUpdater {
                 smoothWaveFormCounter.reset();
 
 //                记录当前四个延迟队列的大小
-                if(executeAdmissionScheduler.getUsingRule().equals("BaseQueueScoreRule")) {
+                if(responseTimeAdmissionScheduler.getUsingRule().equals("BaseQueueScoreRule")) {
                     String sizeStr = "";
-                    for (IQueueContext queueContext : executeAdmissionScheduler.getDelayQueueContexts()) {
+                    for (IQueueContext queueContext : responseTimeAdmissionScheduler.getDelayQueueContexts()) {
                         LinkedBlockingDelayQueueContext temp = (LinkedBlockingDelayQueueContext) queueContext;
                         sizeStr += temp.getDelayQueue().size() + " ";
                     }

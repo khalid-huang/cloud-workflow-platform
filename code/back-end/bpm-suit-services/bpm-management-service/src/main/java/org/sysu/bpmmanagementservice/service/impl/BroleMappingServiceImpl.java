@@ -2,12 +2,12 @@ package org.sysu.bpmmanagementservice.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.sysu.bpmmanagementservice.component.RoleMappingAndOrgDataHelper;
+import org.sysu.bpmmanagementservice.component.BroleMappingAndOrgDataHelper;
 import org.sysu.bpmmanagementservice.constant.GlobalContext;
 import org.sysu.bpmmanagementservice.constant.ResponseConstantManager;
 import org.sysu.bpmmanagementservice.dao.*;
 import org.sysu.bpmmanagementservice.entity.*;
-import org.sysu.bpmmanagementservice.service.RoleMappingService;
+import org.sysu.bpmmanagementservice.service.BroleMappingService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /** 基于Activiti的实现 */
 @Service
-public class RoleMappingServiceImpl implements RoleMappingService {
+public class BroleMappingServiceImpl implements BroleMappingService {
     @Autowired
     BusinessRoleEntityDao businessRoleEntityDao;
 
@@ -34,7 +34,7 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     RenCapabilityEntityDao renCapabilityEntityDao;
 
     @Autowired
-    RoleMappingAndOrgDataHelper roleMappingAndOrgDataHelper;
+    BroleMappingAndOrgDataHelper broleMappingAndOrgDataHelper;
 
     @Autowired
     ActIdMembershipEntityDao actIdMembershipEntityDao;
@@ -86,10 +86,10 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     @Override
     public HashMap<String, Object> addPositionBroleName(String positionId, String broleNameId) {
         HashMap<String, Object> result = new HashMap<>();
-        RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.addRoleMappingBetweenPositionAndBroleName(positionId, broleNameId);
+        BroleMappingEntity broleMappingEntity = broleMappingAndOrgDataHelper.addRoleMappingBetweenPositionAndBroleName(positionId, broleNameId);
 
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", roleMappingEntity);
+        result.put("data", broleMappingEntity);
         return result;
     }
 
@@ -97,7 +97,7 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     @Transactional
     public HashMap<String, Object> removePositionBroleName(String positionId, String broleNameId) {
         HashMap<String, Object> result = new HashMap<>();
-        roleMappingAndOrgDataHelper.removeRoleMappingBetweenPositionAndBroleNameId(positionId, broleNameId);
+        broleMappingAndOrgDataHelper.removeRoleMappingBetweenPositionAndBroleNameId(positionId, broleNameId);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", null);
         return result;
@@ -106,10 +106,10 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     @Override
     public HashMap<String, Object> retrieveAllPositionsWithBroleName(String broleNameId) {
        HashMap<String, Object> result = new HashMap<>();
-       List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByBroleNameIdAndMappedType(broleNameId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
+       List<BroleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByBroleNameIdAndMappedType(broleNameId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION);
        List<RenPositionEntity> renPositionEntities = new ArrayList<>();
-       for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-           renPositionEntities.add(renPositionEntityDao.findById(roleMappingEntity.getMappedId()));
+       for(BroleMappingEntity broleMappingEntity : roleMappingEntities) {
+           renPositionEntities.add(renPositionEntityDao.findById(broleMappingEntity.getMappedId()));
        }
        result.put("status", ResponseConstantManager.STATUS_SUCCESS);
        result.put("data", renPositionEntities);
@@ -120,10 +120,10 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     @SuppressWarnings("unchecked")
     public HashMap<String, Object> addCapabilityBroleName(String capabilityId, String broleNameId) {
         HashMap<String, Object> result = new HashMap<>();
-        RoleMappingEntity roleMappingEntity = roleMappingAndOrgDataHelper.addRoleMappingBetweenCapabilityAndBroleName(capabilityId, broleNameId);
+        BroleMappingEntity broleMappingEntity = broleMappingAndOrgDataHelper.addRoleMappingBetweenCapabilityAndBroleName(capabilityId, broleNameId);
 
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", roleMappingEntity);
+        result.put("data", broleMappingEntity);
         return result;
     }
 
@@ -131,7 +131,7 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     @Transactional
     public HashMap<String, Object> removeCapabilityBroleName(String capabilityId, String broleNameId) {
         HashMap<String, Object> result = new HashMap<>();
-        roleMappingAndOrgDataHelper.removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, broleNameId);
+        broleMappingAndOrgDataHelper.removeRoleMappingBetweenCapabilityAndBroleName(capabilityId, broleNameId);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", null);
         return result;
@@ -140,28 +140,29 @@ public class RoleMappingServiceImpl implements RoleMappingService {
     @Override
     public HashMap<String, Object> retrieveAllCapabilitiesWithBroleName(String broleNameId) {
         HashMap<String, Object> result = new HashMap<>();
-        List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByBroleNameIdAndMappedType(broleNameId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
+        List<BroleMappingEntity> roleMappingEntities = roleMappingEntityDao.findByBroleNameIdAndMappedType(broleNameId, GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY);
         List<RenCapabilityEntity> renCapabilityEntities = new ArrayList<>();
-        for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            renCapabilityEntities.add(renCapabilityEntityDao.findById(roleMappingEntity.getMappedId()));
+        for(BroleMappingEntity broleMappingEntity : roleMappingEntities) {
+            renCapabilityEntities.add(renCapabilityEntityDao.findById(broleMappingEntity.getMappedId()));
         }
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renCapabilityEntities);
         return result;
     }
 
+    //函数写错了，应该是返回所有的业务关系映射的
     @Override
-    public HashMap<String, Object> retrievAllRoleMapping() {
+    public HashMap<String, Object> retrieveAllRoleMapping() {
         HashMap<String, Object> result = new HashMap<>();
-        List<RoleMappingEntity> roleMappingEntities = roleMappingEntityDao.findAll();
+        List<BroleMappingEntity> roleMappingEntities = roleMappingEntityDao.findAll();
         HashMap<String, List> total = new HashMap<>();
         List<RenCapabilityEntity> renCapabilityEntities =  new ArrayList<RenCapabilityEntity>();
         List<RenPositionEntity> renPositionEntities =  new ArrayList<RenPositionEntity>();
-        for(RoleMappingEntity roleMappingEntity : roleMappingEntities) {
-            if(roleMappingEntity.getMappedType() == GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY) {
-                renCapabilityEntities.add(renCapabilityEntityDao.findById(roleMappingEntity.getMappedId()));
-            } else if(roleMappingEntity.getMappedType() == GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION) {
-                renPositionEntities.add(renPositionEntityDao.findById(roleMappingEntity.getMappedId()));
+        for(BroleMappingEntity broleMappingEntity : roleMappingEntities) {
+            if(broleMappingEntity.getMappedType() == GlobalContext.ROLEMAPPING_MAPPEDTYPE_CAPABILITY) {
+                renCapabilityEntities.add(renCapabilityEntityDao.findById(broleMappingEntity.getMappedId()));
+            } else if(broleMappingEntity.getMappedType() == GlobalContext.ROLEMAPPING_MAPPEDTYPE_POSITION) {
+                renPositionEntities.add(renPositionEntityDao.findById(broleMappingEntity.getMappedId()));
             }
         }
         total.put("capability2brole", renCapabilityEntities);

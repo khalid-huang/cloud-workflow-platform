@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "role_mapping")
-public class RoleMappingEntity {
+public class BroleMappingEntity {
 
     @Id
     @Column(name = "id")

@@ -1,16 +1,16 @@
-package org.sysu.bpmprocessenginesportal.admission;
+package org.sysu.bpmprocessenginesportal.admission.responsetimeadmission;
 
 import org.springframework.stereotype.Component;
 import org.sysu.bpmprocessenginesportal.FileNameContext;
-import org.sysu.bpmprocessenginesportal.admission.queuecontext.IQueueContext;
-import org.sysu.bpmprocessenginesportal.admission.queuecontext.LinkedBlockingDelayQueueContext;
-import org.sysu.bpmprocessenginesportal.admission.queuecontext.LinkedBlockingExecuteQueueContext;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.queuecontext.IQueueContext;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.queuecontext.LinkedBlockingDelayQueueContext;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.queuecontext.LinkedBlockingExecuteQueueContext;
 import org.sysu.bpmprocessenginesportal.constant.GlobalConstant;
 import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
 import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
-import org.sysu.bpmprocessenginesportal.admission.rule.BaseQueueScoreRule;
-import org.sysu.bpmprocessenginesportal.admission.rule.BaseRule;
-import org.sysu.bpmprocessenginesportal.admission.rule.IRule;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.rule.BaseQueueScoreRule;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.rule.BaseRule;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.rule.IRule;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Component
-public class ExecuteAdmissionScheduler implements IAdmissionor {
+public class ResponseTimeAdmissionScheduler implements IAdmissionor {
 
 //    每个时间片的长度
     private int timeSlice = 100; //单位毫秒
@@ -34,7 +34,7 @@ public class ExecuteAdmissionScheduler implements IAdmissionor {
 
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
-    private ExecuteAdmissionorUpdater executeAdmissionorUpdater; //用于做一些更新操作
+    private ResponseTimeAdmissionUpdater responseTimeAdmissionUpdater; //用于做一些更新操作
 
     //缓存每个租户的rtl信息，也可以定时更新的
     private final HashMap<String, String> tenantRTL = new HashMap<>();
@@ -106,7 +106,7 @@ public class ExecuteAdmissionScheduler implements IAdmissionor {
         }
 
 //        生成更新器
-        executeAdmissionorUpdater = new ExecuteAdmissionorUpdater(
+        responseTimeAdmissionUpdater = new ResponseTimeAdmissionUpdater(
                 this.fileNameForOriginalWaveForm,
                 this.fileNameForSmoothWaveForm,
                 this.fileNameForDelayQueuesSize,
@@ -117,8 +117,8 @@ public class ExecuteAdmissionScheduler implements IAdmissionor {
     @Override
     public void admit(IRequestContext requestContext) {
 //        在这里可以统计请求的原始波形
-        executeAdmissionorUpdater.setFlag(true);
-        executeAdmissionorUpdater.increaseOriginalWaveFormCounter();
+        responseTimeAdmissionUpdater.setFlag(true);
+        responseTimeAdmissionUpdater.increaseOriginalWaveFormCounter();
         //补充入请求的rtl信息
         ExecuteRequestContext executeRequestContext = (ExecuteRequestContext) requestContext;
         executeRequestContext.setRtl(this.tenantRTL.get(executeRequestContext.getTenantId()));
@@ -130,7 +130,7 @@ public class ExecuteAdmissionScheduler implements IAdmissionor {
     @Override
     public void dispatch(IRequestContext requestContext) {
 //        在这里可以统计平滑之后的波形
-        executeAdmissionorUpdater.increaseSmoothWaveFormCounter();
+        responseTimeAdmissionUpdater.increaseSmoothWaveFormCounter();
         ExecuteRequestContext executeRequestContext = (ExecuteRequestContext) requestContext;
         this.executorService.execute(executeRequestContext.getFutureTask());
     }

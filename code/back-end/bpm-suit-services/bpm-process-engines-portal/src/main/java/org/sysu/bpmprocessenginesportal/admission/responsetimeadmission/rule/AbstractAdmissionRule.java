@@ -1,7 +1,7 @@
-package org.sysu.bpmprocessenginesportal.admission.rule;
+package org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.rule;
 
 
-import org.sysu.bpmprocessenginesportal.admission.IAdmissionor;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.IAdmissionor;
 
 public abstract class AbstractAdmissionRule implements IRule {
     private IAdmissionor admissionor;

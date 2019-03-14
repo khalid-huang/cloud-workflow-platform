@@ -2,7 +2,7 @@ package org.sysu.bpmmanagementservice.service;
 
 import java.util.HashMap;
 
-public interface RoleMappingService {
+public interface BroleMappingService {
     /** businessRole */
     HashMap<String, Object> addBusinessRole(String name);
 
@@ -26,6 +26,6 @@ public interface RoleMappingService {
 
     HashMap<String, Object> retrieveAllCapabilitiesWithBroleName(String broleNameId);
 
-    HashMap<String, Object> retrievAllRoleMapping();
+    HashMap<String, Object> retrieveAllRoleMapping();
 
 }

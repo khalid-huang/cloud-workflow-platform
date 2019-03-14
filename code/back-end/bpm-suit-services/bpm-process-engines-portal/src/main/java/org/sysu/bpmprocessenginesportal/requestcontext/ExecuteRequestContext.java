@@ -1,6 +1,5 @@
 package org.sysu.bpmprocessenginesportal.requestcontext;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -40,13 +39,13 @@ public class ExecuteRequestContext extends AbstractRequestContext {
         this.startTime = System.currentTimeMillis();
     }
 
-    public ExecuteRequestContext(FlowLimitationRequestContext flowLimitationRequestContext) {
-        this.method = flowLimitationRequestContext.getMethod();
-        this.tenantId = flowLimitationRequestContext.getTenantId();
-        this.url = flowLimitationRequestContext.getUrl();
-        this.variables = flowLimitationRequestContext.getVariables();
-        this.restTemplate = flowLimitationRequestContext.getRestTemplate();
-        this.futureTask = flowLimitationRequestContext.getFutureTask();
+    public ExecuteRequestContext(RequestRateRequestContext requestRateRequestContext) {
+        this.method = requestRateRequestContext.getMethod();
+        this.tenantId = requestRateRequestContext.getTenantId();
+        this.url = requestRateRequestContext.getUrl();
+        this.variables = requestRateRequestContext.getVariables();
+        this.restTemplate = requestRateRequestContext.getRestTemplate();
+        this.futureTask = requestRateRequestContext.getFutureTask();
         this.startTime = System.currentTimeMillis();
     }
 

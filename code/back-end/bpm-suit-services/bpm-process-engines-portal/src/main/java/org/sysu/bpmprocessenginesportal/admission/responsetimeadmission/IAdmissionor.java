@@ -1,4 +1,4 @@
-package org.sysu.bpmprocessenginesportal.admission;
+package org.sysu.bpmprocessenginesportal.admission.responsetimeadmission;
 
 
 import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;

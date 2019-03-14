@@ -1,14 +1,14 @@
-package org.sysu.bpmprocessenginesportal.admission.rule;
+package org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.rule;
 
-import org.sysu.bpmprocessenginesportal.admission.ExecuteAdmissionScheduler;
-import org.sysu.bpmprocessenginesportal.admission.IAdmissionor;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.IAdmissionor;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.ResponseTimeAdmissionScheduler;
 import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
 import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 //最基本的，直接放到执行队列中进行执行
 public class BaseRule extends AbstractAdmissionRule {
 
-    private ExecuteAdmissionScheduler executeAdmissionScheduler;
+    private ResponseTimeAdmissionScheduler responseTimeAdmissionScheduler;
 
     public BaseRule() {
 
@@ -16,7 +16,7 @@ public class BaseRule extends AbstractAdmissionRule {
 
     public BaseRule(IAdmissionor admissionor) {
         this();
-        this.executeAdmissionScheduler = (ExecuteAdmissionScheduler) admissionor;
+        this.responseTimeAdmissionScheduler = (ResponseTimeAdmissionScheduler) admissionor;
         setAdmissionor(admissionor);
     }
 
@@ -24,7 +24,7 @@ public class BaseRule extends AbstractAdmissionRule {
     public void admit(IRequestContext requestContext) {
         ExecuteRequestContext executeRequestContext = (ExecuteRequestContext) requestContext;
         //直接放到执行队列中执行
-        this.executeAdmissionScheduler.getExecuteQueueContext().offer(requestContext);
+        this.responseTimeAdmissionScheduler.getExecuteQueueContext().offer(requestContext);
     }
 
     public String getDelayQueueContextClassName() {

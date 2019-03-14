@@ -3,7 +3,7 @@ package org.sysu.bpmmanagementservice.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sysu.bpmmanagementservice.dao.RoleMappingEntityDao;
-import org.sysu.bpmmanagementservice.entity.RoleMappingEntity;
+import org.sysu.bpmmanagementservice.entity.BroleMappingEntity;
 import org.sysu.bpmmanagementservice.repository.RoleMappingEntityRepository;
 
 import java.util.List;
@@ -15,8 +15,8 @@ public class RoleMappingEntityDaoImpl implements RoleMappingEntityDao {
     RoleMappingEntityRepository roleMappingEntityRepository;
 
     @Override
-    public RoleMappingEntity saveOrUpdate(RoleMappingEntity roleMappingEntity) {
-        return roleMappingEntityRepository.save(roleMappingEntity);
+    public BroleMappingEntity saveOrUpdate(BroleMappingEntity broleMappingEntity) {
+        return roleMappingEntityRepository.save(broleMappingEntity);
     }
 
     @Override
@@ -25,22 +25,22 @@ public class RoleMappingEntityDaoImpl implements RoleMappingEntityDao {
     }
 
     @Override
-    public List<RoleMappingEntity> findAll() {
+    public List<BroleMappingEntity> findAll() {
         return roleMappingEntityRepository.findAll();
     }
 
     @Override
-    public List<RoleMappingEntity> findByMappedIdAndMappedType(String mappedId, int mappedType) {
+    public List<BroleMappingEntity> findByMappedIdAndMappedType(String mappedId, int mappedType) {
         return roleMappingEntityRepository.findByMappedIdAndMappedType(mappedId, mappedType);
     }
 
     @Override
-    public List<RoleMappingEntity> findByBroleNameId(String broleNameId) {
+    public List<BroleMappingEntity> findByBroleNameId(String broleNameId) {
         return roleMappingEntityRepository.findByBroleNameId(broleNameId);
     }
 
     @Override
-    public List<RoleMappingEntity> findByBroleNameIdAndMappedType(String broleNameId, int mappedType) {
+    public List<BroleMappingEntity> findByBroleNameIdAndMappedType(String broleNameId, int mappedType) {
         return roleMappingEntityRepository.findByBroleNameIdAndMappedType(broleNameId, mappedType);
     }
 

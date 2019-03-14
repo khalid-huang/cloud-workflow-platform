@@ -86,7 +86,7 @@ public class Interface2ServiceImpl implements Interface2Service {
     }
 
     /** 提供 */
-    /** 为工作项指定候选人 */
+    /** 为工作项分配候选人 */
     @Override
     public HashMap<String, Object> offerWorkitem(String processInstanceId, String workitemId, String username) {
         HashMap<String, Object> response = new HashMap<>();
@@ -97,7 +97,7 @@ public class Interface2ServiceImpl implements Interface2Service {
     }
 
     /** 指派 */
-    /** 为工作项提供处理人 */
+    /** 为工作项指派处理人 */
     @Override
     public HashMap<String, Object> allocateWorkitem(String processInstanceId, String workitemId, String username) {
         HashMap<String, Object> response = new HashMap<>();
