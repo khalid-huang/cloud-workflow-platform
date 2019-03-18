@@ -1,15 +1,15 @@
 package org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.rule;
 
 
-import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.IAdmissionor;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.IRTLScheduler;
 import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 //准入规则
-public interface IRule {
+public interface IAdmissionRule {
 
-    public void setAdmissionor(IAdmissionor admissionor);
+    public void setAdmissionor(IRTLScheduler admissionor);
 
-    public IAdmissionor getAdmissionor();
+    public IRTLScheduler getAdmissionor();
 
     public void admit(IRequestContext requestContext);
 }

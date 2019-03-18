@@ -1,26 +1,26 @@
 package org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.queuecontext;
 
-import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.IAdmissionor;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.IRTLScheduler;
 import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class LinkedBlockingExecuteQueueContext extends AbstractExecuteQueueContext {
 
-    private IAdmissionor admissionor;
+    private IRTLScheduler admissionor;
 
-    public LinkedBlockingExecuteQueueContext(IAdmissionor admissionor) {
+    public LinkedBlockingExecuteQueueContext(IRTLScheduler admissionor) {
         this.admissionor = admissionor;
         this.executeQueue = new LinkedBlockingQueue<IRequestContext>();
     }
 
     @Override
-    public IAdmissionor getAdmission() {
+    public IRTLScheduler getAdmission() {
         return this.admissionor;
     }
 
     @Override
-    public void setAdmission(IAdmissionor admission) {
+    public void setAdmission(IRTLScheduler admission) {
         this.admissionor = admission;
     }
 

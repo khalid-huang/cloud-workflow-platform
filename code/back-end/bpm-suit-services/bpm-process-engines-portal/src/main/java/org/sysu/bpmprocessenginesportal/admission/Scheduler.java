@@ -1,4 +1,4 @@
-package org.sysu.bpmprocessenginesportal.admission.requestrateadmission;
+package org.sysu.bpmprocessenginesportal.admission;
 
 /** 用于实现限流的调度器 */
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
-import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.ResponseTimeAdmissionScheduler;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.RTLScheduler;
 import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
 import org.sysu.bpmprocessenginesportal.requestcontext.RequestRateRequestContext;
 
@@ -19,14 +19,15 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.LongAdder;
 
+//准入控制的入口调度器
 /** 限流的策略是：如果不超过租户最大并发数就直接进入准入，否则进入缓存队列，直到租户并发数降下来*/
 @Component
-public class RequestRateAdmissionScheduler {
+public class Scheduler {
     @Autowired
     RestTemplate restTemplate;
 
     @Autowired
-    ResponseTimeAdmissionScheduler responseTimeAdmissionScheduler;
+    RTLScheduler RTLScheduler;
 
     //如下的缓存都用HashMap实现，也可以基于redis :https://blog.csdn.net/xusheng__zhang/article/details/78856146
     //用于缓存所有租户的每秒最大并发数；
@@ -63,12 +64,12 @@ public class RequestRateAdmissionScheduler {
     }
 
     /** 完成请求的调度，需要返回结果 */
-    public ResponseEntity<?> schedulerSync(String tenantId, RequestMethod method, String url, MultiValueMap<String, Object> variables) {
+    public ResponseEntity<?> scheduler(String tenantId, RequestMethod method, String url, MultiValueMap<String, Object> variables) {
         increase(tenantId);
         RequestRateRequestContext requestRateRequestContext = new RequestRateRequestContext(method, tenantId ,url, variables, restTemplate);
         if(getCurrentConcurrentNumber(tenantId) < getMaxConcurrentNumber(tenantId)) {
             //直接进入准入调度
-            transferToAdmissionor(requestRateRequestContext);
+            transferToRTAdmissonor(requestRateRequestContext);
         } else {
             //进入缓存，等待下一秒开始
             this.requestPendingQueues.get(tenantId).offer(requestRateRequestContext);
@@ -87,15 +88,15 @@ public class RequestRateAdmissionScheduler {
         for(String tenantId : requestPendingQueues.keySet()) {
             while (this.getCurrentConcurrentNumber(tenantId) < this.getMaxConcurrentNumber(tenantId)
                     && !this.requestPendingQueues.get(tenantId).isEmpty()) {
-                transferToAdmissionor(this.requestPendingQueues.get(tenantId).poll());
+                transferToRTAdmissonor(this.requestPendingQueues.get(tenantId).poll());
             }
         }
     }
 
-    private void transferToAdmissionor(RequestRateRequestContext requestRateRequestContext) {
+    private void transferToRTAdmissonor(RequestRateRequestContext requestRateRequestContext) {
         //rtl由admmissor自己缓存获取；
         ExecuteRequestContext executeRequestContext = new ExecuteRequestContext(requestRateRequestContext);
-        responseTimeAdmissionScheduler.admit(requestRateRequestContext);
+        RTLScheduler.admit(requestRateRequestContext);
     }
 
     public long getCurrentConcurrentNumber(String tenantId) {
@@ -113,12 +114,12 @@ public class RequestRateAdmissionScheduler {
     private class Task implements Runnable {
         @Override
         public void run() {
-            for(String tenantId : RequestRateAdmissionScheduler.this.tenantCurrentConcurrentNumber.keySet()) {
-                RequestRateAdmissionScheduler.this.tenantCurrentConcurrentNumber.get(tenantId).reset();
+            for(String tenantId : Scheduler.this.tenantCurrentConcurrentNumber.keySet()) {
+                Scheduler.this.tenantCurrentConcurrentNumber.get(tenantId).reset();
                 //优先处理掉缓存队列中的请求
-                while (RequestRateAdmissionScheduler.this.getCurrentConcurrentNumber(tenantId) < RequestRateAdmissionScheduler.this.getMaxConcurrentNumber(tenantId)
-                        && !RequestRateAdmissionScheduler.this.requestPendingQueues.get(tenantId).isEmpty()) {
-                    transferToAdmissionor(RequestRateAdmissionScheduler.this.requestPendingQueues.get(tenantId).poll());
+                while (Scheduler.this.getCurrentConcurrentNumber(tenantId) < Scheduler.this.getMaxConcurrentNumber(tenantId)
+                        && !Scheduler.this.requestPendingQueues.get(tenantId).isEmpty()) {
+                    transferToRTAdmissonor(Scheduler.this.requestPendingQueues.get(tenantId).poll());
                 }
             }
         }

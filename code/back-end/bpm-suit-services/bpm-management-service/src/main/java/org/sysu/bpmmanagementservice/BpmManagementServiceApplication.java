@@ -1,5 +1,8 @@
 package org.sysu.bpmmanagementservice;
 
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.sysu.bpmmanagementservice.config.activiti.modeler.explorer.JsonpCallbackFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -25,4 +28,17 @@ public class BpmManagementServiceApplication extends WebMvcConfigurerAdapter {
 	public JsonpCallbackFilter filter(){
 		return new JsonpCallbackFilter();
 	}
+
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedMethod("*");
+		config.addAllowedHeader("*");
+		source.registerCorsConfiguration("/**", config);
+		return new CorsFilter(source);
+	}
+
 }
