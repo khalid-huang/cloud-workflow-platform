@@ -1,6 +1,6 @@
 package org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.queuecontext;
 
-import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.IAdmissionor;
+import org.sysu.bpmprocessenginesportal.admission.responsetimeadmission.IRTLScheduler;
 import org.sysu.bpmprocessenginesportal.requestcontext.ExecuteRequestContext;
 import org.sysu.bpmprocessenginesportal.requestcontext.IRequestContext;
 
@@ -11,7 +11,7 @@ public class LinkedBlockingDelayQueueContext extends AbstractDelayQueueContext {
 //    过时之后的请求的去向；
     private IQueueContext nextQueueContext;
 
-    private IAdmissionor admissionor;
+    private IRTLScheduler admissionor;
 
     public LinkedBlockingDelayQueueContext(int minDelayTime, int maxDelayTime, int timeSlice, IQueueContext nextQueueContext){
         this.delayQueue = new LinkedBlockingQueue<IRequestContext>();
@@ -22,12 +22,12 @@ public class LinkedBlockingDelayQueueContext extends AbstractDelayQueueContext {
     }
 
     @Override
-    public IAdmissionor getAdmission() {
+    public IRTLScheduler getAdmission() {
         return this.admissionor;
     }
 
     @Override
-    public void setAdmission(IAdmissionor admission) {
+    public void setAdmission(IRTLScheduler admission) {
         this.admissionor = admission;
     }
 

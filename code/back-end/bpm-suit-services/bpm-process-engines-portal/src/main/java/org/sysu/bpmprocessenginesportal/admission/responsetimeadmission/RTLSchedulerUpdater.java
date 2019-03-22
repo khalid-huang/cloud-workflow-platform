@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.LongAdder;
 
 //用于给ActivitiExecuteAdmissionor做一些更新工作，比如更新historySize，写入延迟队列的长度，记录波形
-public class ResponseTimeAdmissionUpdater {
+public class RTLSchedulerUpdater {
 //    用于记录波形的计数器
     LongAdder originalWaveFormCounter;
     LongAdder smoothWaveFormCounter;
@@ -23,18 +23,18 @@ public class ResponseTimeAdmissionUpdater {
 
     Boolean flag =  false; //开始写的标志；当有加数之后地开始写;
 
-    private ResponseTimeAdmissionScheduler responseTimeAdmissionScheduler;
+    private RTLScheduler RTLScheduler;
 
-    public ResponseTimeAdmissionUpdater(String fileNameForOriginalWaveForm,
-                                        String fileNameForSmoothWaveForm, String fileNameForDelayQueuesSize, ResponseTimeAdmissionScheduler responseTimeAdmissionScheduler) {
-        this.responseTimeAdmissionScheduler = responseTimeAdmissionScheduler;
+    public RTLSchedulerUpdater(String fileNameForOriginalWaveForm,
+                               String fileNameForSmoothWaveForm, String fileNameForDelayQueuesSize, RTLScheduler RTLScheduler) {
+        this.RTLScheduler = RTLScheduler;
         try {
             originalWaveFormCounter = new LongAdder();
             smoothWaveFormCounter = new LongAdder();
             writerForOriginalWaveForm = new FileWriter(fileNameForOriginalWaveForm);
             writerForSmoothWaveForm = new FileWriter(fileNameForSmoothWaveForm);
             writerForDelayQueuesSize = new FileWriter(fileNameForDelayQueuesSize);
-            ResponseTimeAdmissionUpdater.Task task = new ResponseTimeAdmissionUpdater.Task();
+            RTLSchedulerUpdater.Task task = new RTLSchedulerUpdater.Task();
             scheduledThreadPoolExecutor.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
         } catch (Exception e) {
         }
@@ -58,14 +58,14 @@ public class ResponseTimeAdmissionUpdater {
     }
 
     private class Task implements Runnable {
-        ResponseTimeAdmissionScheduler responseTimeAdmissionScheduler = ResponseTimeAdmissionUpdater.this.responseTimeAdmissionScheduler;
+        RTLScheduler RTLScheduler = RTLSchedulerUpdater.this.RTLScheduler;
 
-        FileWriter writerForOriginalWaveForm = ResponseTimeAdmissionUpdater.this.writerForOriginalWaveForm;
-        FileWriter writerForSmoothWaveForm = ResponseTimeAdmissionUpdater.this.writerForSmoothWaveForm;
-        FileWriter writerForDelayQueuesSize = ResponseTimeAdmissionUpdater.this.writerForDelayQueuesSize;
+        FileWriter writerForOriginalWaveForm = RTLSchedulerUpdater.this.writerForOriginalWaveForm;
+        FileWriter writerForSmoothWaveForm = RTLSchedulerUpdater.this.writerForSmoothWaveForm;
+        FileWriter writerForDelayQueuesSize = RTLSchedulerUpdater.this.writerForDelayQueuesSize;
 
-        LongAdder originalWaveFormCounter = ResponseTimeAdmissionUpdater.this.originalWaveFormCounter;
-        LongAdder smoothWaveFormCounter = ResponseTimeAdmissionUpdater.this.smoothWaveFormCounter;
+        LongAdder originalWaveFormCounter = RTLSchedulerUpdater.this.originalWaveFormCounter;
+        LongAdder smoothWaveFormCounter = RTLSchedulerUpdater.this.smoothWaveFormCounter;
 
         @Override
         public void run() {
@@ -75,7 +75,7 @@ public class ResponseTimeAdmissionUpdater {
                 }
 
 //                更新ActivitiExecuteAdmissionor的averageHistoryRequestNumber
-                this.responseTimeAdmissionScheduler.computerAverageHistoryRequestNumber(smoothWaveFormCounter.intValue());
+                this.RTLScheduler.computerAverageHistoryRequestNumber(smoothWaveFormCounter.intValue());
 //                写入原始请求波形计数
                 writerForOriginalWaveForm.write(originalWaveFormCounter.toString() + "\r\n");
                 writerForOriginalWaveForm.flush();
@@ -87,9 +87,9 @@ public class ResponseTimeAdmissionUpdater {
                 smoothWaveFormCounter.reset();
 
 //                记录当前四个延迟队列的大小
-                if(responseTimeAdmissionScheduler.getUsingRule().equals("BaseQueueScoreRule")) {
+                if(RTLScheduler.getUsingRule().equals("BaseQueueScoreAdmissionRule")) {
                     String sizeStr = "";
-                    for (IQueueContext queueContext : responseTimeAdmissionScheduler.getDelayQueueContexts()) {
+                    for (IQueueContext queueContext : RTLScheduler.getDelayQueueContexts()) {
                         LinkedBlockingDelayQueueContext temp = (LinkedBlockingDelayQueueContext) queueContext;
                         sizeStr += temp.getDelayQueue().size() + " ";
                     }

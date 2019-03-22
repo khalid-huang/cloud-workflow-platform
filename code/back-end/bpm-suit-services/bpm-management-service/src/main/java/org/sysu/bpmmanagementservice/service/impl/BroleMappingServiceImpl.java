@@ -25,9 +25,6 @@ public class BroleMappingServiceImpl implements BroleMappingService {
     RoleMappingEntityDao roleMappingEntityDao;
 
     @Autowired
-    RenConnectEntityDao renConnectEntityDao;
-
-    @Autowired
     RenPositionEntityDao renPositionEntityDao;
 
     @Autowired
