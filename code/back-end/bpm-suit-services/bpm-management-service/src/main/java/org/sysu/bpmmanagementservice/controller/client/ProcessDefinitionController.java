@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 @Api(tags = "ProcessDefinitionController", description = "管理流程定义")
 @RestController
-public class ProcessDefinitionController {
+public class  ProcessDefinitionController {
     private static final Logger logger = LoggerFactory.getLogger(ProcessDefinitionController.class);
 
     @Autowired
