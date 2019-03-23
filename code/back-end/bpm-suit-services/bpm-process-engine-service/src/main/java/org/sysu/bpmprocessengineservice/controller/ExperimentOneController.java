@@ -3,6 +3,7 @@ package org.sysu.bpmprocessengineservice.controller;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class ExperimentOneController {
 
     @Autowired
     Interface2Service interface2Service;
+
+    @Autowired
+    RuntimeService runtimeService;
 
     @Autowired
     TaskService taskService;
@@ -80,10 +84,19 @@ public class ExperimentOneController {
     }
 
     @ApiOperation(value = "完成工作项")
-    @RequestMapping(value = "workitem/complete/{processInstanceId}/{workitemId}", method = RequestMethod.POST)
+    @RequestMapping(value = "workitem/complete/{processDefinitionId}/{processInstanceId}/{workitemId}", method = RequestMethod.POST)
     public ResponseEntity<?> completeWorkitem(@PathVariable(value = "processInstanceId") String processInstanceId,
+                                              @PathVariable(value = "processDefinitionId") String processDefinitionId,
                                               @PathVariable(value = "workitemId") String workitemId,
                                               @RequestParam(required = false) Map<String, Object> data) {
+        //判断工作项是否存在
+//        System.out.println("workitemid: " + workitemId);
+//        if(runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).list().size() == 0) {
+//            return ResponseEntity.status(HttpStatus.OK).body("no processinstance id");
+//        }
+//        if(!taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult().getId().equals(workitemId)) {
+//            return ResponseEntity.status(HttpStatus.OK).body("no workitem id");
+//        }
         HashMap<String, Object> responseBody = interface2Service.completeWorkitem(processInstanceId, workitemId, data);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }

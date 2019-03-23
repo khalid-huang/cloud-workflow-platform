@@ -35,7 +35,7 @@ Simulation {
 				constantUsersPerSec(6) during (2 minutes))
                                 //rampUsers(1000) during (3 minutes))
 		).throttle(
-			reachRps(20) in (10 seconds),
+			reachRps(70) in (10 seconds),
 			holdFor(30 seconds),
 			reachRps(60) in (10 seconds),
 			holdFor(4 minutes),

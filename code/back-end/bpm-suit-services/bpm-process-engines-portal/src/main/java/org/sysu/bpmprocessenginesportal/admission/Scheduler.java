@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.LongAdder;
 
 //准入控制的入口调度器
 /** 限流的策略是：如果不超过租户最大并发数就直接进入准入，否则进入缓存队列，直到租户并发数降下来*/
-@Component
+//@Component
 public class Scheduler {
     @Autowired
     RestTemplate restTemplate;

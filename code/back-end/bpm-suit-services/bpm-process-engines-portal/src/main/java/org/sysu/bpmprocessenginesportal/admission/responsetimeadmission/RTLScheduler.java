@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Component
+//@Component
 public class RTLScheduler implements IRTLScheduler {
 
 //    每个时间片的长度

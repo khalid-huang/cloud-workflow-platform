@@ -35,7 +35,7 @@ public class ExperimentHelp {
 
         //增加1000个流程定义
         //这里要注意activiti在加载 的时候是以部署器为单位加载的，所以需要为每个流程定义生成一个新的部署器；这样才方便做实验
-        int num = 1000;
+        int num = 500;
         for(int i = 0; i < num; i++) {
             repositoryService.createDeployment().addClasspathResource(onlineShoppingPath).deploy();
         }

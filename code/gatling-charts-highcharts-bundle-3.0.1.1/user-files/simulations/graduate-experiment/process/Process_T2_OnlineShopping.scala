@@ -10,10 +10,10 @@ object Process_T2_OnlineShopping {
     var contentType = Map("Content-Type" -> "application/x-www-form-urlencoded")
 
     var feeder1 = csv("act_re_procdef_1.csv").circular  //包含1个话中实例定义
-    var feeder20 = csv("act_re_procdef_20.csv").circular //包含20个流程实例定义 
-    var feeder30 = csv("act_re_procdef_30.csv").circular //包含20个流程实例定义 
-    var feeder40 = csv("act_re_procdef_40.csv").circular 
-    var feeder1000 = csv("act_re_procdef_0.csv").circular
+    // var feeder20 = csv("act_re_procdef_20.csv").circular //包含20个流程实例定义 
+    // var feeder30 = csv("act_re_procdef_30.csv").circular //包含20个流程实例定义 
+    // var feeder40 = csv("act_re_procdef_40.csv").circular 
+    // var feeder1000 = csv("act_re_procdef_0.csv").circular
 
     var workflow = feed(feeder1)
 		.exec(http("t2-startProcessInstanceById")
