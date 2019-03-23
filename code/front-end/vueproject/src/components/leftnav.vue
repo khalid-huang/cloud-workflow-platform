@@ -39,124 +39,24 @@ export default {
         {
           menuid: 1,
           icon: 'li-icon-xiangmuguanli',
-          menuname: '工作流程管理',
+          menuname: '租户管理',
           hasThird: null,
           url: null,
           menus: [
             {
               menuid: 1,
               icon: 'icon-cat-skuQuery',
-              menuname: '流程实例管理',
+              menuname: '租户信息列表',
               hasThird: 'N',
-              url: 'goods/Goods',
+              url: 'tenant/list',
               menus: null
             },
             {
               menuid: 2,
               icon: 'icon-cat-skuQuery',
-              menuname: '流程定义管理',
+              menuname: '新建租户',
               hasThird: 'N',
-              url: 'goods/def',
-              menus: null
-            },
-            {
-              menuid: 3,
-              icon: 'icon-cat-skuQuery',
-              menuname: '模型列表',
-              hasThird: 'N',
-              url: 'goods/deploy',
-              menus: null
-            }
-          ]
-        },
-        {
-          menuid: 10,
-          icon: 'li-icon-dingdanguanli',
-          menuname: '工作项',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 11,
-              icon: 'icon-order-manage',
-              menuname: '工作项管理',
-              hasThird: 'N',
-              url: 'workitem/manage',
-              menus: null
-            }
-          ]
-        },
-        {
-          menuid: 33,
-          icon: 'li-icon-dingdanguanli',
-          menuname: '订单管理',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 34,
-              icon: 'icon-order-manage',
-              menuname: '交易订单',
-              hasThird: 'N',
-              url: 'pay/Order',
-              menus: null
-            }
-          ]
-        },
-        {
-          menuid: 71,
-          icon: 'li-icon-xitongguanli',
-          menuname: '系统管理',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 72,
-              icon: 'icon-cus-manage',
-              menuname: '用户管理',
-              hasThird: 'N',
-              url: 'system/user',
-              menus: null
-            },
-            {
-              menuid: 73,
-              icon: 'icon-news-manage',
-              menuname: '角色管理',
-              hasThird: 'N',
-              url: 'system/Role',
-              menus: null
-            },
-            {
-              menuid: 74,
-              icon: 'icon-cs-manage',
-              menuname: '公司管理',
-              hasThird: 'N',
-              url: 'system/Dept',
-              menus: null
-            },
-            {
-              menuid: 76,
-              icon: 'icon-cms-manage',
-              menuname: '权限管理',
-              hasThird: 'N',
-              url: 'system/Permission',
-              menus: null
-            }
-          ]
-        },
-        {
-          menuid: 150,
-          icon: 'li-icon-shangchengxitongtubiaozitihuayuanwenjian91',
-          menuname: '图表',
-          hasThird: null,
-          url: null,
-          menus: [
-            {
-              menuid: 159,
-              icon: 'icon-provider-manage',
-              menuname: '数据可视化',
-              hasThird: 'N',
-              url: 'charts/statistics',
+              url: 'tenant/add',
               menus: null
             }
           ]
