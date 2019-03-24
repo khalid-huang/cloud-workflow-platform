@@ -54,6 +54,7 @@ public class ModelController {
     @ApiOperation(value = "获取所有模型")
     @GetMapping("/getAll")
     public ResponseEntity<?> modelList() {
+        logger.info("getAll");
         HashMap<String, Object> responseBody = modelService.modelList();
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
@@ -80,6 +81,7 @@ public class ModelController {
     @ApiOperation(value = "发布模型为流程定义")
     @PostMapping("deploy/{modelId}")
     public ResponseEntity<?> deploy(@PathVariable("modelId") String modelId) {
+        logger.info("deploy");
         HashMap<String, Object> responseBody = modelService.deployModel(modelId);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
