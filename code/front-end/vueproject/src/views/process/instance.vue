@@ -25,27 +25,28 @@
     <el-table size="small" :data="listData" highlight-current-row v-loading="loading" border element-loading-text="拼命加载中" style="width: 100%;">
       <el-table-column align="center" type="index" width="60">
       </el-table-column>
-      <el-table-column sortable prop="businessKey" label="流程名称" width="200">
-      </el-table-column>     
-      <el-table-column sortable prop="modelId" label="定义编号" width="200">
-      </el-table-column>
-      <el-table-column sortable prop="name" label="发起人" width="200">
-      </el-table-column>
-      <el-table-column sortable prop="createTime" label="发起时间" width="200">
-        <template slot-scope="scope">
-          <div>{{scope.row.createTime|timestampToTime}}</div>
-        </template>
-      </el-table-column>
-      <el-table-column sortable prop="createTime" label="结束时间" width="200">
-        <template slot-scope="scope">
-          <div>{{scope.row.createTime|timestampToTime}}</div>
-        </template>
+      <el-table-column sortable prop="id" label="实例编号" width="150">
       </el-table-column>      
-      <el-table-column sortable prop="editUser" label="状态" width="200">
+      <el-table-column sortable prop="businessKey" label="业务主键" width="150">
+      </el-table-column>
+      <el-table-column sortable prop="pdId" label="定义编号" width="150">
+      </el-table-column>
+      <el-table-column sortable prop="startTime" label="发起时间" width="150">
+        <template slot-scope="scope">
+          <div>{{scope.row.startTime|timestampToTime}}</div>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column sortable prop="endTime" label="结束时间" width="120">
+        <template slot-scope="scope">
+          <div>{{scope.row.endTime|timestampToTime}}</div>
+        </template>
+      </el-table-column>       -->
+      <el-table-column sortable prop="status" label="状态" width="150">
       </el-table-column>
       <el-table-column align="center" label="操作" min-width="300">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+          <el-button size="mini" type="primary" @click="handleEdit(scope.row.operatione.row)">执行情况</el-button>
+          <el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">{{scope.row.operation}}</el-button>
           <el-button size="mini" type="danger" @click="deleteUser(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -138,58 +139,55 @@ export default {
   methods: {
     // 获取公司列表
      getdata(parameter) {
-      this.loading = true
+      // this.loading = true
       // // 模拟数据开始
-      // let res = {
-      //   code: 0,
-      //   msg: null,
-      //   count: 5,
-      //   data: [
-      //     {
-      //       addUser: null,
-      //       editUser: null,
-      //       addTime: 1521062371000,
-      //       editTime: 1526700200000,
-      //       deptId: 2,
-      //       deptName: '请假',
-      //       deptNo: 'process:4:127937',
-      //       key: 'process',
-      //       parentId: 1,
-      //       id: '127934'
-      //     }
-      //   ]
-      // }
-      // this.loading = false
-      // this.listData = res.data
-      // this.pageparm.currentPage = this.formInline.page
-      // this.pageparm.pageSize = this.formInline.limit
-      // this.pageparm.total = res.count
+      let res = {
+        code: 0,
+        msg: null,
+        count: 5,
+        data: [
+          {
+            id: '297501',
+            businessKey: 'Mi2_leave_application',
+            pdId: 'design_department_leave:1:295028',
+            operation: '中断',
+            startTime: 1553429237000,
+            endTime: null,
+            status: '执行中'
+          }
+        ]
+      }
+      this.loading = false
+      this.listData = res.data
+      this.pageparm.currentPage = this.formInline.page
+      this.pageparm.pageSize = this.formInline.limit
+      this.pageparm.total = res.count
       // 模拟数据结束
 
       /***
        * 调用接口，注释上面模拟数据 取消下面注释
        */
-      ModelList(parameter)
-        .then(res => {
-          this.loading = false
-          if (res.success == false) {
-            this.$message({
-              type: 'info',
-              message: res.msg
-            })
-          } else {
-            console.log(res)
-            this.listData = res.models
-            // 分页赋值
-            this.pageparm.currentPage = this.formInline.page
-            this.pageparm.pageSize = this.formInline.limit
-            this.pageparm.total = res.count
-          }
-        })
-        .catch(err => {
-          this.loading = false
-          this.$message.error('菜单加载失败，请稍后再试！')
-        })
+      // ModelList(parameter)
+      //   .then(res => {
+      //     this.loading = false
+      //     if (res.success == false) {
+      //       this.$message({
+      //         type: 'info',
+      //         message: res.msg
+      //       })
+      //     } else {
+      //       console.log(res)
+      //       this.listData = res.models
+      //       // 分页赋值
+      //       this.pageparm.currentPage = this.formInline.page
+      //       this.pageparm.pageSize = this.formInline.limit
+      //       this.pageparm.total = res.count
+      //     }
+      //   })
+      //   .catch(err => {
+      //     this.loading = false
+      //     this.$message.error('菜单加载失败，请稍后再试！')
+      //   })
      },
     // 分页插件事件
     callFather(parm) {

@@ -12,7 +12,7 @@
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="formInline" class="user-search">
       <el-form-item label="搜索：">
-        <el-input size="small" v-model="formInline.deptName" placeholder="输入模型名称"></el-input>
+        <el-input size="small" v-model="formInline.deptName" placeholder="输入名称"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
@@ -22,11 +22,11 @@
     <el-table size="small" :data="listData" highlight-current-row v-loading="loading" border element-loading-text="拼命加载中" style="width: 100%;">
       <el-table-column align="center" type="index" width="60">
       </el-table-column>
-      <el-table-column sortable prop="id" label="编号" width="220">
+      <el-table-column sortable align="center" prop="id" label="定义编号" width="200">
       </el-table-column>
-      <el-table-column align="center" prop="name" label="模型名称" width="200">
+      <el-table-column align="center" prop="name" label="名称" width="200">
       </el-table-column>
-      <el-table-column align="center" prop="key" label="模型ID" width="200">
+      <el-table-column align="center" prop="key" label="Key" width="200">
       </el-table-column>
       <el-table-column align="center" prop="deployTime" label="部署时间" width="180">
         <template slot-scope="scope">

@@ -26,10 +26,12 @@
     <el-table size="small" :data="listData" highlight-current-row v-loading="loading" border element-loading-text="拼命加载中" style="width: 100%;">
       <el-table-column align="center" type="selection" width="60">
       </el-table-column>
-      <el-table-column align="center" sortable prop="id" label="模型标识符" width="160">
+      <el-table-column align="center" sortable prop="id" label="模型编号" width="160">
       </el-table-column>
       <el-table-column align="center" prop="name" label="模型名称" width="160">
       </el-table-column>
+      <el-table-column align="center" prop="category" label="模型类型" width="160">
+      </el-table-column>      
       <el-table-column align="center" prop="createTime" label="创建时间" width="200">
         <template slot-scope="scope">
           <div>{{scope.row.createTime|timestampToTime}}</div>

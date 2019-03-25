@@ -21,8 +21,6 @@
         <el-button size="small" type="success"  @click="search">添加新业务角色</el-button>
       </el-form-item>      
     </el-form>
-    <br>
-    <br>
     <!--列表-->
     <el-table size="small" :data="listData" highlight-current-row v-loading="loading" border element-loading-text="拼命加载中" style="width: 100%;">
       <el-table-column align="center" type="index" width="60">

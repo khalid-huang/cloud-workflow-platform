@@ -25,6 +25,7 @@ import mapping from '@/views/brole/mapping'
 
 import model from '@/views/process/model'
 import editor from '@/views/process/editor'
+import started from '@/views/workitem/started'
 
 import definition from '@/views/process/definition'
 
@@ -101,7 +102,15 @@ export default new Router({
             meta: {
                 requireAuth: true
             }
-        },              
+        },             
+        {
+            path: '/workitem/started',
+            name: 'Started',
+            component: started,
+            meta: {
+                requireAuth: true
+            }            
+        }, 
         {
             path: '/workitem/manage',
             name: '工作项管理',

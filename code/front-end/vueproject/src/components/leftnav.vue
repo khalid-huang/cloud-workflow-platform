@@ -163,7 +163,7 @@ export default {
               icon: 'icon-order-manage',
               menuname: 'Started',
               hasThird: 'N',
-              url: 'workitem/manage',
+              url: 'workitem/started',
               menus: null
             },
             {
