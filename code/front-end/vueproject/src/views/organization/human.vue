@@ -27,7 +27,7 @@
         <el-button size="small" type="primary" @click="search">搜索</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button size="small" type="success"  @click="search">添加新员工</el-button>
+        <el-button size="small" type="success"  @click="search">添加人员</el-button>
       </el-form-item>      
     </el-form>
     <!--列表-->
