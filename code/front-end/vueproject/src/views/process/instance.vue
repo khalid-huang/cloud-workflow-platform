@@ -25,13 +25,13 @@
     <el-table size="small" :data="listData" highlight-current-row v-loading="loading" border element-loading-text="拼命加载中" style="width: 100%;">
       <el-table-column align="center" type="index" width="60">
       </el-table-column>
-      <el-table-column sortable prop="id" label="实例编号" width="150">
+      <el-table-column align="center" sortable prop="id" label="实例编号" width="150">
       </el-table-column>      
-      <el-table-column sortable prop="businessKey" label="业务主键" width="150">
+      <el-table-column align="center" prop="businessKey" label="业务主键" width="150">
       </el-table-column>
-      <el-table-column sortable prop="pdId" label="定义编号" width="150">
+      <el-table-column align="center" prop="pdId" label="定义编号" width="150">
       </el-table-column>
-      <el-table-column sortable prop="startTime" label="发起时间" width="150">
+      <el-table-column align="center" prop="startTime" label="启动时间" width="150">
         <template slot-scope="scope">
           <div>{{scope.row.startTime|timestampToTime}}</div>
         </template>
