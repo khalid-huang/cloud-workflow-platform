@@ -7,6 +7,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>租户管理</el-breadcrumb-item>
+      <el-breadcrumb-item>租户信息列表</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="formInline" class="user-search">
@@ -36,7 +37,7 @@
       </el-table-column>
       <el-table-column align="center" label="操作" min-width="100">
         <template slot-scope="scope">
-          <el-button size="mini" type="info" @click="deleteUser(scope.$index, scope.row)">详情</el-button>
+          <el-button size="mini" type="success" @click="deleteUser(scope.$index, scope.row)">详情</el-button>
           <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="deleteUser(scope.$index, scope.row)">停用</el-button>
         </template>
@@ -143,7 +144,7 @@ export default {
           // 分页赋值
           this.pageparm.currentPage = this.formInline.page
           this.pageparm.pageSize = this.formInline.limit
-          this.pageparm.total = res.count
+          this.pageparm.total = 4
         })
         .catch(err => {
           this.loading = false

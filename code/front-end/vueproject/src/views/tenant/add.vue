@@ -6,6 +6,7 @@
     <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>租户管理</el-breadcrumb-item>
       <el-breadcrumb-item>新建租户</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 搜索筛选 -->
