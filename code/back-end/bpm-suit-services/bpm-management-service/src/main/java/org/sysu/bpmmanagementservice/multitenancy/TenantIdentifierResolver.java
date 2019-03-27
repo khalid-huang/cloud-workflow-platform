@@ -9,7 +9,7 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
     @Override
     public String resolveCurrentTenantIdentifier() {
         String tenantId =TenantContext.getCurrentTenant();
-//        System.out.println("tenantId: " + tenantId);
+        System.out.println("resolve - tenantId: " + tenantId);
         if(tenantId != null) {
             return tenantId;
         }
