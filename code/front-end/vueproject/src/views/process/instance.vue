@@ -12,10 +12,10 @@
     <!-- 搜索筛选 -->
     <el-form :inline="true" :model="formInline" class="user-search">
       <el-form-item label="搜索：">
-        <el-input size="small" v-model="formInline.deptName" placeholder="输入id"></el-input>
+        <el-input size="small" v-model="formInline.deptName" placeholder="输入业务主键"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-input size="small" v-model="formInline.deptNo" placeholder="输入流程名称"></el-input>
+        <el-input size="small" v-model="formInline.deptNo" placeholder="输入定义编号"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
@@ -25,13 +25,13 @@
     <el-table size="small" :data="listData" highlight-current-row v-loading="loading" border element-loading-text="拼命加载中" style="width: 100%;">
       <el-table-column align="center" type="index" width="60">
       </el-table-column>
-      <el-table-column sortable prop="id" label="实例编号" width="150">
+      <el-table-column sortable align="center" prop="id" label="实例编号" width="150">
       </el-table-column>      
-      <el-table-column sortable prop="businessKey" label="业务主键" width="150">
+      <el-table-column align="center" prop="businessKey" label="业务主键" width="150">
       </el-table-column>
-      <el-table-column sortable prop="pdId" label="定义编号" width="150">
+      <el-table-column align="center" prop="pdId" label="定义编号" width="150">
       </el-table-column>
-      <el-table-column sortable prop="startTime" label="发起时间" width="150">
+      <el-table-column align="center" prop="startTime" label="启动时间" width="150">
         <template slot-scope="scope">
           <div>{{scope.row.startTime|timestampToTime}}</div>
         </template>
@@ -64,6 +64,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+          <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">业务关系映射表</el-button>
         <el-button size="small" @click="closeDialog">取消</el-button>
         <el-button size="small" type="primary" :loading="loading" class="title" @click="submitForm('editForm')">保存</el-button>
       </div>

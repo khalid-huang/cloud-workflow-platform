@@ -34,11 +34,13 @@
     <el-table size="small" :data="listData" highlight-current-row v-loading="loading" border element-loading-text="拼命加载中" style="width: 100%;">
       <el-table-column align="center" type="index" width="60">
       </el-table-column>
-      <el-table-column sortable align="center" prop="brole" label="业务角色" width="120" show-overflow-tooltip>
+      <el-table-column sortable align="center" prop="brole" label="业务角色" width="120" >
       </el-table-column>
-      <el-table-column prop="type" align="center" label="组织角色类型" width="200" show-overflow-tooltip>
+      <el-table-column prop="proc_def_id_" align="center" label="流程定义编号" width="200">
       </el-table-column>
-      <el-table-column prop="name" align="center" label="组织角色名称" width="200" show-overflow-tooltip>
+      <el-table-column prop="type" align="center" label="组织角色类型" width="150">
+      </el-table-column>
+      <el-table-column prop="name" align="center" label="组织角色名称" width="150">
       </el-table-column>
       <el-table-column align="center" label="操作" min-width="120">
         <template slot-scope="scope">
@@ -158,11 +160,13 @@ export default {
         data: [
           {
             brole: "ManagerRole",
+            proc_def_id_: "design_department_leave:1:295028",
             type: "职位",
             name: "设计部门 => 经理"
           },
           {
             brole: "ManagerRole",
+            proc_def_id_: "design_department_leave:1:295028",
             type: "能力",
             name: "canManage"
           }

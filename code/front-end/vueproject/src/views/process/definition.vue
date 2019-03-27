@@ -24,9 +24,9 @@
       </el-table-column>
       <el-table-column sortable align="center" prop="id" label="定义编号" width="200">
       </el-table-column>
-      <el-table-column align="center" prop="name" label="名称" width="200">
+      <el-table-column align="center" prop="name" label="名称" width="150">
       </el-table-column>
-      <el-table-column align="center" prop="key" label="Key" width="200">
+      <el-table-column align="center" prop="key" label="Key" width="150">
       </el-table-column>
       <el-table-column align="center" prop="deployTime" label="部署时间" width="180">
         <template slot-scope="scope">
@@ -35,6 +35,7 @@
       </el-table-column>
       <el-table-column align="center" label="操作" min-width="120">
         <template slot-scope="scope">
+          <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">业务角色映射表</el-button>
           <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">启动</el-button>
           <el-button size="mini" type="danger" @click="deleteUser(scope.$index, scope.row)">删除</el-button>
         </template>
