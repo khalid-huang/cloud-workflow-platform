@@ -3,7 +3,6 @@ package org.sysu.bpmmanagementservice.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
-import org.sysu.bpmmanagementservice.component.BroleMappingAndOrgDataHelper;
 import org.sysu.bpmmanagementservice.constant.GlobalContext;
 import org.sysu.bpmmanagementservice.constant.ResponseConstantManager;
 import org.sysu.bpmmanagementservice.dao.*;
@@ -22,9 +21,6 @@ public class OrgDataServiceImpl implements OrgDataService {
     @Autowired
     ActIdUserEntityDao actIdUserEntityDao;
 
-    @AutoConfigureOrder
-    ActIdMembershipEntityDao actIdMembershipEntityDao;
-
     @Autowired
     RenCapabilityEntityDao renCapabilityEntityDao;
 
@@ -37,8 +33,6 @@ public class OrgDataServiceImpl implements OrgDataService {
     @Autowired
     RenConnectEntityDao renConnectEntityDao;
 
-    @Autowired
-    BroleMappingAndOrgDataHelper broleMappingAndOrgDataHelper;
 
     @Override
     public HashMap<String, Object> addHuman(String username, String firstName, String lastName, String email, String password) {
@@ -302,8 +296,6 @@ public class OrgDataServiceImpl implements OrgDataService {
     public HashMap<String, Object> removeHumanConnection(String username) {
         HashMap<String, Object> result = new HashMap<>();
         renConnectEntityDao.deleteAllByUsername(username);
-        //删除所有的mapping里面的后续操作，也就是对应的actiivti的用户在group里面的状态
-        actIdMembershipEntityDao.deleteAllByUserId(username);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", null);
         return result;
@@ -346,9 +338,6 @@ public class OrgDataServiceImpl implements OrgDataService {
         renConnectEntity.setType(GlobalContext.RENCONNECT_TYPE_POSITION);
         renConnectEntity.setUsername(username);
         renConnectEntity =  renConnectEntityDao.saveOrUpdate(renConnectEntity);
-        //进行业务关系底层映射实现（绑定activiti用户与组）
-        broleMappingAndOrgDataHelper.dealAfterAddHumanPosition(username, positionId);
-
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", renConnectEntity);
         return result;
@@ -360,8 +349,6 @@ public class OrgDataServiceImpl implements OrgDataService {
     public HashMap<String, Object> removeHumanPosition(String username, String positionId) {
         HashMap<String, Object> result = new HashMap<>();
         renConnectEntityDao.deleteByUsernameAndBelongToOrganizabledIdAndType(username, positionId, GlobalContext.RENCONNECT_TYPE_POSITION);
-        //处理底层映射
-        broleMappingAndOrgDataHelper.dealAfterRemoveHumanPosition(username, positionId);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", null);
         return result;
@@ -376,9 +363,6 @@ public class OrgDataServiceImpl implements OrgDataService {
         renConnectEntity.setType(GlobalContext.RENCONNECT_TYPE_CAPABILITY);
         renConnectEntity.setUsername(username);
         renConnectEntity =  renConnectEntityDao.saveOrUpdate(renConnectEntity);
-        //进行业务关系底层映射实现（绑定activiti用户与组）
-        broleMappingAndOrgDataHelper.dealAfterAddHumanCapability(username, capabilityId);
-
         result.put("data", renConnectEntity);
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         return result;
@@ -389,9 +373,6 @@ public class OrgDataServiceImpl implements OrgDataService {
     public HashMap<String, Object> removeHumanCapability(String username, String capabilityId) {
         HashMap<String, Object> result = new HashMap<>();
         renConnectEntityDao.deleteByUsernameAndBelongToOrganizabledIdAndType(username, capabilityId, GlobalContext.RENCONNECT_TYPE_CAPABILITY);
-        //处理底层映射
-        broleMappingAndOrgDataHelper.dealAfterRemoveHumanCapability(username, capabilityId);
-
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", null);
         return result;
@@ -422,24 +403,13 @@ public class OrgDataServiceImpl implements OrgDataService {
         return result;
     }
 
-    /** 只返回username就可以了*/
     @Override
     public HashMap<String, Object> retrieveAllHumanInPosition(String positionId) {
-        HashMap<String, Object> result = new HashMap<>();
-        List<String> usernames = broleMappingAndOrgDataHelper.retrieveAllHumanInPosition(positionId);
-        result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        result.put("data", usernames);
-        return result;
+        return null;
     }
 
     @Override
     public HashMap<String, Object> retrieveAllHumanWithCapability(String capabilityId) {
-        HashMap<String, Object> result = new HashMap<>();
-        List<String> usernames = broleMappingAndOrgDataHelper.retrieveAllHumanWithCapability(capabilityId);
-        result.put("data", usernames);
-        result.put("status", ResponseConstantManager.STATUS_SUCCESS);
-        return result;
+        return null;
     }
-
-
 }

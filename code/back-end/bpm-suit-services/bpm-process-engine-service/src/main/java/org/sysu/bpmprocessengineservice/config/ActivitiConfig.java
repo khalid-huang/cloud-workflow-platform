@@ -1,26 +1,42 @@
 package org.sysu.bpmprocessengineservice.config;
 
 import org.activiti.engine.*;
+import org.activiti.engine.impl.bpmn.parser.factory.ActivityBehaviorFactory;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.activiti.engine.parse.BpmnParseHandler;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
+import org.activiti.spring.boot.AbstractProcessEngineAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.sysu.bpmprocessengineservice.activiti.ext.CloudActivitiBehaviorFactory;
+import org.sysu.bpmprocessengineservice.activiti.ext.CloudUserTaskParseHandler;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
+//要继承下面这个类才能起作用
 @Configuration
-public class ActivitiConfig {
+public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {
     //https://www.jeejava.com/spring-boot-activiti-process-engine-configuration/ 设置独立数据库；可以用方法名决定bean的名字
     //当然也可以指定bean的名称其实
     @Bean
-    public ProcessEngineConfiguration processEngineConfiguration(DataSource dataSource, PlatformTransactionManager platformTransactionManager) {
+    public ProcessEngineConfiguration processEngineConfiguration(DataSource dataSource,
+                                                                 PlatformTransactionManager platformTransactionManager,
+                                                                 CloudActivitiBehaviorFactory cloudActivitiBehaviorFactory,
+                                                                 CloudUserTaskParseHandler cloudUserTaskParseHandler) {
         SpringProcessEngineConfiguration processEngineConfiguration = new SpringProcessEngineConfiguration();
 
         processEngineConfiguration.setDataSource(dataSource);
         processEngineConfiguration.setDatabaseSchemaUpdate("true");
         processEngineConfiguration.setTransactionManager(platformTransactionManager);
+        processEngineConfiguration.setActivityBehaviorFactory(cloudActivitiBehaviorFactory);
+        List<BpmnParseHandler> bpmnParseHandlers = new ArrayList<>();
+        bpmnParseHandlers.add(cloudUserTaskParseHandler);
+        processEngineConfiguration.setCustomDefaultBpmnParseHandlers(bpmnParseHandlers);
+        System.out.println("cloudActivitiBehaviorFactory: " + cloudActivitiBehaviorFactory);
         System.out.println("processConfiguration:" + processEngineConfiguration);
         return processEngineConfiguration;
     }

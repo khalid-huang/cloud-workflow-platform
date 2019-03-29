@@ -25,83 +25,78 @@ public class BroleMappingController {
     BroleMappingService broleMappingService;
 
     @ApiOperation(value = "添加业务角色")
-    @PostMapping(value = "/businessRoles/")
-    public ResponseEntity<?> addBusinessRole(@RequestParam(value = "name") String name) {
-        HashMap<String, Object> result = broleMappingService.addBusinessRole(name);
+    @PostMapping(value = "/brole/")
+    public ResponseEntity<?> addBrole(@RequestParam(value = "name") String name) {
+        HashMap<String, Object> result = broleMappingService.addBrole(name);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "根据业务角色Id删除业务角色")
-    @DeleteMapping(value = "/businessRoles/{id}")
-    public ResponseEntity<?> removeBusinessRoleById(@PathVariable(value = "id") String id) {
-        HashMap<String, Object> result = broleMappingService.removeBusinessRoleById(id);
+    @DeleteMapping(value = "/brole/{name}")
+    public ResponseEntity<?> removeBusinessRoleById(@PathVariable(value = "name") String name) {
+        HashMap<String, Object> result = broleMappingService.removeBroleByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "根据业务角色Id获取业务角色相关信息")
-    @GetMapping(value = "/businessRoles/{id}")
-    public ResponseEntity<?> retrieveBusinessRoleById(@PathVariable(value = "id") String id) {
-        HashMap<String, Object> result = broleMappingService.retrieveBusinessRoleById(id);
+    @GetMapping(value = "/brole/{name}")
+    public ResponseEntity<?> retrieveBusinessRoleById(@PathVariable(value = "name") String name) {
+        HashMap<String, Object> result = broleMappingService.retrieveBroleByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "获取全部业务角色")
-    @GetMapping(value = "/businessRoles/")
+    @GetMapping(value = "/broles/")
     public ResponseEntity<?> retrieveAllBusinessRole() {
-        HashMap<String, Object> result = broleMappingService.retrieveAllBusinessRole();
+        HashMap<String, Object> result = broleMappingService.retrieveAllBrole();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "为职位添加业务角色")
     @PostMapping(value = "roleMappings/", params = {"mappedType=position"})
-    public ResponseEntity<?> addPositionBroleName(@RequestParam(value = "positionId") String positionId,
-                                                  @RequestParam(value = "broleNameId") String broleNameId) {
-        HashMap<String, Object> result = broleMappingService.addPositionBroleName(positionId, broleNameId);
+    public ResponseEntity<?> addPositionBroleNameOfProcDef(@RequestParam(value = "positionId") String positionId,
+                                                  @RequestParam(value = "broleNameId") String broleNameId,
+                                                  @RequestParam(value = "procDefId") String procDefId) {
+        HashMap<String, Object> result = broleMappingService.addPositionBroleNameOfProcDef(positionId, broleNameId, procDefId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @ApiOperation(value = "删除指定职位的业务角色")
-    @DeleteMapping(value = "roleMappings", params = {"mappedType=position"})
-    public ResponseEntity<?> removePositionBroleName(@RequestParam(value = "positionId") String positionId,
-                                                     @RequestParam(value = "broleNameId") String broleNameId) {
-        HashMap<String, Object> result = broleMappingService.removePositionBroleName(positionId, broleNameId);
+    @ApiOperation(value = "删除业务角色映射")
+    @DeleteMapping(value = "broleMapping/{id}")
+    public ResponseEntity<?> removeBroleMapping(@PathVariable(name = "id") String id) {
+        HashMap<String, Object> result = broleMappingService.removeBroleMappingById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "获取与业务角色建立映射的所有职位")
     @GetMapping(value = "roleMappings/positions")
-    public ResponseEntity<?> retrieveAllPositionsWithBroleName(@RequestParam(value = "broleNameId") String broleNameId) {
-        HashMap<String, Object> result = broleMappingService.retrieveAllPositionsWithBroleName(broleNameId);
+    public ResponseEntity<?> retrieveAllPositionsWithBroleNameOfProcDef(@RequestParam(value = "broleNameId") String broleNameId,
+                                                                        @RequestParam(value = "procDefId") String procDefId) {
+        HashMap<String, Object> result = broleMappingService.retrieveAllPositionsWithBroleNameOfProcDef(broleNameId, procDefId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation(value = "给能力建立与业务角色的映射")
     @PostMapping(value = "roleMappings", params = {"mappedType=capability"})
-    public ResponseEntity<?> addCapabilityBroleName(@RequestParam(value = "capabilityId") String capabilityId,
-                                                    @RequestParam(value = "broleNameId") String broleNameId) {
-        HashMap<String, Object> result = broleMappingService.addCapabilityBroleName(capabilityId, broleNameId);
+    public ResponseEntity<?> addCapabilityBroleNameOfProcDefId(@RequestParam(value = "capabilityId") String capabilityId,
+                                                               @RequestParam(value = "broleNameId") String broleNameId,
+                                                               @RequestParam(value = "procDefId") String procDefId) {
+        HashMap<String, Object> result = broleMappingService.addCapabilityBroleNameOfProcDef(capabilityId, broleNameId, procDefId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @ApiOperation(value = "删除指定能力与指定业务角色之间的映射")
-    @DeleteMapping(value = "roleMappings", params = {"mappedType=Capability"})
-    public ResponseEntity<?> removeCapabilityBroleName(@RequestParam(value = "capabilityId") String capabilityId,
-                                                       @RequestParam(value = "broleNameId") String broleNameId) {
-        HashMap<String, Object> result = broleMappingService.removeCapabilityBroleName(capabilityId, broleNameId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    @ApiOperation(value = "获取与指定业务角色建立映射的所有能力")
-    @GetMapping(value = "roleMappings/capabilities")
-    public ResponseEntity<?> retrieveAllCapabilityiesWithBroleName(@RequestParam(value = "broleNameId") String broleNameId) {
-        HashMap<String, Object> result = broleMappingService.retrieveAllCapabilitiesWithBroleName(broleNameId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
 
     @ApiOperation(value = "获取所有的映射")
     @GetMapping(value = "roleMappings")
     public ResponseEntity<?> retrieveAllRoleMapping() {
-        HashMap<String, Object> result = broleMappingService.retrieveAllRoleMapping();
+        HashMap<String, Object> result = broleMappingService.retrieveAllbroleMapping();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation(value = "获取指定流程定义的所有的映射")
+    @GetMapping(value = "roleMappings/{procDefId}")
+    public ResponseEntity<?> retrieveAllRoleMapping(@PathVariable(value = "procDefId") String procDefId) {
+        HashMap<String, Object> result = broleMappingService.retrieveAllbroleMappingOfProcDef(procDefId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

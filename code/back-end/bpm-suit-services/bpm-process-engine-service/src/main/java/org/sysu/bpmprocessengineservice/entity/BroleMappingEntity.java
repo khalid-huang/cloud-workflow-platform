@@ -1,4 +1,4 @@
-package org.sysu.bpmmanagementservice.entity;
+package org.sysu.bpmprocessengineservice.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

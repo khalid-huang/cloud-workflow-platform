@@ -4,28 +4,27 @@ import java.util.HashMap;
 
 public interface BroleMappingService {
     /** businessRole */
-    HashMap<String, Object> addBusinessRole(String name);
+    HashMap<String, Object> addBrole(String name);
 
-    HashMap<String, Object> removeBusinessRoleById(String id);
+    HashMap<String, Object> removeBroleByName(String name);
 
-    HashMap<String, Object> retrieveBusinessRoleById(String id);
+    HashMap<String, Object> retrieveBroleByName(String name);
 
-    HashMap<String, Object> retrieveAllBusinessRole();
+    HashMap<String, Object> retrieveAllBrole();
 
     /** rolemapping */
-    HashMap<String, Object> addPositionBroleName(String positionId, String broleNameId);
+    HashMap<String, Object> addPositionBroleNameOfProcDef(String positionId, String broleNameId, String procDefId);
 
-    HashMap<String, Object> removePositionBroleName(String positionId, String broleNameId);
+    HashMap<String, Object> retrieveAllPositionsWithBroleNameOfProcDef(String broleName, String procDefId);
 
-    /** 获取所有有相关业务角色的职位*/
-    HashMap<String, Object> retrieveAllPositionsWithBroleName(String broleNameId);
+    HashMap<String, Object> addCapabilityBroleNameOfProcDef(String capabilityId, String broleName, String procDefId);
 
-    HashMap<String, Object> addCapabilityBroleName(String capabilityId, String broleNameId);
+    HashMap<String, Object> retrieveAllCapabilitiesWithBroleNameOfProcDefId(String broleName, String procDefId);
 
-    HashMap<String, Object> removeCapabilityBroleName(String capabilityId, String broleNameId);
+    HashMap<String, Object> retrieveAllbroleMapping();
 
-    HashMap<String, Object> retrieveAllCapabilitiesWithBroleName(String broleNameId);
+    HashMap<String, Object> retrieveAllbroleMappingOfProcDef(String procDefId);
 
-    HashMap<String, Object> retrieveAllRoleMapping();
+    HashMap<String, Object> removeBroleMappingById(String id);
 
 }

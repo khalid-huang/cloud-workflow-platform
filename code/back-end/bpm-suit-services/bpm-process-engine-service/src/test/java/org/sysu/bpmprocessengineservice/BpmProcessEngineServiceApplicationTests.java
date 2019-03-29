@@ -13,7 +13,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.sysu.bpmprocessengineservice.component.SpringContextUtils;
 import org.sysu.bpmprocessengineservice.constant.ActivitiSQLConstantManager;
+import org.sysu.bpmprocessengineservice.dao.RenGroupEntityDao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +98,12 @@ public class BpmProcessEngineServiceApplicationTests {
         identityService.saveUser(user);
         identityService.createMembership(user.getId(),group.getId());
 
+    }
+
+    @Test
+    public void testHibernate() {
+        RenGroupEntityDao renGroupEntityDao =  SpringContextUtils.getBean(RenGroupEntityDao.class);
+        System.out.println(renGroupEntityDao.findAll());
     }
 
 }

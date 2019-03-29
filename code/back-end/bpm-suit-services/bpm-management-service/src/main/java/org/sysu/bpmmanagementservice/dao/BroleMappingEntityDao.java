@@ -4,7 +4,7 @@ import org.sysu.bpmmanagementservice.entity.BroleMappingEntity;
 
 import java.util.List;
 
-public interface RoleMappingEntityDao {
+public interface BroleMappingEntityDao {
     BroleMappingEntity saveOrUpdate(BroleMappingEntity broleMappingEntity);
 
     void deleteById(String id);
@@ -13,10 +13,12 @@ public interface RoleMappingEntityDao {
 
     List<BroleMappingEntity> findByMappedIdAndMappedType(String mappedId, int mappedType);
 
-    List<BroleMappingEntity> findByBroleNameId(String broleNameId);
+    List<BroleMappingEntity> findByBroleNameAndProcDefId(String broleName, String procDefId);
 
-    List<BroleMappingEntity> findByBroleNameIdAndMappedType(String broleNamIde, int mappedType);
+    List<BroleMappingEntity> findByBroleNameAndMappedTypeAndProcDefId(String broleName, int mappedType, String procDefId);
 
-    void deleteByMappedIdAndMappedTypeAndBroleNameId(String mappedId, int mappedType, String broleNameId);
+    List<BroleMappingEntity> findByProcDefId(String procDefId);
+
+
 
 }

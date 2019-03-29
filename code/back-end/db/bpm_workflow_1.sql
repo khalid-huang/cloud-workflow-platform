@@ -434,7 +434,6 @@ DROP TABLE IF EXISTS `act_id_membership`;
 CREATE TABLE `act_id_membership` (
   `USER_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
   `GROUP_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
-  `BIND_NUM_` int(11) COLLATE utf8_bin DEFAULT 0,
   PRIMARY KEY (`USER_ID_`,`GROUP_ID_`),
   KEY `ACT_FK_MEMB_GROUP` (`GROUP_ID_`),
   CONSTRAINT `ACT_FK_MEMB_GROUP` FOREIGN KEY (`GROUP_ID_`) REFERENCES `act_id_group` (`ID_`),
@@ -879,15 +878,32 @@ CREATE TABLE `ren_connect` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `ren_brole`
+-- ----------------------------
+
+DROP TABLE IF EXISTS `ren_brole`;
+CREATE TABLE `ren_brole` (
+  `id` varchar(64) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `description` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of ren_brole
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `role_mapping`
 -- ----------------------------
 
-DROP TABLE IF EXISTS `role_mapping`;
+DROP TABLE IF EXISTS `brole_mapping`;
 CREATE TABLE `role_mapping` (
   `id` varchar(64) NOT NULL,
   `mapped_id` varchar(64) NOT NULL,
   `mapped_type` int(11) NOT NULL,
-  `brole_name_id` varchar(64) NOT NULL,
+  `brole_name` varchar(64) NOT NULL,
+  `proc_def_id_` varchar(64) NOT NULL,
   `data_version` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
