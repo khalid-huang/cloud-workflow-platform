@@ -1,6 +1,7 @@
 package org.sysu.bpmmanagementservice.multitenancy;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.sysu.bpmmanagementservice.constant.GlobalContext;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -23,12 +24,11 @@ public class TenantDataSourceProvider {
     static {
         //默认数据源
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url("jdbc:mysql://222.200.180.59:3306/bpm_workflow_default?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
-        dataSourceBuilder.username("root");
-        dataSourceBuilder.password("workflow");
-//        dataSourceBuilder.driverClassName("org.postgresql.Driver");
-        dataSourceBuilder.driverClassName("com.mysql.jdbc.Driver");
-        dataSourceMap.put("Default", dataSourceBuilder.build());
+        dataSourceBuilder.url(GlobalContext.DEFAULT_DATASOURCE_URL);
+        dataSourceBuilder.username(GlobalContext.DEFAULT_DATASOURCE_USERNAME);
+        dataSourceBuilder.password(GlobalContext.DEFAULT_DATASOURCE_PASSWORD);
+        dataSourceBuilder.driverClassName(GlobalContext.DEFAULT_DATASOURCE_DRIVERCLASSNAME);
+        dataSourceMap.put(GlobalContext.DEFAULT_TENANT_ID, dataSourceBuilder.build());
 
         //其他租户数据源配置
         TenantInfo t1 = new TenantInfo();
@@ -53,8 +53,8 @@ public class TenantDataSourceProvider {
             System.out.println("GetDataSource:" + tenantId);
             return dataSourceMap.get(tenantId);
         } else {
-            System.out.println("GetDataSource:" + "Default");
-            return dataSourceMap.get("Default");
+            System.out.println("GetDataSource:" + GlobalContext.DEFAULT_TENANT_ID);
+            return dataSourceMap.get(GlobalContext.DEFAULT_TENANT_ID);
         }
     }
 
@@ -64,7 +64,6 @@ public class TenantDataSourceProvider {
         dataSourceBuilder.url(tenantInfo.getUrl());
         dataSourceBuilder.username(tenantInfo.getUsername());
         dataSourceBuilder.password(tenantInfo.getPassword());
-//        dataSourceBuilder.driverClassName("org.postgresql.Driver");
         dataSourceBuilder.driverClassName("com.mysql.jdbc.Driver");
         dataSourceMap.put(tenantInfo.getTenantId(), dataSourceBuilder.build());
     }

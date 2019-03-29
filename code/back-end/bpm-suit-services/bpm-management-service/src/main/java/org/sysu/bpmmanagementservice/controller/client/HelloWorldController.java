@@ -34,7 +34,7 @@ public class HelloWorldController {
 
     @ApiOperation(value = "测试多租户数据库，使用ren_group表测试，返回全部ren_group表的内容 ")
     @RequestMapping(value = "/multi-test", method = RequestMethod.POST)
-    public ResponseEntity<?> testMultiTenant(@RequestParam("tenantId") String tenantId) {
+    public ResponseEntity<?> testMultiTenant(@RequestParam(value = "tenantId", required = false) String tenantId) {
         HashMap<String, Object> result = orgDataService.retrieveAllGroup();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
