@@ -46,13 +46,13 @@ public class BpmProcessEngineServiceApplicationTests {
         String r3 = "processes/3_model.bpmn20.xml";
         String r4 = "processes/4_model.bpmn20.xml";
         repositoryService.createDeployment().addClasspathResource(r1).deploy();
-        repositoryService.createDeployment().addClasspathResource(r2).deploy();
-        repositoryService.createDeployment().addClasspathResource(r3).deploy();
-        repositoryService.createDeployment().addClasspathResource(r4).deploy();
-        ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
-        ProcessInstance processInstance2 = runtimeService.startProcessInstanceByKey("load-application");
-        ProcessInstance processInstance3 = runtimeService.startProcessInstanceByKey("leave-process");
-        ProcessInstance processInstance4 = runtimeService.startProcessInstanceByKey("a4-model");
+//        repositoryService.createDeployment().addClasspathResource(r2).deploy();
+//        repositoryService.createDeployment().addClasspathResource(r3).deploy();
+//        repositoryService.createDeployment().addClasspathResource(r4).deploy();
+//        ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
+//        ProcessInstance processInstance2 = runtimeService.startProcessInstanceByKey("load-application");
+//        ProcessInstance processInstance3 = runtimeService.startProcessInstanceByKey("leave-process");
+//        ProcessInstance processInstance4 = runtimeService.startProcessInstanceByKey("a4-model");
     }
 
     @Test
