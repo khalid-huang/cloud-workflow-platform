@@ -6,20 +6,24 @@ import org.activiti.engine.identity.User;
 import org.activiti.engine.impl.persistence.entity.IdentityLinkEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.sysu.bpmprocessengineservice.component.SpringContextUtils;
 import org.sysu.bpmprocessengineservice.constant.ActivitiSQLConstantManager;
 import org.sysu.bpmprocessengineservice.dao.RenGroupEntityDao;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,18 +47,21 @@ public class BpmProcessEngineServiceApplicationTests {
 
     @Test
     public void deployModel() {
-        String r1 = "processes/1_model.bpmn20.xml";
-        String r2 = "processes/2_model.bpmn20.xml";
-        String r3 = "processes/3_model.bpmn20.xml";
-        String r4 = "processes/4_model.bpmn20.xml";
-        repositoryService.createDeployment().addClasspathResource(r1).deploy();
-        repositoryService.createDeployment().addClasspathResource(r2).deploy();
-        repositoryService.createDeployment().addClasspathResource(r3).deploy();
-        repositoryService.createDeployment().addClasspathResource(r4).deploy();
-        ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
-        ProcessInstance processInstance2 = runtimeService.startProcessInstanceByKey("load-application");
-        ProcessInstance processInstance3 = runtimeService.startProcessInstanceByKey("leave-process");
-        ProcessInstance processInstance4 = runtimeService.startProcessInstanceByKey("a4-model");
+//        String r1 = "processes/1_model.bpmn20.xml";
+//        String r2 = "processes/2_model.bpmn20.xml";
+//        String r3 = "processes/3_model.bpmn20.xml";
+//        String r4 = "processes/4_model.bpmn20.xml";
+//        String brole = "processes/brole_model.bpmn20.xml";
+//        repositoryService.createDeployment().addClasspathResource(r1).deploy();
+//        repositoryService.createDeployment().addClasspathResource(brole).deploy();
+//        repositoryService.createDeployment().addClasspathResource(r3).deploy();
+//        repositoryService.createDeployment().addClasspathResource(r4).deploy();
+//        ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
+//          runtimeService.startProcessInstanceByKey("load-application");
+        runtimeService.startProcessInstanceById("online-shopping-brole:1:295004");
+//        runtimeService.startProcessInstanceById("load-application:4:322504");
+//        ProcessInstance processInstance3 = runtimeService.startProcessInstanceByKey("leave-process");
+//        ProcessInstance processInstance4 = runtimeService.startProcessInstanceByKey("a4-model");
     }
 
     @Test
@@ -105,6 +112,7 @@ public class BpmProcessEngineServiceApplicationTests {
         RenGroupEntityDao renGroupEntityDao =  SpringContextUtils.getBean(RenGroupEntityDao.class);
         System.out.println(renGroupEntityDao.findAll());
     }
+
 
 }
 

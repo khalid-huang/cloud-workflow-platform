@@ -139,13 +139,18 @@ public class ModelServiceImpl implements ModelService {
                 result.put("status", ResponseConstantManager.STATUS_FAIL);
                 result.put("message", "数据模型不符要求，请至少设计一条主线流程。");
             }
+            //debug
             byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
+            System.out.println(new String(bpmnBytes, "UTF-8"));
 
             //发布流程
             String processName = modelData.getName() + ".bpmn20.xml";
+//            DeploymentBuilder deploymentBuilder = repositoryService.createDeployment()
+//                    .name(modelData.getName())
+//                    .addString(processName, new String(bpmnBytes, "UTF-8"));
             DeploymentBuilder deploymentBuilder = repositoryService.createDeployment()
                     .name(modelData.getName())
-                    .addString(processName, new String(bpmnBytes, "UTF-8"));
+                    .addBpmnModel(processName, model);
 
             Deployment deployment = deploymentBuilder.deploy();
             modelData.setDeploymentId(deployment.getId());
@@ -202,6 +207,10 @@ public class ModelServiceImpl implements ModelService {
 
                             BpmnJsonConverter jsonConverter = new BpmnJsonConverter();
                             ObjectNode editorNode = jsonConverter.convertToJson(bpmnModel);
+
+                            byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(bpmnModel);
+                            System.out.println(new String(bpmnBytes, "UTF-8"));
+                            System.out.println(editorNode);
 
                             repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes("utf-8"));
                             result.put("status", ResponseConstantManager.STATUS_SUCCESS);
