@@ -47,6 +47,14 @@
 			<version>1.9.22</version>
 		</dependency>
 
+		<!--activiti高并发 id生成器-->
+		<dependency>
+			<groupId>com.fasterxml.uuid</groupId>
+			<artifactId>java-uuid-generator</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-spring-boot-starter-basic</artifactId>

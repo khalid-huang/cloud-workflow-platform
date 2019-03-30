@@ -31,16 +31,16 @@ public class CloudUserTaskActivitiBehavior extends UserTaskActivityBehavior {
      * */
     @Override
     protected void handleAssignments(Expression assigneeExpression, Expression ownerExpression, Set<Expression> candidateUserExpressions, Set<Expression> candidateGroupExpressions, TaskEntity task, ActivityExecution execution) {
-        System.out.println("cloudUserTaskActivitiBehavior");
+//        System.out.println("cloudUserTaskActivitiBehavior");
         PvmActivity activity = execution.getActivity();
         Object propety = activity.getProperty("cloudExt"); //获取命名空间
         Map<String, List<ExtensionAttribute>> extensionAttribute = null;
         if(propety != null) {
             extensionAttribute = (Map<String, List<ExtensionAttribute>>) propety;
         }
-        System.out.println("extensionAttribute" + extensionAttribute);
+//        System.out.println("extensionAttribute" + extensionAttribute);
         List<ExtensionAttribute> brolesList = extensionAttribute.get("brole");
-        System.out.println("broleList:" + brolesList);
+//        System.out.println("broleList:" + brolesList);
         if(brolesList != null && !brolesList.isEmpty()) {
             //获取流程定义编号
             String procDefId = activity.getProcessDefinition().getId();
@@ -51,11 +51,11 @@ public class CloudUserTaskActivitiBehavior extends UserTaskActivityBehavior {
             List<String> candidates = new ArrayList<>();
             for(ExtensionAttribute broles: brolesList) {
                 String value = broles.getValue();
-                System.out.println("value: " + value);
+//                System.out.println("value: " + value);
                 String[] split = value.split(",");
                 //获取组织ID
                 for(String brole : split) {
-                    System.out.println("brole: " + brole);
+//                    System.out.println("brole: " + brole);
                     List<BroleMappingEntity> mappings = broleMappingEntityDao.findByBroleNameAndProcDefId(brole, procDefId);
                     for(BroleMappingEntity mapping : mappings) {
                         System.out.println("mappings:" + mapping.getMappedType() + " -" + mapping.getMappedId());
@@ -64,7 +64,7 @@ public class CloudUserTaskActivitiBehavior extends UserTaskActivityBehavior {
                                 mapping.getMappedType()
                         );
                         for(RenConnectEntity connection: connections) {
-                            System.out.println("username:" + connection.getUsername());
+//                            System.out.println("username:" + connection.getUsername());
                             candidates.add(connection.getUsername());
                         }
                     }

@@ -16,9 +16,9 @@ public class CloudUserTaskParseHandler extends UserTaskParseHandler {
         super.executeParse(bpmnParse, userTask);
         Map<String, List<ExtensionAttribute>> attributes = userTask.getAttributes();
         ActivityImpl activityImpl = findActivity(bpmnParse, userTask.getId());
-        System.out.println(bpmnParse.getCurrentFlowElement().getAttributes());
-        System.out.println("parse:" + attributes);
-        System.out.println(bpmnParse.getBpmnModel().getProcesses().get(0).getFlowElement(userTask.getId()).getAttributes());
+//        System.out.println(bpmnParse.getCurrentFlowElement().getAttributes());
+//        System.out.println("parse:" + attributes);
+//        System.out.println(bpmnParse.getBpmnModel().getProcesses().get(0).getFlowElement(userTask.getId()).getAttributes());
         activityImpl.setProperty("cloudExt", attributes);
     }
 }

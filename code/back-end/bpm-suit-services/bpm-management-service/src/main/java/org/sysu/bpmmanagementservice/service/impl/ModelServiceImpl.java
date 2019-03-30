@@ -141,7 +141,7 @@ public class ModelServiceImpl implements ModelService {
             }
             //debug
             byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
-            System.out.println(new String(bpmnBytes, "UTF-8"));
+//            System.out.println(new String(bpmnBytes, "UTF-8"));
 
             //发布流程
             String processName = modelData.getName() + ".bpmn20.xml";
@@ -209,8 +209,8 @@ public class ModelServiceImpl implements ModelService {
                             ObjectNode editorNode = jsonConverter.convertToJson(bpmnModel);
 
                             byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(bpmnModel);
-                            System.out.println(new String(bpmnBytes, "UTF-8"));
-                            System.out.println(editorNode);
+//                            System.out.println(new String(bpmnBytes, "UTF-8"));
+//                            System.out.println(editorNode);
 
                             repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes("utf-8"));
                             result.put("status", ResponseConstantManager.STATUS_SUCCESS);

@@ -46,6 +46,11 @@ public class BpmProcessEngineServiceApplicationTests {
     ManagementService managementService;
 
     @Test
+    public void deploy() {
+        System.out.println("test");
+    }
+
+//    @Test
     public void deployModel() {
 //        String r1 = "processes/1_model.bpmn20.xml";
 //        String r2 = "processes/2_model.bpmn20.xml";
@@ -64,7 +69,7 @@ public class BpmProcessEngineServiceApplicationTests {
 //        ProcessInstance processInstance4 = runtimeService.startProcessInstanceByKey("a4-model");
     }
 
-    @Test
+//    @Test
     public void contextLoads() {
         ProcessInstance processInstance1 = runtimeService.startProcessInstanceByKey("online-shopping");
         ProcessInstance processInstance2 = runtimeService.startProcessInstanceByKey("load-application");
@@ -95,7 +100,7 @@ public class BpmProcessEngineServiceApplicationTests {
         }
     }
 
-    @Test
+//    @Test
     public void suspendContext() {
         Group group = identityService.newGroup("21");
         group.setName("manager");
@@ -107,7 +112,7 @@ public class BpmProcessEngineServiceApplicationTests {
 
     }
 
-    @Test
+//    @Test
     public void testHibernate() {
         RenGroupEntityDao renGroupEntityDao =  SpringContextUtils.getBean(RenGroupEntityDao.class);
         System.out.println(renGroupEntityDao.findAll());

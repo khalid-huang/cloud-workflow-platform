@@ -1,5 +1,6 @@
 package org.sysu.bpmprocessengineservice;
 
+import org.activiti.engine.impl.persistence.StrongUuidGenerator;
 import org.activiti.spring.boot.SecurityAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +26,12 @@ public class BpmProcessEngineServiceApplication {
     @Bean
     public CloudUserTaskParseHandler cloudUserTaskParseHandler() {
         return new CloudUserTaskParseHandler();
+    }
+
+    //解决activiti的id在高并发下主键冲突的问题
+    @Bean
+    public StrongUuidGenerator generator() {
+        return new StrongUuidGenerator();
     }
 
     @Bean

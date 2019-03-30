@@ -24,7 +24,7 @@ import org.junit.Test;
 @SpringBootTest
 public class TestApplication {
 
-    @Test
+//    @Test
     public void test() {
         // 流程文档
         String resource = "processes/2_model.bpmn20.xml";

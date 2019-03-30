@@ -3,6 +3,7 @@ package org.sysu.bpmprocessengineservice.config;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.bpmn.parser.factory.ActivityBehaviorFactory;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.activiti.engine.impl.persistence.StrongUuidGenerator;
 import org.activiti.engine.parse.BpmnParseHandler;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
@@ -26,7 +27,8 @@ public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {
     public ProcessEngineConfiguration processEngineConfiguration(DataSource dataSource,
                                                                  PlatformTransactionManager platformTransactionManager,
                                                                  CloudActivitiBehaviorFactory cloudActivitiBehaviorFactory,
-                                                                 CloudUserTaskParseHandler cloudUserTaskParseHandler) {
+                                                                 CloudUserTaskParseHandler cloudUserTaskParseHandler,
+                                                                 StrongUuidGenerator strongUuidGenerator) {
         SpringProcessEngineConfiguration processEngineConfiguration = new SpringProcessEngineConfiguration();
 
         processEngineConfiguration.setDataSource(dataSource);
@@ -36,6 +38,8 @@ public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {
         List<BpmnParseHandler> bpmnParseHandlers = new ArrayList<>();
         bpmnParseHandlers.add(cloudUserTaskParseHandler);
         processEngineConfiguration.setCustomDefaultBpmnParseHandlers(bpmnParseHandlers);
+        processEngineConfiguration.setIdGenerator(strongUuidGenerator);
+
         System.out.println("cloudActivitiBehaviorFactory: " + cloudActivitiBehaviorFactory);
         System.out.println("processConfiguration:" + processEngineConfiguration);
         return processEngineConfiguration;

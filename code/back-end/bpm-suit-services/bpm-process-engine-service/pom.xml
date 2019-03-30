@@ -34,6 +34,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--activiti高并发 id生成器-->
+        <dependency>
+            <groupId>com.fasterxml.uuid</groupId>
+            <artifactId>java-uuid-generator</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
         <!--activitimodel-->
         <dependency>
             <groupId>org.activiti</groupId>

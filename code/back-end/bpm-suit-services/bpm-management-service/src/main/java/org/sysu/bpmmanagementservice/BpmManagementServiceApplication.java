@@ -1,6 +1,6 @@
 package org.sysu.bpmmanagementservice;
 
-import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
+import org.activiti.engine.impl.persistence.StrongUuidGenerator;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -28,6 +28,12 @@ public class BpmManagementServiceApplication extends WebMvcConfigurerAdapter {
 	@Bean
 	public JsonpCallbackFilter filter(){
 		return new JsonpCallbackFilter();
+	}
+
+	//解决activiti的id在高并发下主键冲突的问题
+	@Bean
+	public StrongUuidGenerator generator() {
+		return new StrongUuidGenerator();
 	}
 
 	@Bean

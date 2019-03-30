@@ -2,8 +2,10 @@ package org.sysu.bpmmanagementservice.config;
 
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.activiti.engine.impl.persistence.StrongUuidGenerator;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.activiti.spring.SpringProcessEngineConfiguration;
+import org.activiti.spring.boot.AbstractProcessEngineAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -15,17 +17,20 @@ import javax.sql.DataSource;
  * activiti工作流配置
  */
 @Configuration
-public class ActivitiConfig {
+public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {
 
     //流程配置，与spring整合采用SpringProcessEngineConfiguration这个实现
     @Bean
-    public ProcessEngineConfiguration processEngineConfiguration(DataSource dataSource, PlatformTransactionManager transactionManager){
+    public ProcessEngineConfiguration processEngineConfiguration(DataSource dataSource,
+                                                                 PlatformTransactionManager transactionManager,
+                                                                 StrongUuidGenerator strongUuidGenerator){
         SpringProcessEngineConfiguration processEngineConfiguration = new SpringProcessEngineConfiguration();
         processEngineConfiguration.setDataSource(dataSource);
         processEngineConfiguration.setDatabaseSchemaUpdate("true");
         processEngineConfiguration.setDatabaseType("mysql");
 
         processEngineConfiguration.setTransactionManager(transactionManager);
+        processEngineConfiguration.setIdGenerator(strongUuidGenerator);
 
         //流程图字体
         processEngineConfiguration.setActivityFontName("宋体");
