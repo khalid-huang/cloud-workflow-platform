@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.sysu.bpmmanagementservice.constant.GlobalContext;
 import org.sysu.bpmmanagementservice.service.OrgDataService;
 
 import java.util.HashMap;
@@ -30,8 +31,12 @@ public class OrgDataController {
                                       @RequestParam(value = "firstName", required = false) String firstName,
                                       @RequestParam(value = "lastName", required = false) String lastName,
                                       @RequestParam(value = "email", required = false) String email,
-                                      @RequestParam(value = "password", required = false) String password) {
-        HashMap<String, Object> result = orgDataService.addHuman(username, firstName, lastName, email, password);
+                                      @RequestParam(value = "password", required = false) String password,
+                                      @RequestParam(value = "role", required = false) String role) {
+        if(role == null) {
+            role = GlobalContext.AUTH_ACCOUNT_ROLE_NOMAL;
+        }
+        HashMap<String, Object> result = orgDataService.addHuman(username, firstName, lastName, email, password, role);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

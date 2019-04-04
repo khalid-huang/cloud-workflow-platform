@@ -43,8 +43,15 @@ public class TenantDataSourceProvider {
         t2.setPassword("root");
         t2.setUsername("root");
 
+        TenantInfo t3 = new TenantInfo();
+        t3.setTenantId("3");
+        t3.setUrl("jdbc:mysql://222.200.180.59:3306/bpm_workflow_3?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
+        t3.setPassword("workflow");
+        t3.setUsername("root");
+
         addDataSource(t1);
         addDataSource(t2);
+        addDataSource(t3);
     }
 
     // 根据传进来的tenantId决定返回的数据源

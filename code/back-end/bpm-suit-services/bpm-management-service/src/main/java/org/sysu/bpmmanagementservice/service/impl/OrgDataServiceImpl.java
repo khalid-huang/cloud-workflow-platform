@@ -1,7 +1,6 @@
 package org.sysu.bpmmanagementservice.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 import org.sysu.bpmmanagementservice.constant.GlobalContext;
 import org.sysu.bpmmanagementservice.constant.ResponseConstantManager;
@@ -22,6 +21,9 @@ public class OrgDataServiceImpl implements OrgDataService {
     ActIdUserEntityDao actIdUserEntityDao;
 
     @Autowired
+    ActIdUserInfoEntityDao actIdUserInfoEntityDao;
+
+    @Autowired
     RenCapabilityEntityDao renCapabilityEntityDao;
 
     @Autowired
@@ -35,7 +37,7 @@ public class OrgDataServiceImpl implements OrgDataService {
 
 
     @Override
-    public HashMap<String, Object> addHuman(String username, String firstName, String lastName, String email, String password) {
+    public HashMap<String, Object> addHuman(String username, String firstName, String lastName, String email, String password, String role) {
         HashMap<String, Object> result = new HashMap<>();
         ActIdUserEntity actIdUserEntity = new ActIdUserEntity();
         actIdUserEntity.setUsername(username);
@@ -44,6 +46,20 @@ public class OrgDataServiceImpl implements OrgDataService {
         actIdUserEntity.setLastName(lastName);
         actIdUserEntity.setPassword(password);
         actIdUserEntity =  actIdUserEntityDao.saveOrUpdate(actIdUserEntity);
+
+        //设置用户授权用户身份
+        ActIdUserInfoEntity actIdUserInfoEntity = new ActIdUserInfoEntity();
+        actIdUserInfoEntity.setId(UUID.randomUUID().toString());
+        actIdUserInfoEntity.setUserId(actIdUserEntity.getUsername());
+        actIdUserInfoEntity.setType(null);
+        actIdUserInfoEntity.setKey(GlobalContext.AUTH_ACCOUNT_ROLE);
+        if(GlobalContext.AUTH_ACCOUNT_ROLE_NOMAL.equals(role)) {
+            actIdUserInfoEntity.setValue(GlobalContext.AUTH_ACCOUNT_ROLE_NOMAL);
+        } else {
+            actIdUserInfoEntity.setValue(GlobalContext.AUTH_ACCOUNT_ROLE_MANAGER);
+        }
+        actIdUserInfoEntityDao.saveOrUpdate(actIdUserInfoEntity);
+
         result.put("status", ResponseConstantManager.STATUS_SUCCESS);
         result.put("data", actIdUserEntity);
         return result;

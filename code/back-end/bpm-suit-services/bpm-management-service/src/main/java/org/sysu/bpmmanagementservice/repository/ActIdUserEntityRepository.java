@@ -9,4 +9,5 @@ public interface ActIdUserEntityRepository extends JpaRepository<ActIdUserEntity
     ActIdUserEntity findByUsername(String username);
 
     void deleteByFirstNameAndLastName(String firstName, String lastName);
+
 }

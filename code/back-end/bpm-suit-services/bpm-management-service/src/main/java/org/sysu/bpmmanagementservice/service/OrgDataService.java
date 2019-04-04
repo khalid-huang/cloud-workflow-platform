@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public interface OrgDataService {
     /** 人类 */
-    HashMap<String, Object> addHuman(String username, String firstName, String lastName, String email, String password);
+    HashMap<String, Object> addHuman(String username, String firstName, String lastName, String email, String password, String role);
 
     HashMap<String, Object> removeHuman(String username);
 

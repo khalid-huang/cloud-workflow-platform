@@ -9,7 +9,6 @@ import org.sysu.bpmmanagementservice.entity.*;
 import org.sysu.bpmmanagementservice.service.BroleMappingService;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;

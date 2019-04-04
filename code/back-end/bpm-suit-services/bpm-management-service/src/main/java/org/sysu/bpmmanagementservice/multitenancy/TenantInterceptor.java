@@ -14,6 +14,10 @@ public class TenantInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String tenant = request.getParameter("tenantId");
+        if(tenant == null) {
+            //尝试从头部获取；针对非登录请求
+            tenant =  request.getHeader("tenantId");
+        }
         System.out.println("tenantId: " + tenant);
         TenantContext.setCurrentTenant(tenant);
         return true;

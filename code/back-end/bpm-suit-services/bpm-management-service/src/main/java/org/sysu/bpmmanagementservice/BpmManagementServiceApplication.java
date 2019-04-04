@@ -1,6 +1,7 @@
 package org.sysu.bpmmanagementservice;
 
 import org.activiti.engine.impl.persistence.StrongUuidGenerator;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 		org.activiti.spring.boot.SecurityAutoConfiguration.class,
 		org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration.class
 })
+@EnableEurekaClient
 public class BpmManagementServiceApplication extends WebMvcConfigurerAdapter {
 
 	public static void main(String[] args) {
