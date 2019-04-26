@@ -60,7 +60,7 @@ export default new Router({
         children: [{
             path: '/process/instance',
             name: '流程实例',
-            component: instance,
+            component: Goods,
             meta: {
                 requireAuth: true
             }
