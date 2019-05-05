@@ -11,10 +11,6 @@ public interface BroleMappingEntityDao {
 
     List<BroleMappingEntity> findAll();
 
-    List<BroleMappingEntity> findByMappedIdAndMappedType(String mappedId, int mappedType);
-
-    List<BroleMappingEntity> findByBroleNameAndProcDefId(String broleName, String procDefId);
-
     List<BroleMappingEntity> findByBroleNameAndMappedTypeAndProcDefId(String broleName, int mappedType, String procDefId);
 
     List<BroleMappingEntity> findByProcDefId(String procDefId);

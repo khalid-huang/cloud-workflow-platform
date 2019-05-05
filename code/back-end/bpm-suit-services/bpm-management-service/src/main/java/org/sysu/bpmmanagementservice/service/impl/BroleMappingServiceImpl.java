@@ -21,12 +21,6 @@ public class BroleMappingServiceImpl implements BroleMappingService {
     @Autowired
     BroleMappingEntityDao broleMappingEntityDao;
 
-    @Autowired
-    RenPositionEntityDao renPositionEntityDao;
-
-    @Autowired
-    RenCapabilityEntityDao renCapabilityEntityDao;
-
     @Override
     public HashMap<String, Object> addBrole(String name) {
         HashMap<String, Object> result = new HashMap<>();

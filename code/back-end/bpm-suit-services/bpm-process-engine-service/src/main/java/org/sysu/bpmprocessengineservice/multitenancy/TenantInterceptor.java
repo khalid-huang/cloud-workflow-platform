@@ -13,10 +13,10 @@ public class TenantInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        String tenant = request.getParameter("tenantId");
-        System.out.println("tenantId: " + tenant);
-        TenantContext.setCurrentTenant(tenant);
-        return true;
+            String tenant = request.getParameter("tenantId");
+            System.out.println("tenantId: " + tenant);
+            TenantContext.setCurrentTenant(tenant);
+            return true;
     }
 
     @Override
